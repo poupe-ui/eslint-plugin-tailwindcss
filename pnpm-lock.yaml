@@ -28,7 +28,7 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(vitest@2.1.9(@types/node@22.15.34))
       eslint:
-        specifier: ^9.18.0
+        specifier: ^9.30.0
         version: 9.30.0(jiti@2.4.2)
       npm-run-all2:
         specifier: ^8.0.4
