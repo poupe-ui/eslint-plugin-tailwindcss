@@ -68,7 +68,7 @@
     "eslint": "^9.18.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
-    "typescript": "~5.7.3",
+    "typescript": "~5.8.0",
     "unbuild": "^3.0.1",
     "vitest": "^2.1.8"
   },
