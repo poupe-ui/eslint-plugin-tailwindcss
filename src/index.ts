@@ -12,21 +12,21 @@ import { recommended, strict, minimal } from './configs';
 
 const plugin: ESLint.Plugin = {
   meta: {
-    name: '@poupe/eslint-plugin-tailwindcss-v4',
+    name: '@poupe/eslint-plugin-tailwindcss',
     version: '0.1.0',
   },
   configs: {
+    minimal,
     recommended,
     strict,
-    minimal,
   },
   rules: {
-    'valid-theme-function': validThemeFunction,
     'no-arbitrary-value-overuse': noArbitraryValueOveruse,
-    'prefer-theme-tokens': preferThemeTokens,
-    'valid-modifier-syntax': validModifierSyntax,
     'no-conflicting-utilities': noConflictingUtilities,
+    'prefer-theme-tokens': preferThemeTokens,
     'valid-apply-directive': validApplyDirective,
+    'valid-modifier-syntax': validModifierSyntax,
+    'valid-theme-function': validThemeFunction,
   },
   processors: {},
 };
