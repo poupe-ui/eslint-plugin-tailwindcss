@@ -1,6 +1,8 @@
+import type { FunctionNodePlain, StyleSheetPlain } from '@eslint/css-tree';
+
 import type { CSSRuleModule } from '../types';
-import type { StyleSheetPlain, FunctionNodePlain } from '@eslint/css-tree';
-import { walk, isNodeType, getNodeText } from '../utils/ast';
+
+import { getNodeText, isNodeType, walk } from '../utils/ast';
 import {
   extractThemeValues,
   isValidThemePath,

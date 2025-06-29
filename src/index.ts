@@ -1,14 +1,14 @@
 import type { ESLint } from 'eslint';
 
+import { minimal, recommended, strict } from './configs';
 import {
-  validThemeFunction,
   noArbitraryValueOveruse,
-  preferThemeTokens,
-  validModifierSyntax,
   noConflictingUtilities,
+  preferThemeTokens,
   validApplyDirective,
+  validModifierSyntax,
+  validThemeFunction,
 } from './rules';
-import { recommended, strict, minimal } from './configs';
 
 const plugin: ESLint.Plugin = {
   meta: {
@@ -33,6 +33,6 @@ const plugin: ESLint.Plugin = {
 
 export default plugin;
 
-export type { PluginOptions } from './types';
-
 export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
+
+export type { PluginOptions } from './types';

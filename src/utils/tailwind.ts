@@ -1,5 +1,5 @@
-import type { AtrulePreludePlain, Raw } from '@eslint/css-tree';
 import type { CSSSourceCode } from '@eslint/css';
+import type { AtrulePreludePlain, Raw } from '@eslint/css-tree';
 
 /**
  * List of Tailwind CSS v4 at-rules

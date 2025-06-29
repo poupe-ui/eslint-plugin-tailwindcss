@@ -1,4 +1,4 @@
-import type { Linter, ESLint } from 'eslint';
+import type { ESLint, Linter } from 'eslint';
 
 export const recommended: Linter.Config = {
   name: '@poupe/eslint-plugin-tailwindcss/recommended',

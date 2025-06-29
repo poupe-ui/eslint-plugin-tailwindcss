@@ -1,5 +1,5 @@
-import type { Rule } from 'eslint';
 import type { CSSSourceCode } from '@eslint/css';
+import type { Rule } from 'eslint';
 
 /**
  * Rule context type for CSS rules

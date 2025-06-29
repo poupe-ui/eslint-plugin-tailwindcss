@@ -1,5 +1,6 @@
-import type { StyleSheetPlain, CssLocationRange } from '@eslint/css-tree';
-import { getChildrenOfType, isAtRule, getDeclarations } from './ast';
+import type { CssLocationRange, StyleSheetPlain } from '@eslint/css-tree';
+
+import { getChildrenOfType, getDeclarations, isAtRule } from './ast';
 
 /**
  * Represents a theme value from `@theme` blocks

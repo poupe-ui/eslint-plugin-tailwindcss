@@ -1,10 +1,12 @@
+import type { DeclarationPlain, StyleSheetPlain } from '@eslint/css-tree';
+
 import type { CSSRuleModule } from '../types';
-import type { StyleSheetPlain, DeclarationPlain } from '@eslint/css-tree';
+
 import { getNodeText } from '../utils/ast';
 import {
   extractThemeValues,
-  hasThemeReference,
   getThemeCategory,
+  hasThemeReference,
   THEME_CATEGORIES,
   type ThemeValue,
 } from '../utils/theme';
