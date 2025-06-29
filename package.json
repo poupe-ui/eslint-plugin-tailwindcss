@@ -1,0 +1,83 @@
+{
+  "name": "@poupe/eslint-plugin-tailwindcss",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ESLint plugin for Tailwind CSS v4 with advanced linting rules",
+  "author": "Alejandro Mery <amery@apptly.co>",
+  "license": "MIT",
+  "homepage": "https://github.com/poupe-ui/eslint-plugin-tailwindcss#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/eslint-plugin-tailwindcss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/eslint-plugin-tailwindcss/issues"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "tailwind",
+    "tailwindcss",
+    "tailwind-css",
+    "css",
+    "linting"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./configs/*": {
+      "import": "./dist/configs/*.mjs",
+      "require": "./dist/configs/*.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "run-s lint type-check test build publint",
+    "dev:prepare": "unbuild --stub",
+    "postinstall": "[ -s dist/index.mjs ] || unbuild --stub",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
+    "build": "unbuild",
+    "clean": "rm -rf dist node_modules",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "precommit": "run-s lint type-check test build",
+    "publint": "publint"
+  },
+  "dependencies": {
+    "@eslint/css-tree": "^3.6.1"
+  },
+  "devDependencies": {
+    "@eslint/css": "^0.9.0",
+    "@poupe/eslint-config": "^0.7.6",
+    "@types/eslint": "^9.6.1",
+    "@types/node": "^22.10.6",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.18.0",
+    "npm-run-all2": "^8.0.4",
+    "publint": "^0.3.12",
+    "typescript": "~5.7.3",
+    "unbuild": "^3.0.1",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "@eslint/css": "^0.9.0",
+    "eslint": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
