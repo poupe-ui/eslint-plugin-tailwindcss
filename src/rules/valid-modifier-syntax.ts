@@ -1,5 +1,7 @@
-import type { CSSRuleModule } from '../types';
 import type { AtrulePlain } from '@eslint/css-tree';
+
+import type { CSSRuleModule } from '../types';
+
 import { isAtRule } from '../utils/ast';
 import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind';
 

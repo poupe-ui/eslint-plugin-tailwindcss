@@ -1,6 +1,6 @@
 {
   "name": "@poupe/eslint-plugin-tailwindcss",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "ESLint plugin for Tailwind CSS v4 with advanced linting rules",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -68,6 +68,7 @@
     "@types/node": "^22.10.6",
     "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.18.0",
+    "eslint-plugin-perfectionist": "^4.15.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.7.3",

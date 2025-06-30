@@ -1,5 +1,5 @@
-import type { CssNodePlain, AtrulePlain, DeclarationPlain, FunctionNodePlain } from '@eslint/css-tree';
 import type { CSSSourceCode } from '@eslint/css';
+import type { AtrulePlain, CssNodePlain, DeclarationPlain, FunctionNodePlain } from '@eslint/css-tree';
 
 /**
  * Check if a node is of a specific type

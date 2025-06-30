@@ -1,38 +1,38 @@
 import type { ESLint } from 'eslint';
 
+import { minimal, recommended, strict } from './configs';
 import {
-  validThemeFunction,
   noArbitraryValueOveruse,
-  preferThemeTokens,
-  validModifierSyntax,
   noConflictingUtilities,
+  preferThemeTokens,
   validApplyDirective,
+  validModifierSyntax,
+  validThemeFunction,
 } from './rules';
-import { recommended, strict, minimal } from './configs';
 
 const plugin: ESLint.Plugin = {
   meta: {
-    name: '@poupe/eslint-plugin-tailwindcss-v4',
+    name: '@poupe/eslint-plugin-tailwindcss',
     version: '0.1.0',
   },
   configs: {
+    minimal,
     recommended,
     strict,
-    minimal,
   },
   rules: {
-    'valid-theme-function': validThemeFunction,
     'no-arbitrary-value-overuse': noArbitraryValueOveruse,
-    'prefer-theme-tokens': preferThemeTokens,
-    'valid-modifier-syntax': validModifierSyntax,
     'no-conflicting-utilities': noConflictingUtilities,
+    'prefer-theme-tokens': preferThemeTokens,
     'valid-apply-directive': validApplyDirective,
+    'valid-modifier-syntax': validModifierSyntax,
+    'valid-theme-function': validThemeFunction,
   },
   processors: {},
 };
 
 export default plugin;
 
-export type { PluginOptions } from './types';
-
 export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
+
+export type { PluginOptions } from './types';
