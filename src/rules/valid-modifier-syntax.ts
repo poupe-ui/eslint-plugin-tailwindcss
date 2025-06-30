@@ -12,32 +12,38 @@ function validateArbitraryModifier(modifier: string): {
 } {
   const content = modifier.slice(1, -1);
 
-  // Check for nested brackets
-  if (content.includes('[') || content.includes(']')) {
+  // Check for nested brackets - simple check for double brackets
+  if (content.includes('[[') || content.includes(']]')) {
     return {
       valid: false,
       messageId: 'nestedBrackets',
     };
   }
 
-  // Check for common arbitrary modifier patterns
-  const validPatterns = [
-    // Attribute selectors
-    /^&?\[[^\]]+\]$/,
-    // Pseudo-class selectors
-    /^&?:[a-z-]+(\([^)]*\))?$/,
-    // Complex selectors
-    /^&[>+~]\s*[a-z]+$/,
-    // Nth-child patterns
-    /^&:nth-[a-z]+\([^)]+\)$/,
-  ];
-
-  if (validPatterns.some(pattern => pattern.test(content))) {
-    return { valid: true };
+  // Also check for unbalanced brackets
+  let bracketDepth = 0;
+  for (const element of content) {
+    if (element === '[') {
+      bracketDepth++;
+      if (bracketDepth > 1) {
+        return {
+          valid: false,
+          messageId: 'nestedBrackets',
+        };
+      }
+    } else if (element === ']') {
+      bracketDepth--;
+    }
   }
 
   // Allow any selector starting with & (parent reference)
   if (content.startsWith('&')) {
+    return { valid: true };
+  }
+
+  // Allow other common patterns
+  if (/^[a-z-]+$/.test(content)) {
+    // Simple selectors like "open", "dark", etc
     return { valid: true };
   }
 
@@ -261,6 +267,14 @@ export const validModifierSyntax: CSSRuleModule = {
     } {
       // Check for empty modifier
       if (modifier === '') {
+        return {
+          valid: false,
+          messageId: 'emptyModifier',
+        };
+      }
+
+      // Handle escaped colons that would show up as : in the modifier
+      if (modifier === ':') {
         return {
           valid: false,
           messageId: 'emptyModifier',
