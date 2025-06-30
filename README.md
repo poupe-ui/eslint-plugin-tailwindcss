@@ -395,11 +395,57 @@ pnpm install
 # Run tests
 pnpm test
 
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+
 # Build
 pnpm build
 
-# Lint
+# Lint and auto-fix
 pnpm lint
+
+# Type checking
+pnpm type-check
+
+# Run all pre-commit checks
+pnpm precommit
+```
+
+### Testing
+
+Tests are written using Vitest and ESLint's RuleTester. Each rule should have
+comprehensive test coverage including:
+
+- Valid code examples
+- Invalid code examples with expected errors
+- Auto-fix scenarios (where applicable)
+- Edge cases and CSS parsing quirks
+
+Example test structure:
+
+```js
+import { RuleTester } from 'eslint';
+import css from '@eslint/css';
+import { ruleName } from '../../rules/rule-name';
+
+const ruleTester = new RuleTester({
+  language: 'css/css',
+  plugins: { css },
+});
+
+describe('rule-name', () => {
+  ruleTester.run('tailwindcss/rule-name', ruleName, {
+    valid: [
+      // Valid test cases
+    ],
+    invalid: [
+      // Invalid test cases with expected errors
+    ],
+  });
+});
 ```
 
 ## License
