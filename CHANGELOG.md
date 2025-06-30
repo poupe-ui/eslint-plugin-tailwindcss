@@ -18,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Improved parser export naming for better developer experience
-- Configured markdownlint/md024 to allow duplicate headers in CHANGELOG.md when not siblings
+- Configured markdownlint/md024 to allow duplicate headers in CHANGELOG.md when
+  not siblings
 
 ## [0.1.1] - 2024-12-30
 
