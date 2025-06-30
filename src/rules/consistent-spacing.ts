@@ -4,21 +4,39 @@ import type { CSSRuleModule } from '../types';
 
 import { isNodeType, walk } from '../utils/ast';
 
+/**
+ * Options for configuring spacing rules
+ */
 interface SpacingOptions {
+  /** Spacing requirement after colon */
   afterColon: 'always' | 'never'
+  /** Spacing requirement before colon */
   beforeColon: 'always' | 'never'
 }
 
+/**
+ * Location information for a position in the source code
+ */
 interface LocationInfo {
+  /** Line number (1-based) */
   line: number
+  /** Column number (0-based) */
   column: number
+  /** Character offset from start of file */
   offset: number
 }
 
+/**
+ * Information about a CSS declaration for spacing analysis
+ */
 interface DeclarationInfo {
+  /** The declaration AST node */
   node: DeclarationPlain
+  /** Length of the property name */
   propertyLength: number
+  /** Location where the property name ends */
   propertyEnd: LocationInfo
+  /** Location where the value starts */
   valueStart: LocationInfo
 }
 
@@ -68,6 +86,9 @@ export const consistentSpacing: CSSRuleModule = {
 
     /**
      * Check spacing before colon and report if needed
+     *
+     * @param info - Declaration information including node and location data
+     * @param beforeColonSpace - The whitespace string found before the colon
      */
     function checkBeforeColon(
       info: DeclarationInfo,
@@ -142,6 +163,10 @@ export const consistentSpacing: CSSRuleModule = {
 
     /**
      * Check spacing after colon and report if needed
+     *
+     * @param info - Declaration information including node and location data
+     * @param afterColonSpace - The whitespace string found after the colon
+     * @param colonOffset - The character offset of the colon in the source
      */
     function checkAfterColon(
       info: DeclarationInfo,
@@ -249,7 +274,8 @@ export const consistentSpacing: CSSRuleModule = {
 
           // Extract spaces before and after colon
           const beforeColonSpace = betweenText.slice(0, colonIndex);
-          const afterColonSpace = betweenText.slice(colonIndex + 1);
+          const afterColonIndex = colonIndex + 1;
+          const afterColonSpace = afterColonIndex < betweenText.length ? betweenText.slice(afterColonIndex) : '';
           const colonOffset = info.propertyEnd.offset + colonIndex;
 
           // Check spacing

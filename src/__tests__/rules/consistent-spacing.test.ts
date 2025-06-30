@@ -36,6 +36,19 @@ describe('consistent-spacing rule', () => {
       {
         code: '.example { font-family: "Helvetica Neue", sans-serif; }',
       },
+      // Edge cases
+      {
+        code: '.example { content: ":"; }', // Colon in string
+      },
+      {
+        code: '.example { background: url(data:image/png;base64,abc); }', // Colon in URL
+      },
+      {
+        code: '.unicode { content: "👍"; }', // Unicode content
+      },
+      {
+        code: String.raw`.escaped { content: "\:"; }`, // Escaped colon
+      },
     ],
 
     invalid: [
@@ -94,6 +107,21 @@ describe('consistent-spacing rule', () => {
           { messageId: 'multipleSpacesAfterColon', line: 3 },
         ],
         output: '.example {\n  color: red;\n  background: blue;\n}',
+      },
+      // Edge case: Multiple colons
+      {
+        code: '.url { background:url(data:image/png;base64,abc); }',
+        errors: [{ messageId: 'expectedSpaceAfterColon' }],
+        output: '.url { background: url(data:image/png;base64,abc); }',
+      },
+      // Edge case: Inline comment affecting spacing (creates multiple spaces)
+      {
+        code: '.comment { color/*comment*/:red; }',
+        errors: [
+          { messageId: 'multipleSpacesBeforeColon' },
+          { messageId: 'expectedSpaceAfterColon' },
+        ],
+        output: '.comment { color: red; }',
       },
     ],
   });

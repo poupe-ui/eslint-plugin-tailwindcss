@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2024-12-30
+
+### Fixed
+
+- Fixed potential runtime error in `consistent-spacing` rule when colon is at
+  end of declaration
+- Added bounds checking to prevent undefined access in string slicing
+
+### Added
+
+- Comprehensive edge case tests for `consistent-spacing` rule including:
+  - Colons in string values
+  - Colons in data URLs
+  - Unicode content handling
+  - Escaped characters
+  - Inline comments affecting spacing
+- Malformed CSS handling test suite to document parser behavior
+- TSDoc documentation for all functions in `consistent-spacing` and
+  `valid-modifier-syntax` rules
+
+### Improved
+
+- Better error handling for edge cases in CSS parsing
+- More robust string manipulation in spacing detection
+
 ## [0.1.3] - 2024-12-30
 
 ### Added
