@@ -7,9 +7,13 @@ import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind'
 
 function isValidModifierSyntax(utility: string): boolean {
   // Valid modifier syntax: modifier:utility
-  // Modifiers don't contain spaces, parentheses (except for functions), or other special chars
   const parts = utility.split(':');
+
+  // Must have at least modifier:utility (2 parts)
   if (parts.length < 2) return false;
+
+  // If we have exactly 2 parts and the second part is empty, it's CSS property syntax
+  if (parts.length === 2 && parts[1].trim() === '') return false;
 
   // Check each modifier part
   for (let i = 0; i < parts.length - 1; i++) {
@@ -28,9 +32,14 @@ function isValidUtilityFormat(utility: string): boolean {
   const parsed = parseUtilityClass(utility);
   const baseUtility = parsed.utility;
 
+  // Empty utility is invalid
+  if (!baseUtility) {
+    return false;
+  }
+
   // Check for invalid characters in base utility
-  // Allow alphanumeric, hyphens, dots (for decimal values), brackets, parentheses, and slashes
-  if (!/^[a-zA-Z0-9-.[\]()/]+$/.test(baseUtility)) {
+  // Allow alphanumeric, hyphens, dots (for decimal values), brackets, parentheses, slashes, and underscores
+  if (!/^[a-zA-Z0-9-._[\]()/]+$/.test(baseUtility)) {
     return false;
   }
 
@@ -41,7 +50,7 @@ function isValidUtilityFormat(utility: string): boolean {
     // Multiple consecutive special characters
     /[-.]{2,}/,
     // Starting with numbers (except for specific utilities like 2xl)
-    /^[0-9]+[^a-z]/,
+    /^[0-9]+(?![a-zA-Z])/,
     // Unclosed brackets
     /\[[^\]]*$|^[^[]*\]/,
   ];
@@ -196,14 +205,28 @@ export const validApplyDirective: CSSRuleModule = {
 
     function validateUtility(utility: string, node: AtrulePlain) {
       // Check if it looks like a CSS property (contains a colon but not as a modifier)
-      if (utility.includes(':') && !isValidModifierSyntax(utility)) {
-        const property = utility.split(':')[0];
-        context.report({
-          node: node.prelude || node,
-          messageId: 'cssPropertyInApply',
-          data: { property },
-        });
-        return;
+      if (utility.includes(':')) {
+        const parts = utility.split(':');
+        // CSS property pattern: property: value (with space after colon)
+        if (parts.length === 2 && (parts[1] === '' || parts[1].startsWith(' '))) {
+          const property = parts[0];
+          context.report({
+            node: node.prelude || node,
+            messageId: 'cssPropertyInApply',
+            data: { property },
+          });
+          return;
+        }
+
+        // Check for valid modifier syntax
+        if (!isValidModifierSyntax(utility)) {
+          context.report({
+            node: node.prelude || node,
+            messageId: 'invalidUtility',
+            data: { utility },
+          });
+          return;
+        }
       }
 
       // Check for obviously invalid utilities

@@ -41,8 +41,11 @@ export function extractUtilitiesFromApply(
     prelude.loc.end.offset,
   );
 
+  // Remove CSS escape sequences
+  const unescapedText = text.replaceAll(/\\(.)/g, '$1');
+
   // Split by whitespace and filter empty strings
-  return text.split(/\s+/).filter(Boolean);
+  return unescapedText.split(/\s+/).filter(Boolean);
 }
 
 /**
