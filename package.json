@@ -68,6 +68,7 @@
     "@types/node": "^22.10.6",
     "@vitest/coverage-v8": "^2.1.8",
     "eslint": "^9.18.0",
+    "eslint-plugin-perfectionist": "^4.15.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.7.3",
