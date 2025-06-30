@@ -1,6 +1,6 @@
 {
   "name": "@poupe/eslint-plugin-tailwindcss",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "ESLint plugin for Tailwind CSS v4 with advanced linting rules",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -32,9 +32,9 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./syntax": {
-      "import": "./dist/parser/tailwind-v4-syntax.mjs",
-      "require": "./dist/parser/tailwind-v4-syntax.cjs"
+    "./parser": {
+      "import": "./dist/parser.mjs",
+      "require": "./dist/parser.cjs"
     },
     "./configs/*": {
       "import": "./dist/configs/*.mjs",
