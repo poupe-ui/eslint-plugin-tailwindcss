@@ -215,6 +215,33 @@ Suggests using theme tokens instead of hard-coded values.
 }
 ```
 
+### `consistent-spacing` ✅
+
+Enforces consistent spacing around colons in CSS declarations.
+
+```css
+/* ❌ Error */
+.example {
+  color:red;          /* Missing space after colon */
+  background:  blue;  /* Multiple spaces after colon */
+  margin : 10px;      /* Unexpected space before colon */
+}
+
+/* ✅ Good */
+.example {
+  color: red;
+  background: blue;
+  margin: 10px;
+}
+```
+
+**Auto-fix:** Yes
+
+**Config Options:**
+
+- `afterColon`: `'always'` (default) or `'never'` - Space after colon
+- `beforeColon`: `'never'` (default) or `'always'` - Space before colon
+
 ### `no-conflicting-utilities` ✅
 
 Detects conflicting Tailwind utilities that affect the same CSS properties.

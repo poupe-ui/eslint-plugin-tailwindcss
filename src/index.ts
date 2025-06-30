@@ -2,6 +2,7 @@ import type { ESLint } from 'eslint';
 
 import { minimal, recommended, strict } from './configs';
 import {
+  consistentSpacing,
   noArbitraryValueOveruse,
   noConflictingUtilities,
   preferThemeTokens,
@@ -21,6 +22,7 @@ const plugin: ESLint.Plugin = {
     strict,
   },
   rules: {
+    'consistent-spacing': consistentSpacing,
     'no-arbitrary-value-overuse': noArbitraryValueOveruse,
     'no-conflicting-utilities': noConflictingUtilities,
     'prefer-theme-tokens': preferThemeTokens,

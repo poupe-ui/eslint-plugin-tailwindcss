@@ -1,3 +1,4 @@
+export { consistentSpacing } from './consistent-spacing';
 export { noArbitraryValueOveruse } from './no-arbitrary-value-overuse';
 export { noConflictingUtilities } from './no-conflicting-utilities';
 export { preferThemeTokens } from './prefer-theme-tokens';
