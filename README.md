@@ -108,7 +108,7 @@ All rules enabled with strict settings. Best for new projects.
 
 <!-- begin auto-generated rules list -->
 
-### Possible Errors
+### Possible Errors (Implemented)
 
 Rules that catch potential bugs or invalid syntax.
 
@@ -119,7 +119,7 @@ Rules that catch potential bugs or invalid syntax.
 | [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
 | [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
 
-### Best Practices
+### Best Practices (Implemented)
 
 Rules that guide towards better code patterns and maintainability.
 
@@ -128,7 +128,7 @@ Rules that guide towards better code patterns and maintainability.
 | [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
 | [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
 
-### Stylistic Issues
+### Stylistic Issues (Implemented)
 
 Rules that enforce code style and formatting conventions.
 
@@ -139,6 +139,108 @@ Rules that enforce code style and formatting conventions.
 <!-- end auto-generated rules list -->
 
 🔧 = Automatically fixable
+
+### Unimplemented Rules (Roadmap)
+
+#### Possible Errors (Planned)
+
+##### Core CSS Validation (@eslint/css parity)
+
+Rules that catch general CSS syntax errors and invalid constructs.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| no-duplicate-imports | Disallow duplicate @import rules | | Priority |
+| no-empty-blocks | Disallow empty rule blocks and at-rule blocks | | Priority |
+| no-invalid-properties | Disallow invalid CSS property names and values | | Priority |
+| no-invalid-at-rules | Disallow invalid at-rule names and syntax | | Planned |
+| no-invalid-named-grid-areas | Disallow malformed CSS Grid template areas | | Planned |
+
+#### Best Practices (Planned)
+
+##### CSS Best Practices (@eslint/css parity)
+
+Rules that enforce modern CSS patterns.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| use-baseline | Enforce widely supported CSS features based on browser compatibility | | Planned |
+| no-important | Disallow !important declarations | | Planned |
+| prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
+| relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
+| use-layers | Encourage @layer usage for cascade management | | Planned |
+
+##### Tailwind v4 Compatibility
+
+Rules specific to Tailwind CSS version management and migration.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| version-compatibility | Enforce compatibility with specific Tailwind CSS versions | | Planned |
+| deprecated-features | Warn about deprecated Tailwind features | | Planned |
+| migrate-imports | Convert Tailwind v3 imports to v4 syntax | 🔧 | Priority |
+| migrate-directives | Update deprecated Tailwind directives | 🔧 | Priority |
+| migrate-config-to-css | Guide migration from JS config to CSS @theme | | Planned |
+| migrate-arbitrary-values | Update arbitrary value syntax between versions | 🔧 | Planned |
+
+##### Code Quality
+
+Rules that enforce documentation and maintainability.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| comment-word-disallowed-list | Disallow specified words in comments | | Considering |
+| require-description-comments | Require explanatory comments for complex selectors | | Considering |
+| tailwind-comment-directives | Validate Tailwind-specific comment directives | 🔧 | Considering |
+
+#### Stylistic Issues (Planned)
+
+##### CSS Formatting (@eslint/css parity)
+
+General CSS formatting rules.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| indent | Enforce consistent indentation | 🔧 | Planned |
+| brace-style | Enforce consistent brace placement | 🔧 | Planned |
+| block-spacing | Enforce consistent spacing inside blocks | 🔧 | Planned |
+| declaration-block-newline | Enforce line breaks within declaration blocks | 🔧 | Planned |
+| rule-empty-line-before | Require or disallow empty lines before rules | 🔧 | Planned |
+| property-sort-order | Enforce consistent property declaration order | 🔧 | Planned |
+| at-rule-formatting | Format at-rules consistently | 🔧 | Planned |
+| no-unnecessary-whitespace | Disallow unnecessary whitespace | 🔧 | Planned |
+| property-formatting | Format property declarations consistently | 🔧 | Planned |
+| selector-formatting | Format selectors consistently | 🔧 | Planned |
+| value-formatting | Format property values consistently | 🔧 | Planned |
+| media-query-formatting | Format media queries consistently | 🔧 | Planned |
+
+##### Tailwind-Specific Formatting
+
+Rules for Tailwind CSS v4 specific constructs.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| at-apply-formatting | Format @apply directives consistently | 🔧 | Planned |
+| theme-formatting | Format @theme blocks consistently | 🔧 | Planned |
+| enforce-class-order | Enforce consistent Tailwind utility class ordering | 🔧 | Priority |
+
+##### Comment Formatting
+
+Rules for consistent comment styles.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| comment-formatting | Format comments consistently | 🔧 | Considering |
+| comment-style | Enforce consistent comment syntax | 🔧 | Considering |
+| comment-empty-line-before | Require or disallow empty lines before comments | 🔧 | Considering |
+| comment-capitalization | Enforce consistent comment capitalization | 🔧 | Considering |
+| comment-length | Enforce maximum comment line length | 🔧 | Considering |
+
+**Status Legend:**
+
+- **Priority**: High priority, will be implemented next
+- **Planned**: Scheduled for implementation
+- **Considering**: Under consideration, may be implemented
 
 ## Advanced Features
 
