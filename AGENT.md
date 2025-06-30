@@ -48,11 +48,16 @@ All code follows these conventions (enforced by .editorconfig and ESLint):
 
 Before committing any changes, ALWAYS run:
 
-1. `pnpm precommit` - Run all precommit checks
+1. `pnpm precommit` - Run all precommit checks (includes lint, type-check,
+   test, build)
 2. Fix any issues found by the precommit checks
-3. Update AGENT.md if guidelines change
-4. Update README.md if public API changes
-5. Review documentation formatting follows guidelines
+3. If linter made automatic fixes, create fixup commits:
+   - Use `git blame` to identify which commit introduced the code
+   - Create fixup: `git commit -s --fixup=<commit-hash> path/to/file`
+   - ALWAYS specify the file path, never rely on staged files
+4. Update AGENT.md if guidelines change
+5. Update README.md if public API changes
+6. Review documentation formatting follows guidelines
 
 ### DO
 
@@ -91,6 +96,16 @@ git add . && git commit       # ❌ Stages everything then commits
 - First line: type(scope): brief description (50 chars max)
 - Blank line
 - Body: what and why, not how (wrap at 72 chars)
+- Use commit message files: Write to `.commit-msg`, then `git commit -sF .commit-msg`
+- Delete commit message files after use: `rm .commit-msg`
+- For fixup commits: No message needed, just `git commit -s --fixup=<hash> file`
+
+### TSDoc Guidelines
+
+- Use backticks for code examples in TSDoc: `` `[@media(hover)]` ``
+- Escape @ symbols in TSDoc when not in backticks: `\@`
+- Prefer TSDoc over JSDoc for TypeScript files
+- Add TSDoc for all public APIs and complex internal functions
 
 ## Agent-Specific Instructions
 
@@ -350,27 +365,38 @@ const results = await eslint.lintFiles(['test.css']);
 
 **Important**: One rule per commit for better history and reviews.
 
-1. **Initial placeholder commit** (if implementing incrementally):
+1. **Initial implementation commit**:
 
    ```bash
-   git add src/rules/rule-name.ts src/__tests__/rules/rule-name.test.ts
+   # Create commit message file
+   echo "feat(rules): add rule-name rule" > .commit-msg
+   echo "" >> .commit-msg
+   echo "Add description here..." >> .commit-msg
+
+   # Commit specifying all files
    git commit -sF .commit-msg src/rules/rule-name.ts \
      src/__tests__/rules/rule-name.test.ts \
      src/rules/index.ts src/index.ts \
      src/configs/strict.ts README.md
+
+   # Clean up
+   rm .commit-msg
    ```
 
-2. **Implementation commit**:
+2. **Config updates** (use fixup if related to rule addition):
 
    ```bash
-   git commit -sF .commit-msg src/rules/rule-name.ts \
-     src/__tests__/rules/rule-name.test.ts
+   git commit -s --fixup=HEAD src/configs/minimal.ts src/configs/recommended.ts
    ```
 
-3. **Config updates** (use fixup if related to rule addition):
+3. **Linting fixes** (always as fixup to original commit):
 
    ```bash
-   git commit --fixup=HEAD src/configs/minimal.ts src/configs/recommended.ts
+   # Find which commit introduced the code
+   git blame -L<line>,<line> path/to/file
+
+   # Create fixup
+   git commit -s --fixup=<commit-hash> path/to/file
    ```
 
 ### Testing Rules
