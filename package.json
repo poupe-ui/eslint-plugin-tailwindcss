@@ -32,9 +32,9 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./syntax": {
-      "import": "./dist/parser/tailwind-v4-syntax.mjs",
-      "require": "./dist/parser/tailwind-v4-syntax.cjs"
+    "./parser": {
+      "import": "./dist/parser.mjs",
+      "require": "./dist/parser.cjs"
     },
     "./configs/*": {
       "import": "./dist/configs/*.mjs",
