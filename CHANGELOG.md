@@ -7,7 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.4] - 2024-12-30
+## [0.1.5] - 2025-06-30
+
+### Added
+
+- New `no-duplicate-imports` rule to detect duplicate @import statements
+- New `no-empty-blocks` rule to detect empty CSS rule blocks and at-rule blocks
+- CSS AST implementation guidance in AGENT.md
+- Rule documentation files for new rules
+
+### Improved
+
+- Enhanced AGENT.md with detailed CSS AST structure documentation
+- Added guidance for handling comments in CSS blocks
+- Documented import URL extraction patterns
+
+## [0.1.4] - 2025-06-30
 
 ### Fixed
 
@@ -32,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Better error handling for edge cases in CSS parsing
 - More robust string manipulation in spacing detection
 
-## [0.1.3] - 2024-12-30
+## [0.1.3] - 2025-06-30
 
 ### Added
 
@@ -50,7 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improved code quality with stricter linting rules for JavaScript/TypeScript files
 
-## [0.1.2] - 2024-12-30
+## [0.1.2] - 2025-06-30
 
 ### Fixed
 
@@ -64,7 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configured markdownlint/md024 to allow duplicate headers in CHANGELOG.md when
   not siblings
 
-## [0.1.1] - 2024-12-30
+## [0.1.1] - 2025-06-30
 
 ### Added
 
