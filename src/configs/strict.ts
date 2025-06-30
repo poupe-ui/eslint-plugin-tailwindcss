@@ -11,6 +11,7 @@ export const strict: Linter.Config = {
     'tailwindcss/consistent-spacing': 'error',
     'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/no-empty-blocks': 'error',
+    'tailwindcss/no-invalid-at-rules': 'error',
     'tailwindcss/no-invalid-properties': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['error', {
       maxPerFile: 5,
