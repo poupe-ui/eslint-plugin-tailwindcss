@@ -186,6 +186,15 @@ export const validModifierSyntax: CSSRuleModule = {
       'default',
       'focus-within',
       'focus-visible',
+      // Tailwind CSS v4 additions
+      'inert',
+      'target',
+      'open',
+      // Starting style
+      'starting',
+      // Popover
+      'popover-open',
+      // Dynamic nth variants are handled separately
     ]);
 
     return {
@@ -275,27 +284,48 @@ export const validModifierSyntax: CSSRuleModule = {
         return validateParameterizedModifier(name, param);
       }
 
-      // Check for compound modifiers like group-hover
+      // Check for compound modifiers like group-hover, not-*, in-*
       if (modifier.includes('-')) {
         const parts = modifier.split('-');
         if (parts.length === 2) {
           const [prefix, suffix] = parts;
+          // Handle group-* and peer-* modifiers
           if (
             (prefix === 'group' || prefix === 'peer')
             && builtInModifiers.has(suffix)
           ) {
             return { valid: true };
           }
+          // Handle not-* modifiers (Tailwind v4)
+          if (prefix === 'not' && suffix.length > 0) {
+            return { valid: true };
+          }
+          // Handle in-* modifiers (Tailwind v4)
+          if (prefix === 'in' && suffix.length > 0) {
+            return { valid: true };
+          }
         }
       }
 
-      // Check for invalid characters
-      if (!/^[a-z0-9-]+$/i.test(modifier)) {
-        return {
-          valid: false,
-          messageId: 'invalidCharacters',
-          reason: 'Modifiers should only contain letters, numbers, and hyphens',
-        };
+      // Check for invalid characters (but allow common CSS selector characters in arbitrary modifiers)
+      if (modifier.startsWith('[') || modifier.includes('(')) {
+        // Arbitrary modifiers can contain more characters
+        if (!/^[\w\s-[\]()&:>+~#.=,"']+$/i.test(modifier)) {
+          return {
+            valid: false,
+            messageId: 'invalidCharacters',
+            reason: 'Invalid characters in modifier',
+          };
+        }
+      } else {
+        // Regular modifiers should only contain letters, numbers, hyphens, brackets, and parentheses
+        if (!/^[a-z0-9\-[\]()]+$/i.test(modifier)) {
+          return {
+            valid: false,
+            messageId: 'invalidCharacters',
+            reason: 'Modifiers should only contain letters, numbers, hyphens, brackets, and parentheses',
+          };
+        }
       }
 
       // Unknown modifier

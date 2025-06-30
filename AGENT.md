@@ -168,8 +168,10 @@ utility classes are used.
 
 #### valid-modifier-syntax
 
-Validates Tailwind modifier syntax (hover:, sm:, etc.), ensuring correct
-usage of responsive and state modifiers.
+Validates Tailwind modifier syntax including responsive modifiers (sm:, lg:),
+state modifiers (hover:, focus:), new v4 modifiers (inert:, target:, open:,
+starting:, popover-open:), dynamic modifiers (not-*, in-*), and arbitrary
+modifiers with brackets ([&:hover]).
 
 #### valid-theme-function
 
