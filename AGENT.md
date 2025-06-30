@@ -369,6 +369,8 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `Declaration`: Property-value pair
 - `Atrule`: At-rules like @media, @import
 - `Function`: CSS functions like theme()
+- `Block`: Container for declarations/rules
+- `Comment`: Comment nodes (see below)
 
 **Utility functions** in `src/utils/ast.ts`:
 
@@ -376,6 +378,49 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `getChildrenOfType(node, type)`: Find specific children
 - `walk(node, callback)`: Traverse AST
 - `getNodeText(node, sourceCode)`: Get text content
+
+#### Block and Comment Handling
+
+**Critical**: Comments in CSS blocks are handled differently than you might expect:
+
+1. **Comments ARE children**: In @eslint/css-tree AST, Comment nodes appear
+   as regular children in Block nodes
+2. **Empty block detection**: A block with only comments has
+   `children.length > 0`
+3. **Filtering comments**: Use
+   `block.children.filter(child => child.type !== 'Comment')` to get only
+   declarations
+
+Example block structure:
+
+```typescript
+Block {
+  type: "Block",
+  children: [
+    { type: "Comment", value: " comment text " },
+    { type: "Declaration", property: "color", value: {...} },
+    { type: "Comment", value: " another comment " }
+  ]
+}
+```
+
+#### Import (@import) Handling
+
+When working with @import rules:
+
+1. **Atrule node**: Import statements are `Atrule` nodes with `name: 'import'`
+2. **URL extraction**: The URL can be in two formats:
+   - String syntax: `@import "file.css";`
+   - URL function: `@import url("file.css");`
+3. **Prelude parsing**: The import URL is in `node.prelude`, use regex to extract:
+
+   ```typescript
+   const preludeText = context.sourceCode.getText(node.prelude).trim();
+   // Match: "file.css" or 'file.css'
+   const stringMatch = preludeText.match(/^["'](.+?)["']$/);
+   // Match: url("file.css") or url(file.css)
+   const urlMatch = preludeText.match(/^url\s*\(\s*["']?(.+?)["']?\s*\)$/);
+   ```
 
 #### Working with CSS Locations
 
@@ -391,6 +436,30 @@ const valueStartOffset = declaration.value.loc.start.offset;
 // Calculate column positions
 const column = declaration.loc.start.column + offsetFromStart;
 ```
+
+#### AST Research Tips
+
+When implementing new rules:
+
+1. **Clone @eslint/css for reference**:
+
+   ```bash
+   git clone https://github.com/eslint/css.git .eslint-css-ref
+   ```
+
+   Check their rule implementations for patterns and edge cases.
+
+2. **Inspect AST structure**:
+
+   ```typescript
+   // Add console.log in your rule to inspect nodes
+   console.log(JSON.stringify(node, null, 2));
+   ```
+
+3. **Check node children**:
+   - Not all nodes have blocks (e.g., @import doesn't)
+   - Some at-rules have blocks (e.g., @media, @supports, @layer)
+   - Always check if `node.block` exists before accessing
 
 #### Testing Real CSS Files
 
@@ -502,6 +571,29 @@ When implementing a new rule:
    - Start with action verb (Disallow, Enforce, Prefer, Validate, etc.)
    - Keep under 80 characters for table formatting
    - Use common abbreviations if needed (i18n, a11y, etc.)
+
+### Beyond @eslint/css Parity
+
+**Important**: Parity with @eslint/css is just the beginning. Our rules should be:
+
+1. **More configurable**: Add options that @eslint/css doesn't have
+   - Example: `no-empty-blocks` could have `allowComments` option
+   - Example: `no-invalid-properties` could have `allowVendorPrefixes` option
+
+2. **Tailwind-aware**: Understand Tailwind CSS v4 features
+   - Validate theme() function usage
+   - Check @apply directive classes
+   - Understand Tailwind modifiers and variants
+
+3. **Better error messages**: More helpful and specific
+   - Include suggestions for fixes
+   - Point to specific parts of the error
+   - Provide context about why something is wrong
+
+4. **Auto-fixable when possible**: Help users fix issues automatically
+   - Fix typos in property names
+   - Remove empty blocks
+   - Correct theme() function syntax
 
 ### Committing Rules
 
