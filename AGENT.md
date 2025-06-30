@@ -292,13 +292,68 @@ Encourages use of theme tokens over arbitrary values for consistency.
    });
    ```
 
-6. **Update** `README.md` with rule documentation
-   - Add to rules section
-   - Include examples of valid/invalid code
-   - Document configuration options
-   - Note if auto-fixable
+6. **Create rule documentation** in `docs/rules/rule-name.md`
 
-#### CSS AST Concepts
+   ````markdown
+   # rule-name
+
+   Brief description of what the rule does.
+
+   ## Rule Details
+
+   Detailed explanation of the rule's purpose and behavior.
+
+   Examples of **incorrect** code for this rule:
+
+   ```css
+   /* ❌ Error */
+   .example {
+     /* problematic code */
+   }
+   ```
+
+   Examples of **correct** code for this rule:
+
+   ```css
+   /* ✅ Good */
+   .example {
+     /* valid code */
+   }
+   ```
+
+   ## Options
+
+   This rule accepts an object with the following properties:
+
+   - `optionName` (type): Description. Default: `value`
+
+   Example configuration:
+
+   ```js
+   {
+     "tailwindcss/rule-name": ["error", {
+       "optionName": "value"
+     }]
+   }
+   ```
+
+   ## When Not To Use It
+
+   Describe scenarios where disabling this rule makes sense.
+
+   ## Further Reading
+
+   - [Relevant documentation links]
+   ````
+
+7. **Update** `README.md` rules table
+
+   - Add entry to appropriate category in implemented rules section
+   - Include link to documentation: `[rule-name](./docs/rules/rule-name.md)`
+   - Add 🔧 indicator if auto-fixable
+   - Keep rules alphabetically sorted within categories
+
+### CSS AST Concepts
 
 **Important**: CSS nodes in @eslint/css have different structure than JS nodes:
 
@@ -360,6 +415,93 @@ const eslint = new ESLint({
 const results = await eslint.lintFiles(['test.css']);
 // Process results...
 ```
+
+### Rule Documentation Standards
+
+When documenting rules, follow these guidelines:
+
+1. **Rule Name**: Use kebab-case matching the rule ID
+2. **Description**: Start with action verb (Disallow, Enforce, Prefer, etc.)
+3. **Categories**:
+   - **Possible Errors**: Rules catching syntax errors or bugs
+   - **Best Practices**: Rules promoting better patterns
+   - **Stylistic Issues**: Rules enforcing formatting/style
+4. **Examples**: Always provide both incorrect (❌) and correct (✅) examples
+5. **Options**: Document all configuration options with types and defaults
+6. **Auto-fix**: Clearly indicate if rule supports auto-fixing with 🔧
+7. **When Not To Use**: Include realistic scenarios for disabling
+8. **Further Reading**: Link to relevant Tailwind/CSS documentation
+
+#### Rule Documentation Template Structure
+
+```markdown
+# rule-name
+
+One-line description starting with action verb.
+
+## Rule Details
+
+2-3 paragraphs explaining:
+- What the rule checks for
+- Why this pattern is problematic/beneficial
+- How it relates to Tailwind CSS v4 features (if applicable)
+
+Examples of **incorrect** code:
+- Show 2-3 common violations
+- Include edge cases
+- Add explanatory comments
+
+Examples of **correct** code:
+- Show corresponding fixes
+- Include alternative valid patterns
+- Demonstrate best practices
+
+## Options
+
+- Document each option with type and default
+- Provide configuration examples
+- Show how options affect rule behavior
+
+## When Not To Use It
+
+- List specific valid use cases for disabling
+- Mention compatibility concerns
+- Note migration scenarios
+
+## Further Reading
+
+- Link to Tailwind CSS docs
+- Link to CSS specifications
+- Link to related rules
+```
+
+### Updating README.md
+
+When implementing a new rule:
+
+1. **Move from unimplemented to implemented section**:
+   - Remove entry from "Unimplemented Rules (Roadmap)" section
+   - Add to appropriate category under "Rules" section
+   - Maintain alphabetical order within category
+
+2. **Rule table entry format**:
+
+   ```markdown
+   | [rule-name](./docs/rules/rule-name.md) | Brief description with verb | 🔧 |
+   ```
+
+   - First column: Rule name with link to documentation
+   - Second column: Description (should match meta.docs.description)
+   - Third column: 🔧 if auto-fixable, empty otherwise
+
+3. **Categories**:
+   - Place in same category as defined in rule's meta.docs.category
+   - Current categories: Possible Errors, Best Practices, Stylistic Issues
+
+4. **Description guidelines**:
+   - Start with action verb (Disallow, Enforce, Prefer, Validate, etc.)
+   - Keep under 80 characters for table formatting
+   - Use common abbreviations if needed (i18n, a11y, etc.)
 
 ### Committing Rules
 
