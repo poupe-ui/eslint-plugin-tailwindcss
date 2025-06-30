@@ -2,6 +2,7 @@ import { defineConfig } from '@poupe/eslint-config';
 import perfectionist from 'eslint-plugin-perfectionist';
 
 export default defineConfig({
+  files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   plugins: {
     perfectionist,
   },

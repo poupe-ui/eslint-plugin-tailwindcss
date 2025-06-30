@@ -168,8 +168,10 @@ utility classes are used.
 
 #### valid-modifier-syntax
 
-Validates Tailwind modifier syntax (hover:, sm:, etc.), ensuring correct
-usage of responsive and state modifiers.
+Validates Tailwind modifier syntax including responsive modifiers (sm:, lg:),
+state modifiers (hover:, focus:), new v4 modifiers (inert:, target:, open:,
+starting:, popover-open:), dynamic modifiers (not-*, in-*), and arbitrary
+modifiers with brackets ([&:hover]).
 
 #### valid-theme-function
 
@@ -192,11 +194,184 @@ Encourages use of theme tokens over arbitrary values for consistency.
 
 ### Adding a New Rule
 
-1. Create rule file in `src/rules/rule-name.ts`
-2. Export from `src/rules/index.ts`
-3. Add to appropriate config preset(s)
-4. Create tests in `src/__tests__/rules/rule-name.test.ts`
-5. Update README.md with rule documentation
+#### Step-by-Step Guide
+
+1. **Create the rule file** in `src/rules/rule-name.ts`
+
+   ```typescript
+   import type { CSSRuleModule } from '../types';
+   import type { StyleSheetPlain } from '@eslint/css-tree';
+   import { walk, isNodeType } from '../utils/ast';
+
+   export const ruleName: CSSRuleModule = {
+     meta: {
+       type: 'problem' | 'suggestion' | 'layout',
+       docs: {
+         description: 'Rule description',
+         category: 'Possible Errors' | 'Best Practices' | 'Stylistic Issues',
+         recommended: true | false,
+       },
+       fixable: 'code' | 'whitespace' | null,
+       schema: [...], // Configuration options
+       messages: {
+         messageId: 'Error message text',
+       },
+     },
+     create(context) {
+       // Rule implementation
+       return {
+         StyleSheet(node: StyleSheetPlain) {
+           // Process CSS AST
+         },
+       };
+     },
+   };
+   ```
+
+2. **Export from** `src/rules/index.ts` (keep alphabetically sorted)
+
+   ```typescript
+   export { ruleName } from './rule-name';
+   ```
+
+3. **Add to** `src/index.ts` (import and rules object, keep sorted)
+
+   ```typescript
+   import { ruleName } from './rules';
+   // ...
+   rules: {
+     'rule-name': ruleName,
+   },
+   ```
+
+4. **Add to config presets** as appropriate:
+   - `minimal.ts`: Essential rules only
+   - `recommended.ts`: Balanced ruleset
+   - `strict.ts`: All rules with strict settings
+
+5. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
+
+   ```typescript
+   import { RuleTester } from 'eslint';
+   import css from '@eslint/css';
+   import { ruleName } from '../../rules/rule-name';
+
+   const ruleTester = new RuleTester({
+     language: 'css/css',
+     plugins: { css },
+   });
+
+   describe('rule-name', () => {
+     ruleTester.run('tailwindcss/rule-name', ruleName, {
+       valid: [
+         { code: '/* valid CSS */' },
+       ],
+       invalid: [
+         {
+           code: '/* invalid CSS */',
+           errors: [{ messageId: 'messageId' }],
+           output: '/* fixed CSS */', // if fixable
+         },
+       ],
+     });
+   });
+   ```
+
+6. **Update** `README.md` with rule documentation
+   - Add to rules section
+   - Include examples of valid/invalid code
+   - Document configuration options
+   - Note if auto-fixable
+
+#### CSS AST Concepts
+
+**Important**: CSS nodes in @eslint/css have different structure than JS nodes:
+
+- `Declaration` nodes have `property` as a string, not a node
+- Use `node.loc` for location information
+- Use `context.sourceCode.text` to get raw text
+- Value nodes may have complex nested structure
+
+**Common node types**:
+
+- `StyleSheet`: Root node
+- `Rule`: CSS rule with selector and block
+- `Declaration`: Property-value pair
+- `Atrule`: At-rules like @media, @import
+- `Function`: CSS functions like theme()
+
+**Utility functions** in `src/utils/ast.ts`:
+
+- `isNodeType(node, type)`: Type guard
+- `getChildrenOfType(node, type)`: Find specific children
+- `walk(node, callback)`: Traverse AST
+- `getNodeText(node, sourceCode)`: Get text content
+
+#### Working with CSS Locations
+
+When reporting errors, be careful with location calculations:
+
+```typescript
+// For property-related issues
+const propertyEndOffset = declaration.loc.start.offset + declaration.property.length;
+
+// For value-related issues
+const valueStartOffset = declaration.value.loc.start.offset;
+
+// Calculate column positions
+const column = declaration.loc.start.column + offsetFromStart;
+```
+
+#### Testing Real CSS Files
+
+For manual testing during development:
+
+```typescript
+// Create test-rule.mjs
+import { ESLint } from 'eslint';
+import css from '@eslint/css';
+import plugin from './dist/index.mjs';
+
+const eslint = new ESLint({
+  overrideConfigFile: true,
+  overrideConfig: {
+    files: ['**/*.css'],
+    language: 'css/css',
+    plugins: { css, tailwindcss: plugin },
+    rules: { 'tailwindcss/rule-name': 'error' },
+  },
+});
+
+const results = await eslint.lintFiles(['test.css']);
+// Process results...
+```
+
+### Committing Rules
+
+**Important**: One rule per commit for better history and reviews.
+
+1. **Initial placeholder commit** (if implementing incrementally):
+
+   ```bash
+   git add src/rules/rule-name.ts src/__tests__/rules/rule-name.test.ts
+   git commit -sF .commit-msg src/rules/rule-name.ts \
+     src/__tests__/rules/rule-name.test.ts \
+     src/rules/index.ts src/index.ts \
+     src/configs/strict.ts README.md
+   ```
+
+2. **Implementation commit**:
+
+   ```bash
+   git commit -sF .commit-msg src/rules/rule-name.ts \
+     src/__tests__/rules/rule-name.test.ts
+   ```
+
+3. **Config updates** (use fixup if related to rule addition):
+
+   ```bash
+   git commit --fixup=HEAD src/configs/minimal.ts src/configs/recommended.ts
+   ```
 
 ### Testing Rules
 

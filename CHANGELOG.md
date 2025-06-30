@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2024-12-30
+
+### Added
+
+- New `consistent-spacing` rule for enforcing consistent spacing in CSS declarations
+- Comprehensive test coverage for all existing rules
+- Expanded documentation for rule development in AGENT.md
+- Testing section in README with examples and commands
+
+### Fixed
+
+- Linting issues in rule implementations and tests
+- Import ordering to follow project conventions
+
+### Changed
+
+- Improved code quality with stricter linting rules for JavaScript/TypeScript files
+
 ## [0.1.2] - 2024-12-30
 
 ### Fixed

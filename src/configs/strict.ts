@@ -8,6 +8,7 @@ export const strict: Linter.Config = {
     } as unknown as ESLint.Plugin,
   },
   rules: {
+    'tailwindcss/consistent-spacing': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['error', {
       maxPerFile: 5,
       maxPerRule: 1,

@@ -12,6 +12,7 @@ export const minimal: Linter.Config = {
     'tailwindcss/valid-modifier-syntax': 'error',
     'tailwindcss/valid-theme-function': 'error',
     // Other rules are off by default in minimal config
+    'tailwindcss/consistent-spacing': 'off',
     'tailwindcss/no-arbitrary-value-overuse': 'off',
     'tailwindcss/no-conflicting-utilities': 'off',
     'tailwindcss/prefer-theme-tokens': 'off',

@@ -12,32 +12,38 @@ function validateArbitraryModifier(modifier: string): {
 } {
   const content = modifier.slice(1, -1);
 
-  // Check for nested brackets
-  if (content.includes('[') || content.includes(']')) {
+  // Check for nested brackets - simple check for double brackets
+  if (content.includes('[[') || content.includes(']]')) {
     return {
       valid: false,
       messageId: 'nestedBrackets',
     };
   }
 
-  // Check for common arbitrary modifier patterns
-  const validPatterns = [
-    // Attribute selectors
-    /^&?\[[^\]]+\]$/,
-    // Pseudo-class selectors
-    /^&?:[a-z-]+(\([^)]*\))?$/,
-    // Complex selectors
-    /^&[>+~]\s*[a-z]+$/,
-    // Nth-child patterns
-    /^&:nth-[a-z]+\([^)]+\)$/,
-  ];
-
-  if (validPatterns.some(pattern => pattern.test(content))) {
-    return { valid: true };
+  // Also check for unbalanced brackets
+  let bracketDepth = 0;
+  for (const element of content) {
+    if (element === '[') {
+      bracketDepth++;
+      if (bracketDepth > 1) {
+        return {
+          valid: false,
+          messageId: 'nestedBrackets',
+        };
+      }
+    } else if (element === ']') {
+      bracketDepth--;
+    }
   }
 
   // Allow any selector starting with & (parent reference)
   if (content.startsWith('&')) {
+    return { valid: true };
+  }
+
+  // Allow other common patterns
+  if (/^[a-z-]+$/.test(content)) {
+    // Simple selectors like "open", "dark", etc
     return { valid: true };
   }
 
@@ -186,6 +192,15 @@ export const validModifierSyntax: CSSRuleModule = {
       'default',
       'focus-within',
       'focus-visible',
+      // Tailwind CSS v4 additions
+      'inert',
+      'target',
+      'open',
+      // Starting style
+      'starting',
+      // Popover
+      'popover-open',
+      // Dynamic nth variants are handled separately
     ]);
 
     return {
@@ -258,6 +273,14 @@ export const validModifierSyntax: CSSRuleModule = {
         };
       }
 
+      // Handle escaped colons that would show up as : in the modifier
+      if (modifier === ':') {
+        return {
+          valid: false,
+          messageId: 'emptyModifier',
+        };
+      }
+
       // Check if it's a built-in or custom allowed modifier
       if (builtInModifiers.has(modifier) || customModifiers.has(modifier)) {
         return { valid: true };
@@ -275,27 +298,48 @@ export const validModifierSyntax: CSSRuleModule = {
         return validateParameterizedModifier(name, param);
       }
 
-      // Check for compound modifiers like group-hover
+      // Check for compound modifiers like group-hover, not-*, in-*
       if (modifier.includes('-')) {
         const parts = modifier.split('-');
         if (parts.length === 2) {
           const [prefix, suffix] = parts;
+          // Handle group-* and peer-* modifiers
           if (
             (prefix === 'group' || prefix === 'peer')
             && builtInModifiers.has(suffix)
           ) {
             return { valid: true };
           }
+          // Handle not-* modifiers (Tailwind v4)
+          if (prefix === 'not' && suffix.length > 0) {
+            return { valid: true };
+          }
+          // Handle in-* modifiers (Tailwind v4)
+          if (prefix === 'in' && suffix.length > 0) {
+            return { valid: true };
+          }
         }
       }
 
-      // Check for invalid characters
-      if (!/^[a-z0-9-]+$/i.test(modifier)) {
-        return {
-          valid: false,
-          messageId: 'invalidCharacters',
-          reason: 'Modifiers should only contain letters, numbers, and hyphens',
-        };
+      // Check for invalid characters (but allow common CSS selector characters in arbitrary modifiers)
+      if (modifier.startsWith('[') || modifier.includes('(')) {
+        // Arbitrary modifiers can contain more characters
+        if (!/^[\w\s-[\]()&:>+~#.=,"']+$/i.test(modifier)) {
+          return {
+            valid: false,
+            messageId: 'invalidCharacters',
+            reason: 'Invalid characters in modifier',
+          };
+        }
+      } else {
+        // Regular modifiers should only contain letters, numbers, hyphens, brackets, and parentheses
+        if (!/^[a-z0-9\-[\]()]+$/i.test(modifier)) {
+          return {
+            valid: false,
+            messageId: 'invalidCharacters',
+            reason: 'Modifiers should only contain letters, numbers, hyphens, brackets, and parentheses',
+          };
+        }
       }
 
       // Unknown modifier

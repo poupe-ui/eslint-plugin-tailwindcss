@@ -41,8 +41,11 @@ export function extractUtilitiesFromApply(
     prelude.loc.end.offset,
   );
 
+  // Remove CSS escape sequences
+  const unescapedText = text.replaceAll(/\\(.)/g, '$1');
+
   // Split by whitespace and filter empty strings
-  return text.split(/\s+/).filter(Boolean);
+  return unescapedText.split(/\s+/).filter(Boolean);
 }
 
 /**
@@ -70,10 +73,38 @@ export interface ParsedUtility {
 }
 
 export function parseUtilityClass(className: string): ParsedUtility {
-  // Extract modifiers (everything before the last colon)
-  const parts = className.split(':');
-  const utility = parts.at(-1) || '';
-  const modifiers = parts.slice(0, -1);
+  const modifiers: string[] = [];
+  let remaining = className;
+
+  // Extract modifiers by looking for colons not inside brackets
+  while (true) {
+    let colonIndex = -1;
+    let bracketDepth = 0;
+
+    // Find the first colon that's not inside brackets
+    for (const [i, element] of [...remaining].entries()) {
+      if (element === '[') {
+        bracketDepth++;
+      } else if (element === ']') {
+        bracketDepth--;
+      } else if (element === ':' && bracketDepth === 0) {
+        colonIndex = i;
+        break;
+      }
+    }
+
+    if (colonIndex === -1) {
+      // No more modifiers
+      break;
+    }
+
+    // Extract the modifier
+    const modifier = remaining.slice(0, colonIndex);
+    modifiers.push(modifier);
+    remaining = remaining.slice(colonIndex + 1);
+  }
+
+  const utility = remaining;
 
   // Check for arbitrary value
   const arbitraryMatch = utility.match(/^([^[]+)(\[[^\]]+\])$/);
