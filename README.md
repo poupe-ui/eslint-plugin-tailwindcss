@@ -115,6 +115,7 @@ Rules that catch potential bugs or invalid syntax.
 | Rule | Description | 🔧 |
 | :--- | :--- | :--- |
 | [no-conflicting-utilities](./docs/rules/no-conflicting-utilities.md) | Detects conflicting Tailwind utilities that affect the same CSS properties | |
+| [no-duplicate-imports](./docs/rules/no-duplicate-imports.md) | Disallow duplicate @import rules | |
 | [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
 | [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
 | [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
@@ -150,7 +151,6 @@ Rules that catch general CSS syntax errors and invalid constructs.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| no-duplicate-imports | Disallow duplicate @import rules | | Priority |
 | no-empty-blocks | Disallow empty rule blocks and at-rule blocks | | Priority |
 | no-invalid-properties | Disallow invalid CSS property names and values | | Priority |
 | no-invalid-at-rules | Disallow invalid at-rule names and syntax | | Planned |

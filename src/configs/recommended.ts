@@ -8,6 +8,7 @@ export const recommended: Linter.Config = {
     } as unknown as ESLint.Plugin,
   },
   rules: {
+    'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['warn', {
       maxPerFile: 10,
       maxPerRule: 3,

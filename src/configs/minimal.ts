@@ -8,6 +8,7 @@ export const minimal: Linter.Config = {
     } as unknown as ESLint.Plugin,
   },
   rules: {
+    'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/valid-apply-directive': 'error',
     'tailwindcss/valid-modifier-syntax': 'error',
     'tailwindcss/valid-theme-function': 'error',
