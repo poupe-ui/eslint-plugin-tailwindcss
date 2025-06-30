@@ -249,7 +249,8 @@ export const consistentSpacing: CSSRuleModule = {
 
           // Extract spaces before and after colon
           const beforeColonSpace = betweenText.slice(0, colonIndex);
-          const afterColonSpace = betweenText.slice(colonIndex + 1);
+          const afterColonIndex = colonIndex + 1;
+          const afterColonSpace = afterColonIndex < betweenText.length ? betweenText.slice(afterColonIndex) : '';
           const colonOffset = info.propertyEnd.offset + colonIndex;
 
           // Check spacing
