@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-12-30
+
+### Fixed
+
+- Fixed missing parser export in build configuration
+- Changed export path from `./syntax` to `./parser` for better clarity
+- Added placeholder test to prevent test failures
+
+### Changed
+
+- Improved parser export naming for better developer experience
+- Configured markdownlint/md024 to allow duplicate headers in CHANGELOG.md when not siblings
+
 ## [0.1.1] - 2024-12-30
 
 ### Added
