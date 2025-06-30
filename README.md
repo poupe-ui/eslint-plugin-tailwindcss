@@ -128,19 +128,31 @@ Validates usage of the `theme()` function in CSS files.
 
 ### `valid-modifier-syntax` ✅
 
-Ensures Tailwind modifiers follow correct syntax patterns.
+Ensures Tailwind modifiers follow correct syntax patterns, including support
+for Tailwind CSS v4 modifiers.
+
+**Supported modifiers:**
+
+- Standard modifiers: `hover:`, `focus:`, `sm:`, `lg:`, etc.
+- New v4 modifiers: `inert:`, `target:`, `open:`, `starting:`, `popover-open:`
+- Dynamic modifiers: `not-*:`, `in-*:`
+- Arbitrary modifiers: `[&:hover]:`, `[@media(hover:hover)]:`
 
 ```css
 /* ❌ Error */
 @media (hover: hover) {
   .hoverr\:bg-blue-500:hover { } /* Typo in modifier */
-  .sm\:lg\:text-xl { }           /* Invalid stacking */
+  .unknown\:text-white { }       /* Unknown modifier */
+  .\:\:text-blue-500 { }         /* Empty modifier */
 }
 
 /* ✅ Good */
 @media (hover: hover) {
-  .hover\:bg-blue-500:hover { }
-  .sm\:text-xl { }
+  .hover\:bg-blue-500:hover { }     /* Standard modifier */
+  .inert\:opacity-50 { }           /* v4 modifier */
+  .\[\&\:hover\]\:bg-blue-500 { }  /* Arbitrary modifier */
+  .not-first\:mt-4 { }             /* Dynamic not-* modifier */
+  .in-data-state\:bg-blue-500 { }  /* Dynamic in-* modifier */
 }
 ```
 
@@ -230,7 +242,8 @@ This plugin extends @eslint/css with Tailwind CSS v4 syntax support:
 - ✅ **Directives**: `@theme`, `@import`, `@plugin`, `@utility`, `@variant`, `@source`
 - ✅ **Functions**: `theme()`, `screen()`
 - ✅ **Arbitrary Values**: `[value]` syntax
-- ✅ **Modifiers**: `hover:`, `focus:`, `sm:`, `lg:`, etc.
+- ✅ **Modifiers**: `hover:`, `focus:`, `sm:`, `lg:`, `inert:`, `target:`,
+  `open:`, `starting:`, `popover-open:`, `not-*:`, `in-*:`, `[&:state]:`
 - ✅ **Stacked Variants**: `dark:hover:text-white`
 - ✅ **Custom Variants**: Created with `@custom-variant`
 
