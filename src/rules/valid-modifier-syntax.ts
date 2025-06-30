@@ -5,6 +5,12 @@ import type { CSSRuleModule } from '../types';
 import { isAtRule } from '../utils/ast';
 import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind';
 
+/**
+ * Validates arbitrary modifier syntax (e.g., `[&:hover]`, `[@media(hover)]`)
+ *
+ * @param modifier - The full modifier string including brackets
+ * @returns Validation result with error details if invalid
+ */
 function validateArbitraryModifier(modifier: string): {
   valid: boolean
   messageId?: string
@@ -54,6 +60,13 @@ function validateArbitraryModifier(modifier: string): {
   };
 }
 
+/**
+ * Validates parameterized modifiers (e.g., nth-child(3), nth-last-of-type(2n+1))
+ *
+ * @param name - The modifier name (e.g., 'nth-child')
+ * @param param - The parameter value (e.g., '3', '2n+1')
+ * @returns Validation result with error details if invalid
+ */
 function validateParameterizedModifier(
   name: string,
   param: string,
