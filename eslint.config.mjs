@@ -65,4 +65,9 @@ export default defineConfig({
       },
     ],
   },
+}, {
+  files: ['CHANGELOG.md'],
+  rules: {
+    'markdownlint/md024': ['error', { siblings_only: true }],
+  },
 });
