@@ -106,159 +106,39 @@ All rules enabled with strict settings. Best for new projects.
 
 ## Rules
 
-### `valid-theme-function` ✅
+<!-- begin auto-generated rules list -->
 
-Validates usage of the `theme()` function in CSS files.
+### Possible Errors
 
-```css
-/* ❌ Error */
-.example {
-  color: theme('colors.reed'); /* Typo: should be 'red' */
-  margin: theme(spacing.2px);  /* Invalid syntax */
-}
+Rules that catch potential bugs or invalid syntax.
 
-/* ✅ Good */
-.example {
-  color: theme('colors.red.500');
-  margin: theme('spacing.2');
-}
-```
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [no-conflicting-utilities](./docs/rules/no-conflicting-utilities.md) | Detects conflicting Tailwind utilities that affect the same CSS properties | |
+| [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
+| [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
+| [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
 
-**Auto-fix:** Yes
+### Best Practices
 
-### `valid-modifier-syntax` ✅
+Rules that guide towards better code patterns and maintainability.
 
-Ensures Tailwind modifiers follow correct syntax patterns, including support
-for Tailwind CSS v4 modifiers.
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
+| [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
 
-**Supported modifiers:**
+### Stylistic Issues
 
-- Standard modifiers: `hover:`, `focus:`, `sm:`, `lg:`, etc.
-- New v4 modifiers: `inert:`, `target:`, `open:`, `starting:`, `popover-open:`
-- Dynamic modifiers: `not-*:`, `in-*:`
-- Arbitrary modifiers: `[&:hover]:`, `[@media(hover:hover)]:`
+Rules that enforce code style and formatting conventions.
 
-```css
-/* ❌ Error */
-@media (hover: hover) {
-  .hoverr\:bg-blue-500:hover { } /* Typo in modifier */
-  .unknown\:text-white { }       /* Unknown modifier */
-  .\:\:text-blue-500 { }         /* Empty modifier */
-}
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [consistent-spacing](./docs/rules/consistent-spacing.md) | Enforces consistent spacing around colons in CSS declarations | 🔧 |
 
-/* ✅ Good */
-@media (hover: hover) {
-  .hover\:bg-blue-500:hover { }     /* Standard modifier */
-  .inert\:opacity-50 { }           /* v4 modifier */
-  .\[\&\:hover\]\:bg-blue-500 { }  /* Arbitrary modifier */
-  .not-first\:mt-4 { }             /* Dynamic not-* modifier */
-  .in-data-state\:bg-blue-500 { }  /* Dynamic in-* modifier */
-}
-```
+<!-- end auto-generated rules list -->
 
-### `valid-apply-directive` ✅
-
-Validates the `@apply` directive usage.
-
-```css
-/* ❌ Error */
-.btn {
-  @apply bg-blu-500 text-whit; /* Typos */
-  @apply transform(45deg);      /* Invalid syntax */
-}
-
-/* ✅ Good */
-.btn {
-  @apply bg-blue-500 text-white;
-  @apply rotate-45;
-}
-```
-
-### `no-arbitrary-value-overuse` ⚠️
-
-Warns when too many arbitrary values are used instead of theme tokens.
-
-```css
-/* ⚠️ Warning - Too many arbitrary values */
-.card {
-  padding: [12px];
-  margin: [8px];
-  gap: [16px];
-  border-radius: [4px];
-}
-
-/* ✅ Good - Use theme tokens */
-.card {
-  @apply p-3 m-2 gap-4 rounded;
-}
-```
-
-**Config Options:**
-
-- `maxArbitraryValues`: Maximum allowed arbitrary values per rule (default: 1)
-
-### `prefer-theme-tokens` ⚠️
-
-Suggests using theme tokens instead of hard-coded values.
-
-```css
-/* ⚠️ Warning */
-.text {
-  color: #3B82F6;      /* Use theme('colors.blue.500') */
-  font-size: 16px;     /* Use theme('fontSize.base') */
-}
-
-/* ✅ Good */
-.text {
-  color: theme('colors.blue.500');
-  font-size: theme('fontSize.base');
-}
-```
-
-### `consistent-spacing` ✅
-
-Enforces consistent spacing around colons in CSS declarations.
-
-```css
-/* ❌ Error */
-.example {
-  color:red;          /* Missing space after colon */
-  background:  blue;  /* Multiple spaces after colon */
-  margin : 10px;      /* Unexpected space before colon */
-}
-
-/* ✅ Good */
-.example {
-  color: red;
-  background: blue;
-  margin: 10px;
-}
-```
-
-**Auto-fix:** Yes
-
-**Config Options:**
-
-- `afterColon`: `'always'` (default) or `'never'` - Space after colon
-- `beforeColon`: `'never'` (default) or `'always'` - Space before colon
-
-### `no-conflicting-utilities` ✅
-
-Detects conflicting Tailwind utilities that affect the same CSS properties.
-
-```css
-/* ❌ Error - Conflicting margin utilities */
-.element {
-  @apply m-4 mx-2;     /* mx-2 conflicts with m-4 */
-  @apply p-4 pt-2;     /* pt-2 conflicts with p-4 */
-}
-
-/* ✅ Good */
-.element {
-  @apply m-4;
-  @apply p-4 pt-2;     /* Specific overrides general */
-}
-```
+🔧 = Automatically fixable
 
 ## Advanced Features
 
