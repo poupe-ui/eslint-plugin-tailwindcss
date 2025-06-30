@@ -106,159 +106,141 @@ All rules enabled with strict settings. Best for new projects.
 
 ## Rules
 
-### `valid-theme-function` ✅
+<!-- begin auto-generated rules list -->
 
-Validates usage of the `theme()` function in CSS files.
+### Possible Errors (Implemented)
 
-```css
-/* ❌ Error */
-.example {
-  color: theme('colors.reed'); /* Typo: should be 'red' */
-  margin: theme(spacing.2px);  /* Invalid syntax */
-}
+Rules that catch potential bugs or invalid syntax.
 
-/* ✅ Good */
-.example {
-  color: theme('colors.red.500');
-  margin: theme('spacing.2');
-}
-```
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [no-conflicting-utilities](./docs/rules/no-conflicting-utilities.md) | Detects conflicting Tailwind utilities that affect the same CSS properties | |
+| [no-duplicate-imports](./docs/rules/no-duplicate-imports.md) | Disallow duplicate @import rules | |
+| [no-empty-blocks](./docs/rules/no-empty-blocks.md) | Disallow empty rule blocks and at-rule blocks | |
+| [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
+| [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
+| [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
 
-**Auto-fix:** Yes
+### Best Practices (Implemented)
 
-### `valid-modifier-syntax` ✅
+Rules that guide towards better code patterns and maintainability.
 
-Ensures Tailwind modifiers follow correct syntax patterns, including support
-for Tailwind CSS v4 modifiers.
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
+| [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
 
-**Supported modifiers:**
+### Stylistic Issues (Implemented)
 
-- Standard modifiers: `hover:`, `focus:`, `sm:`, `lg:`, etc.
-- New v4 modifiers: `inert:`, `target:`, `open:`, `starting:`, `popover-open:`
-- Dynamic modifiers: `not-*:`, `in-*:`
-- Arbitrary modifiers: `[&:hover]:`, `[@media(hover:hover)]:`
+Rules that enforce code style and formatting conventions.
 
-```css
-/* ❌ Error */
-@media (hover: hover) {
-  .hoverr\:bg-blue-500:hover { } /* Typo in modifier */
-  .unknown\:text-white { }       /* Unknown modifier */
-  .\:\:text-blue-500 { }         /* Empty modifier */
-}
+| Rule | Description | 🔧 |
+| :--- | :--- | :--- |
+| [consistent-spacing](./docs/rules/consistent-spacing.md) | Enforces consistent spacing around colons in CSS declarations | 🔧 |
 
-/* ✅ Good */
-@media (hover: hover) {
-  .hover\:bg-blue-500:hover { }     /* Standard modifier */
-  .inert\:opacity-50 { }           /* v4 modifier */
-  .\[\&\:hover\]\:bg-blue-500 { }  /* Arbitrary modifier */
-  .not-first\:mt-4 { }             /* Dynamic not-* modifier */
-  .in-data-state\:bg-blue-500 { }  /* Dynamic in-* modifier */
-}
-```
+<!-- end auto-generated rules list -->
 
-### `valid-apply-directive` ✅
+🔧 = Automatically fixable
 
-Validates the `@apply` directive usage.
+### Unimplemented Rules (Roadmap)
 
-```css
-/* ❌ Error */
-.btn {
-  @apply bg-blu-500 text-whit; /* Typos */
-  @apply transform(45deg);      /* Invalid syntax */
-}
+#### Possible Errors (Planned)
 
-/* ✅ Good */
-.btn {
-  @apply bg-blue-500 text-white;
-  @apply rotate-45;
-}
-```
+##### Core CSS Validation (@eslint/css parity)
 
-### `no-arbitrary-value-overuse` ⚠️
+Rules that catch general CSS syntax errors and invalid constructs.
 
-Warns when too many arbitrary values are used instead of theme tokens.
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| no-invalid-properties | Disallow invalid CSS property names and values | | Priority |
+| no-invalid-at-rules | Disallow invalid at-rule names and syntax | | Planned |
+| no-invalid-named-grid-areas | Disallow malformed CSS Grid template areas | | Planned |
 
-```css
-/* ⚠️ Warning - Too many arbitrary values */
-.card {
-  padding: [12px];
-  margin: [8px];
-  gap: [16px];
-  border-radius: [4px];
-}
+#### Best Practices (Planned)
 
-/* ✅ Good - Use theme tokens */
-.card {
-  @apply p-3 m-2 gap-4 rounded;
-}
-```
+##### CSS Best Practices (@eslint/css parity)
 
-**Config Options:**
+Rules that enforce modern CSS patterns.
 
-- `maxArbitraryValues`: Maximum allowed arbitrary values per rule (default: 1)
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| use-baseline | Enforce widely supported CSS features based on browser compatibility | | Planned |
+| no-important | Disallow !important declarations | | Planned |
+| prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
+| relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
+| use-layers | Encourage @layer usage for cascade management | | Planned |
 
-### `prefer-theme-tokens` ⚠️
+##### Tailwind v4 Compatibility
 
-Suggests using theme tokens instead of hard-coded values.
+Rules specific to Tailwind CSS version management and migration.
 
-```css
-/* ⚠️ Warning */
-.text {
-  color: #3B82F6;      /* Use theme('colors.blue.500') */
-  font-size: 16px;     /* Use theme('fontSize.base') */
-}
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| version-compatibility | Enforce compatibility with specific Tailwind CSS versions | | Planned |
+| deprecated-features | Warn about deprecated Tailwind features | | Planned |
+| migrate-imports | Convert Tailwind v3 imports to v4 syntax | 🔧 | Priority |
+| migrate-directives | Update deprecated Tailwind directives | 🔧 | Priority |
+| migrate-config-to-css | Guide migration from JS config to CSS @theme | | Planned |
+| migrate-arbitrary-values | Update arbitrary value syntax between versions | 🔧 | Planned |
 
-/* ✅ Good */
-.text {
-  color: theme('colors.blue.500');
-  font-size: theme('fontSize.base');
-}
-```
+##### Code Quality
 
-### `consistent-spacing` ✅
+Rules that enforce documentation and maintainability.
 
-Enforces consistent spacing around colons in CSS declarations.
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| comment-word-disallowed-list | Disallow specified words in comments | | Considering |
+| require-description-comments | Require explanatory comments for complex selectors | | Considering |
+| tailwind-comment-directives | Validate Tailwind-specific comment directives | 🔧 | Considering |
 
-```css
-/* ❌ Error */
-.example {
-  color:red;          /* Missing space after colon */
-  background:  blue;  /* Multiple spaces after colon */
-  margin : 10px;      /* Unexpected space before colon */
-}
+#### Stylistic Issues (Planned)
 
-/* ✅ Good */
-.example {
-  color: red;
-  background: blue;
-  margin: 10px;
-}
-```
+##### CSS Formatting (@eslint/css parity)
 
-**Auto-fix:** Yes
+General CSS formatting rules.
 
-**Config Options:**
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| indent | Enforce consistent indentation | 🔧 | Planned |
+| brace-style | Enforce consistent brace placement | 🔧 | Planned |
+| block-spacing | Enforce consistent spacing inside blocks | 🔧 | Planned |
+| declaration-block-newline | Enforce line breaks within declaration blocks | 🔧 | Planned |
+| rule-empty-line-before | Require or disallow empty lines before rules | 🔧 | Planned |
+| property-sort-order | Enforce consistent property declaration order | 🔧 | Planned |
+| at-rule-formatting | Format at-rules consistently | 🔧 | Planned |
+| no-unnecessary-whitespace | Disallow unnecessary whitespace | 🔧 | Planned |
+| property-formatting | Format property declarations consistently | 🔧 | Planned |
+| selector-formatting | Format selectors consistently | 🔧 | Planned |
+| value-formatting | Format property values consistently | 🔧 | Planned |
+| media-query-formatting | Format media queries consistently | 🔧 | Planned |
 
-- `afterColon`: `'always'` (default) or `'never'` - Space after colon
-- `beforeColon`: `'never'` (default) or `'always'` - Space before colon
+##### Tailwind-Specific Formatting
 
-### `no-conflicting-utilities` ✅
+Rules for Tailwind CSS v4 specific constructs.
 
-Detects conflicting Tailwind utilities that affect the same CSS properties.
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| at-apply-formatting | Format @apply directives consistently | 🔧 | Planned |
+| theme-formatting | Format @theme blocks consistently | 🔧 | Planned |
+| enforce-class-order | Enforce consistent Tailwind utility class ordering | 🔧 | Priority |
 
-```css
-/* ❌ Error - Conflicting margin utilities */
-.element {
-  @apply m-4 mx-2;     /* mx-2 conflicts with m-4 */
-  @apply p-4 pt-2;     /* pt-2 conflicts with p-4 */
-}
+##### Comment Formatting
 
-/* ✅ Good */
-.element {
-  @apply m-4;
-  @apply p-4 pt-2;     /* Specific overrides general */
-}
-```
+Rules for consistent comment styles.
+
+| Rule | Description | 🔧 | Status |
+| :--- | :--- | :--- | :--- |
+| comment-formatting | Format comments consistently | 🔧 | Considering |
+| comment-style | Enforce consistent comment syntax | 🔧 | Considering |
+| comment-empty-line-before | Require or disallow empty lines before comments | 🔧 | Considering |
+| comment-capitalization | Enforce consistent comment capitalization | 🔧 | Considering |
+| comment-length | Enforce maximum comment line length | 🔧 | Considering |
+
+**Status Legend:**
+
+- **Priority**: High priority, will be implemented next
+- **Planned**: Scheduled for implementation
+- **Considering**: Under consideration, may be implemented
 
 ## Advanced Features
 

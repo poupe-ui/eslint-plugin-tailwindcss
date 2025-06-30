@@ -292,13 +292,68 @@ Encourages use of theme tokens over arbitrary values for consistency.
    });
    ```
 
-6. **Update** `README.md` with rule documentation
-   - Add to rules section
-   - Include examples of valid/invalid code
-   - Document configuration options
-   - Note if auto-fixable
+6. **Create rule documentation** in `docs/rules/rule-name.md`
 
-#### CSS AST Concepts
+   ````markdown
+   # rule-name
+
+   Brief description of what the rule does.
+
+   ## Rule Details
+
+   Detailed explanation of the rule's purpose and behavior.
+
+   Examples of **incorrect** code for this rule:
+
+   ```css
+   /* ❌ Error */
+   .example {
+     /* problematic code */
+   }
+   ```
+
+   Examples of **correct** code for this rule:
+
+   ```css
+   /* ✅ Good */
+   .example {
+     /* valid code */
+   }
+   ```
+
+   ## Options
+
+   This rule accepts an object with the following properties:
+
+   - `optionName` (type): Description. Default: `value`
+
+   Example configuration:
+
+   ```js
+   {
+     "tailwindcss/rule-name": ["error", {
+       "optionName": "value"
+     }]
+   }
+   ```
+
+   ## When Not To Use It
+
+   Describe scenarios where disabling this rule makes sense.
+
+   ## Further Reading
+
+   - [Relevant documentation links]
+   ````
+
+7. **Update** `README.md` rules table
+
+   - Add entry to appropriate category in implemented rules section
+   - Include link to documentation: `[rule-name](./docs/rules/rule-name.md)`
+   - Add 🔧 indicator if auto-fixable
+   - Keep rules alphabetically sorted within categories
+
+### CSS AST Concepts
 
 **Important**: CSS nodes in @eslint/css have different structure than JS nodes:
 
@@ -314,6 +369,8 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `Declaration`: Property-value pair
 - `Atrule`: At-rules like @media, @import
 - `Function`: CSS functions like theme()
+- `Block`: Container for declarations/rules
+- `Comment`: Comment nodes (see below)
 
 **Utility functions** in `src/utils/ast.ts`:
 
@@ -321,6 +378,49 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `getChildrenOfType(node, type)`: Find specific children
 - `walk(node, callback)`: Traverse AST
 - `getNodeText(node, sourceCode)`: Get text content
+
+#### Block and Comment Handling
+
+**Critical**: Comments in CSS blocks are handled differently than you might expect:
+
+1. **Comments ARE children**: In @eslint/css-tree AST, Comment nodes appear
+   as regular children in Block nodes
+2. **Empty block detection**: A block with only comments has
+   `children.length > 0`
+3. **Filtering comments**: Use
+   `block.children.filter(child => child.type !== 'Comment')` to get only
+   declarations
+
+Example block structure:
+
+```typescript
+Block {
+  type: "Block",
+  children: [
+    { type: "Comment", value: " comment text " },
+    { type: "Declaration", property: "color", value: {...} },
+    { type: "Comment", value: " another comment " }
+  ]
+}
+```
+
+#### Import (@import) Handling
+
+When working with @import rules:
+
+1. **Atrule node**: Import statements are `Atrule` nodes with `name: 'import'`
+2. **URL extraction**: The URL can be in two formats:
+   - String syntax: `@import "file.css";`
+   - URL function: `@import url("file.css");`
+3. **Prelude parsing**: The import URL is in `node.prelude`, use regex to extract:
+
+   ```typescript
+   const preludeText = context.sourceCode.getText(node.prelude).trim();
+   // Match: "file.css" or 'file.css'
+   const stringMatch = preludeText.match(/^["'](.+?)["']$/);
+   // Match: url("file.css") or url(file.css)
+   const urlMatch = preludeText.match(/^url\s*\(\s*["']?(.+?)["']?\s*\)$/);
+   ```
 
 #### Working with CSS Locations
 
@@ -336,6 +436,30 @@ const valueStartOffset = declaration.value.loc.start.offset;
 // Calculate column positions
 const column = declaration.loc.start.column + offsetFromStart;
 ```
+
+#### AST Research Tips
+
+When implementing new rules:
+
+1. **Clone @eslint/css for reference**:
+
+   ```bash
+   git clone https://github.com/eslint/css.git .eslint-css-ref
+   ```
+
+   Check their rule implementations for patterns and edge cases.
+
+2. **Inspect AST structure**:
+
+   ```typescript
+   // Add console.log in your rule to inspect nodes
+   console.log(JSON.stringify(node, null, 2));
+   ```
+
+3. **Check node children**:
+   - Not all nodes have blocks (e.g., @import doesn't)
+   - Some at-rules have blocks (e.g., @media, @supports, @layer)
+   - Always check if `node.block` exists before accessing
 
 #### Testing Real CSS Files
 
@@ -360,6 +484,116 @@ const eslint = new ESLint({
 const results = await eslint.lintFiles(['test.css']);
 // Process results...
 ```
+
+### Rule Documentation Standards
+
+When documenting rules, follow these guidelines:
+
+1. **Rule Name**: Use kebab-case matching the rule ID
+2. **Description**: Start with action verb (Disallow, Enforce, Prefer, etc.)
+3. **Categories**:
+   - **Possible Errors**: Rules catching syntax errors or bugs
+   - **Best Practices**: Rules promoting better patterns
+   - **Stylistic Issues**: Rules enforcing formatting/style
+4. **Examples**: Always provide both incorrect (❌) and correct (✅) examples
+5. **Options**: Document all configuration options with types and defaults
+6. **Auto-fix**: Clearly indicate if rule supports auto-fixing with 🔧
+7. **When Not To Use**: Include realistic scenarios for disabling
+8. **Further Reading**: Link to relevant Tailwind/CSS documentation
+
+#### Rule Documentation Template Structure
+
+```markdown
+# rule-name
+
+One-line description starting with action verb.
+
+## Rule Details
+
+2-3 paragraphs explaining:
+- What the rule checks for
+- Why this pattern is problematic/beneficial
+- How it relates to Tailwind CSS v4 features (if applicable)
+
+Examples of **incorrect** code:
+- Show 2-3 common violations
+- Include edge cases
+- Add explanatory comments
+
+Examples of **correct** code:
+- Show corresponding fixes
+- Include alternative valid patterns
+- Demonstrate best practices
+
+## Options
+
+- Document each option with type and default
+- Provide configuration examples
+- Show how options affect rule behavior
+
+## When Not To Use It
+
+- List specific valid use cases for disabling
+- Mention compatibility concerns
+- Note migration scenarios
+
+## Further Reading
+
+- Link to Tailwind CSS docs
+- Link to CSS specifications
+- Link to related rules
+```
+
+### Updating README.md
+
+When implementing a new rule:
+
+1. **Move from unimplemented to implemented section**:
+   - Remove entry from "Unimplemented Rules (Roadmap)" section
+   - Add to appropriate category under "Rules" section
+   - Maintain alphabetical order within category
+
+2. **Rule table entry format**:
+
+   ```markdown
+   | [rule-name](./docs/rules/rule-name.md) | Brief description with verb | 🔧 |
+   ```
+
+   - First column: Rule name with link to documentation
+   - Second column: Description (should match meta.docs.description)
+   - Third column: 🔧 if auto-fixable, empty otherwise
+
+3. **Categories**:
+   - Place in same category as defined in rule's meta.docs.category
+   - Current categories: Possible Errors, Best Practices, Stylistic Issues
+
+4. **Description guidelines**:
+   - Start with action verb (Disallow, Enforce, Prefer, Validate, etc.)
+   - Keep under 80 characters for table formatting
+   - Use common abbreviations if needed (i18n, a11y, etc.)
+
+### Beyond @eslint/css Parity
+
+**Important**: Parity with @eslint/css is just the beginning. Our rules should be:
+
+1. **More configurable**: Add options that @eslint/css doesn't have
+   - Example: `no-empty-blocks` could have `allowComments` option
+   - Example: `no-invalid-properties` could have `allowVendorPrefixes` option
+
+2. **Tailwind-aware**: Understand Tailwind CSS v4 features
+   - Validate theme() function usage
+   - Check @apply directive classes
+   - Understand Tailwind modifiers and variants
+
+3. **Better error messages**: More helpful and specific
+   - Include suggestions for fixes
+   - Point to specific parts of the error
+   - Provide context about why something is wrong
+
+4. **Auto-fixable when possible**: Help users fix issues automatically
+   - Fix typos in property names
+   - Remove empty blocks
+   - Correct theme() function syntax
 
 ### Committing Rules
 
