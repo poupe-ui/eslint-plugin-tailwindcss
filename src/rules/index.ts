@@ -6,6 +6,7 @@ export { noEmptyBlocks } from './no-empty-blocks';
 export { noInvalidAtRules } from './no-invalid-at-rules';
 export { noInvalidProperties } from './no-invalid-properties';
 export { preferThemeTokens } from './prefer-theme-tokens';
+export { useBaseline } from './use-baseline';
 export { validApplyDirective } from './valid-apply-directive';
 export { validModifierSyntax } from './valid-modifier-syntax';
 export { validThemeFunction } from './valid-theme-function';

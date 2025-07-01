@@ -184,6 +184,7 @@ Rules that catch potential bugs or invalid syntax.
 | [no-empty-blocks](./docs/rules/no-empty-blocks.md) | Disallow empty rule blocks and at-rule blocks | |
 | [no-invalid-at-rules](./docs/rules/no-invalid-at-rules.md) | Disallow invalid at-rule names and syntax | |
 | [no-invalid-properties](./docs/rules/no-invalid-properties.md) | Disallow invalid CSS property names | |
+| [use-baseline](./docs/rules/use-baseline.md) | Enforce use of widely-supported CSS features | |
 | [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
 | [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
 | [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
@@ -231,8 +232,7 @@ Rules that enforce modern CSS patterns.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| use-baseline | Enforce widely supported CSS features based on browser compatibility | | Planned |
-| no-important | Disallow !important declarations | | Planned |
+| no-important | Disallow !important declarations | | Priority |
 | prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
 | relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
 | use-layers | Encourage @layer usage for cascade management | | Planned |

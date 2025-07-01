@@ -21,6 +21,9 @@ export const strict: Linter.Config = {
     'tailwindcss/prefer-theme-tokens': ['error', {
       categories: ['colors', 'spacing', 'sizing', 'typography', 'borders', 'effects'],
     }],
+    'tailwindcss/use-baseline': ['error', {
+      strictness: 'newly',
+    }],
     'tailwindcss/valid-apply-directive': ['error', {
       maxUtilities: 10,
       allowEmpty: false,

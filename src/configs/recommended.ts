@@ -20,6 +20,7 @@ export const recommended: Linter.Config = {
     'tailwindcss/prefer-theme-tokens': ['warn', {
       categories: ['colors', 'spacing'],
     }],
+    'tailwindcss/use-baseline': 'error',
     'tailwindcss/valid-apply-directive': ['error', {
       maxUtilities: 20,
     }],

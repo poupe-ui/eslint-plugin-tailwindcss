@@ -12,6 +12,7 @@ export const minimal: Linter.Config = {
     'tailwindcss/no-empty-blocks': 'error',
     'tailwindcss/no-invalid-at-rules': 'error',
     'tailwindcss/no-invalid-properties': 'error',
+    'tailwindcss/use-baseline': 'error',
     'tailwindcss/valid-apply-directive': 'error',
     'tailwindcss/valid-modifier-syntax': 'error',
     'tailwindcss/valid-theme-function': 'error',
