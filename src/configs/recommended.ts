@@ -10,6 +10,7 @@ export const recommended: Linter.Config = {
   rules: {
     'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/no-empty-blocks': 'error',
+    'tailwindcss/no-important': 'warn',
     'tailwindcss/no-invalid-at-rules': 'error',
     'tailwindcss/no-invalid-properties': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['warn', {

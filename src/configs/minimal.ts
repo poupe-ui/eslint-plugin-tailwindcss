@@ -10,6 +10,7 @@ export const minimal: Linter.Config = {
   rules: {
     'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/no-empty-blocks': 'error',
+    'tailwindcss/no-important': 'error',
     'tailwindcss/no-invalid-at-rules': 'error',
     'tailwindcss/no-invalid-properties': 'error',
     'tailwindcss/use-baseline': 'error',

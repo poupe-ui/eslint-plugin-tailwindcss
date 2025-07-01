@@ -100,6 +100,7 @@ Basic syntax validation only. Good for existing projects.
 - ✅ `no-invalid-properties`
 - ✅ `no-duplicate-imports`
 - ✅ `no-empty-blocks`
+- ✅ `no-important`
 
 ### `recommended` (Default)
 
@@ -196,6 +197,7 @@ Rules that guide towards better code patterns and maintainability.
 | Rule | Description | 🔧 |
 | :--- | :--- | :--- |
 | [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
+| [no-important](./docs/rules/no-important.md) | Discourage use of !important | |
 | [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
 
 ### Stylistic Issues (Implemented)
@@ -232,7 +234,6 @@ Rules that enforce modern CSS patterns.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| no-important | Disallow !important declarations | | Priority |
 | prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
 | relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
 | use-layers | Encourage @layer usage for cascade management | | Planned |
