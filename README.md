@@ -117,6 +117,7 @@ All rules enabled with strict settings. Best for new projects.
 
 - ✅ All rules as errors
 - ✅ Strictest configuration options
+- ✅ Includes optional @eslint/css rules (logical properties, relative units, layers)
 
 ### Complete Example
 
@@ -198,7 +199,10 @@ Rules that guide towards better code patterns and maintainability.
 | :--- | :--- | :--- |
 | [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
 | [no-important](./docs/rules/no-important.md) | Discourage use of !important | |
+| [prefer-logical-properties](./docs/rules/prefer-logical-properties.md) | Enforce the use of logical properties over physical properties | 🔧 |
 | [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
+| [relative-font-units](./docs/rules/relative-font-units.md) | Prefer relative units (rem/em) over absolute (px) for fonts | |
+| [use-layers](./docs/rules/use-layers.md) | Encourage use of @layer for better CSS architecture | |
 
 ### Stylistic Issues (Implemented)
 
@@ -234,9 +238,6 @@ Rules that enforce modern CSS patterns.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
-| relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
-| use-layers | Encourage @layer usage for cascade management | | Planned |
 
 ##### Tailwind v4 Compatibility
 

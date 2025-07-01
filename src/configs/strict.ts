@@ -19,12 +19,15 @@ export const strict: Linter.Config = {
       maxPerRule: 1,
     }],
     'tailwindcss/no-conflicting-utilities': 'error',
+    'tailwindcss/prefer-logical-properties': 'error',
     'tailwindcss/prefer-theme-tokens': ['error', {
       categories: ['colors', 'spacing', 'sizing', 'typography', 'borders', 'effects'],
     }],
+    'tailwindcss/relative-font-units': 'error',
     'tailwindcss/use-baseline': ['error', {
       strictness: 'newly',
     }],
+    'tailwindcss/use-layers': 'error',
     'tailwindcss/valid-apply-directive': ['error', {
       maxUtilities: 10,
       allowEmpty: false,
