@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@eslint/core':
-        specifier: ^0.14.0
-        version: 0.14.0
+        specifier: ^0.15.1
+        version: 0.15.1
       '@eslint/css-tree':
         specifier: ^3.6.1
         version: 3.6.1
