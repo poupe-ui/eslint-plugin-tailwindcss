@@ -59,6 +59,7 @@
     "publint": "publint"
   },
   "dependencies": {
+    "@eslint/core": "^0.14.0",
     "@eslint/css-tree": "^3.6.1"
   },
   "devDependencies": {

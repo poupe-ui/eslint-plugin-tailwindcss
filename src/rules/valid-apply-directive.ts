@@ -1,6 +1,6 @@
 import type { AtrulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { isAtRule } from '../utils/ast';
 import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind';
@@ -74,7 +74,26 @@ function isValidUtilityFormat(utility: string): boolean {
   return true;
 }
 
-export const validApplyDirective: CSSRuleModule = {
+// Define the rule options type
+type ValidApplyDirectiveOptions = [{
+  allowEmpty?: boolean
+  maxUtilities?: number
+}];
+
+// Define the message IDs
+type ValidApplyDirectiveMessageIds =
+  | 'emptyApply'
+  | 'tooManyUtilities'
+  | 'invalidUtility'
+  | 'cssPropertyInApply'
+  | 'nestedApply'
+  | 'applyInMediaQuery';
+
+// Define the rule with proper types
+export const validApplyDirective: CSSRuleDefinition<{
+  RuleOptions: ValidApplyDirectiveOptions
+  MessageIds: ValidApplyDirectiveMessageIds
+}> = {
   meta: {
     type: 'problem',
     docs: {

@@ -1,6 +1,6 @@
 import type { AtrulePlain, RulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 /**
  * Checks if a CSS block is empty (contains no children).
@@ -11,6 +11,12 @@ import type { CSSRuleModule } from '../types';
 function isEmptyBlock(block: AtrulePlain['block'] | RulePlain['block']) {
   return !block || !block.children || block.children.length === 0;
 }
+
+// Define the rule options type
+type NoEmptyBlocksOptions = [];
+
+// Define the message IDs
+type NoEmptyBlocksMessageIds = 'emptyBlock';
 
 /**
  * ESLint rule to disallow empty CSS blocks.
@@ -32,7 +38,10 @@ function isEmptyBlock(block: AtrulePlain['block'] | RulePlain['block']) {
  * }
  * ```
  */
-export const noEmptyBlocks: CSSRuleModule = {
+export const noEmptyBlocks: CSSRuleDefinition<{
+  RuleOptions: NoEmptyBlocksOptions
+  MessageIds: NoEmptyBlocksMessageIds
+}> = {
   meta: {
     type: 'suggestion',
     docs: {

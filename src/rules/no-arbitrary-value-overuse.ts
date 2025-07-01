@@ -1,6 +1,6 @@
 import type { AtrulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { isAtRule } from '../utils/ast';
 import {
@@ -65,7 +65,24 @@ function shouldSuggestToken(value: string, utility: string): boolean {
   return tokenPatterns.some(pattern => pattern.test(cleanValue));
 }
 
-export const noArbitraryValueOveruse: CSSRuleModule = {
+// Define the rule options type
+type NoArbitraryValueOveruseOptions = [{
+  maxPerFile?: number
+  maxPerRule?: number
+  allowedUtilities?: string[]
+}];
+
+// Define the message IDs
+type NoArbitraryValueOveruseMessageIds =
+  | 'tooManyArbitraryValues'
+  | 'tooManyArbitraryValuesInRule'
+  | 'considerThemeToken';
+
+// Define the rule with proper types
+export const noArbitraryValueOveruse: CSSRuleDefinition<{
+  RuleOptions: NoArbitraryValueOveruseOptions
+  MessageIds: NoArbitraryValueOveruseMessageIds
+}> = {
   meta: {
     type: 'suggestion',
     docs: {

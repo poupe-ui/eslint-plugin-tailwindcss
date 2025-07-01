@@ -1,4 +1,15 @@
-import type { ESLint } from 'eslint';
+/**
+ * Tailwind CSS plugin for ESLint
+ */
+
+// ------------------------------------------------------------------------------
+// Imports
+// ------------------------------------------------------------------------------
+
+import { CSSLanguage } from '@eslint/css';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { minimal, recommended, strict } from './configs';
 import {
@@ -13,15 +24,26 @@ import {
   validThemeFunction,
 } from './rules';
 
-const plugin: ESLint.Plugin = {
+// ------------------------------------------------------------------------------
+// Package Info
+// ------------------------------------------------------------------------------
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(
+  readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'),
+);
+
+// ------------------------------------------------------------------------------
+// Plugin
+// ------------------------------------------------------------------------------
+
+const plugin = {
   meta: {
-    name: '@poupe/eslint-plugin-tailwindcss',
-    version: '0.1.0',
+    name: pkg.name,
+    version: pkg.version,
   },
-  configs: {
-    minimal,
-    recommended,
-    strict,
+  languages: {
+    css: new CSSLanguage(),
   },
   rules: {
     'consistent-spacing': consistentSpacing,
@@ -34,11 +56,20 @@ const plugin: ESLint.Plugin = {
     'valid-modifier-syntax': validModifierSyntax,
     'valid-theme-function': validThemeFunction,
   },
-  processors: {},
+  configs: {
+    minimal,
+    recommended,
+    strict,
+  },
 };
 
 export default plugin;
 
-export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
+// Re-export types that users might need
 
+// Export our custom parser/syntax if needed
+export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
 export type { PluginOptions } from './types';
+
+export type { CSSLanguageOptions } from '@eslint/css';
+export { CSSSourceCode } from '@eslint/css';

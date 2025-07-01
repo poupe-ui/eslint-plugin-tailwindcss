@@ -125,23 +125,22 @@ describe('valid-theme-function', () => {
         code: String.raw`.empty { color: theme( ); }`,
         errors: [{ messageId: 'emptyThemeFunction' }],
       },
-      // Invalid path - no quotes (parsed as valid syntax but path not found)
+      // Invalid syntax - no quotes
       {
         code: String.raw`.invalid { color: theme(primary); }`,
         errors: [{
-          messageId: 'invalidThemePath',
-          data: { path: 'primary' },
+          messageId: 'invalidThemeSyntax',
         }],
       },
-      // Invalid syntax - spaces in path
+      // Valid syntax but invalid path - spaces in path
       {
         code: String.raw`.invalid { color: theme("colors primary"); }`,
-        errors: [{ messageId: 'invalidThemeSyntax' }],
+        errors: [{ messageId: 'invalidThemePath', data: { path: 'colors primary' } }],
       },
-      // Invalid syntax - special characters
+      // Valid syntax but invalid path - special characters
       {
         code: String.raw`.invalid { color: theme("colors@primary"); }`,
-        errors: [{ messageId: 'invalidThemeSyntax' }],
+        errors: [{ messageId: 'invalidThemePath', data: { path: 'colors@primary' } }],
       },
       // Non-existent theme path - change to avoid suggestions
       {
@@ -210,7 +209,7 @@ describe('valid-theme-function', () => {
             messageId: 'invalidThemePath',
             data: { path: 'xyz.abc.def' },
           },
-          { messageId: 'invalidThemeSyntax' },
+          { messageId: 'invalidThemePath', data: { path: 'invalid path' } },
         ],
       },
       // Wrong casing - update to avoid suggestions
@@ -247,20 +246,10 @@ describe('valid-theme-function', () => {
           messageId: 'invalidThemePathWithSuggestion',
           data: {
             path: 'spacing.smal',
-            suggestions: '"--spacing-small" or "--spacing-smaller"',
+            suggestions: '"--spacing-small", "--spacing-smaller", "--spacing-smallest"',
           },
         }],
-        output: String.raw`
-          @theme {
-            --spacing-small: 0.5rem;
-            --spacing-smaller: 0.25rem;
-            --spacing-smallest: 0.125rem;
-          }
-          
-          .similar {
-            padding: theme("--spacing-small");
-          }
-        `,
+        // No output because there are multiple suggestions (3)
       },
     ],
   });

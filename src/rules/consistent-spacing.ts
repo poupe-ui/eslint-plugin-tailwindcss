@@ -1,6 +1,6 @@
 import type { DeclarationPlain, StyleSheetPlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { isNodeType, walk } from '../utils/ast';
 
@@ -40,7 +40,25 @@ interface DeclarationInfo {
   valueStart: LocationInfo
 }
 
-export const consistentSpacing: CSSRuleModule = {
+// Define the rule options type
+type ConsistentSpacingOptions = [{
+  afterColon?: 'always' | 'never'
+  beforeColon?: 'always' | 'never'
+}];
+
+// Define the message IDs
+type ConsistentSpacingMessageIds =
+  | 'expectedSpaceAfterColon'
+  | 'unexpectedSpaceAfterColon'
+  | 'expectedSpaceBeforeColon'
+  | 'unexpectedSpaceBeforeColon'
+  | 'multipleSpacesAfterColon'
+  | 'multipleSpacesBeforeColon';
+
+export const consistentSpacing: CSSRuleDefinition<{
+  RuleOptions: ConsistentSpacingOptions
+  MessageIds: ConsistentSpacingMessageIds
+}> = {
   meta: {
     type: 'layout',
     docs: {

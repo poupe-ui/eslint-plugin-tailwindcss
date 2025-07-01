@@ -1,6 +1,6 @@
 import type { AtrulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { isAtRule } from '../utils/ast';
 import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind';
@@ -104,7 +104,25 @@ function validateParameterizedModifier(
   return { valid: true };
 }
 
-export const validModifierSyntax: CSSRuleModule = {
+// Define the rule options type
+type ValidModifierSyntaxOptions = [{
+  allowedModifiers?: string[]
+}];
+
+// Define the message IDs
+type ValidModifierSyntaxMessageIds =
+  | 'invalidModifier'
+  | 'emptyModifier'
+  | 'nestedBrackets'
+  | 'unclosedBracket'
+  | 'invalidCharacters'
+  | 'duplicateModifier';
+
+// Define the rule with proper types
+export const validModifierSyntax: CSSRuleDefinition<{
+  RuleOptions: ValidModifierSyntaxOptions
+  MessageIds: ValidModifierSyntaxMessageIds
+}> = {
   meta: {
     type: 'problem',
     docs: {
@@ -245,10 +263,10 @@ export const validModifierSyntax: CSSRuleModule = {
 
             // Validate the modifier
             const validation = validateModifier(modifier);
-            if (!validation.valid) {
+            if (!validation.valid && validation.messageId) {
               context.report({
                 node: node.prelude,
-                messageId: validation.messageId!,
+                messageId: validation.messageId as ValidModifierSyntaxMessageIds,
                 data: {
                   modifier,
                   reason: validation.reason || '',
