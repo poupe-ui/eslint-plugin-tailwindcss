@@ -8,7 +8,7 @@ export default defineBuildConfig({
       outDir: 'dist/configs',
     },
     {
-      input: 'src/parser/tailwind-v4-syntax',
+      input: 'src/parser/index',
       name: 'parser',
     },
   ],

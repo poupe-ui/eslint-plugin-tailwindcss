@@ -10,6 +10,9 @@ export const recommended: Linter.Config = {
   rules: {
     'tailwindcss/no-duplicate-imports': 'error',
     'tailwindcss/no-empty-blocks': 'error',
+    'tailwindcss/no-important': 'warn',
+    'tailwindcss/no-invalid-at-rules': 'error',
+    'tailwindcss/no-invalid-properties': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['warn', {
       maxPerFile: 10,
       maxPerRule: 3,
@@ -18,6 +21,7 @@ export const recommended: Linter.Config = {
     'tailwindcss/prefer-theme-tokens': ['warn', {
       categories: ['colors', 'spacing'],
     }],
+    'tailwindcss/use-baseline': 'error',
     'tailwindcss/valid-apply-directive': ['error', {
       maxUtilities: 20,
     }],

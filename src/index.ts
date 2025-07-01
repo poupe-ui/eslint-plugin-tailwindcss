@@ -18,7 +18,14 @@ import {
   noConflictingUtilities,
   noDuplicateImports,
   noEmptyBlocks,
+  noImportant,
+  noInvalidAtRules,
+  noInvalidProperties,
+  preferLogicalProperties,
   preferThemeTokens,
+  relativeFontUnits,
+  useBaseline,
+  useLayers,
   validApplyDirective,
   validModifierSyntax,
   validThemeFunction,
@@ -51,7 +58,14 @@ const plugin = {
     'no-conflicting-utilities': noConflictingUtilities,
     'no-duplicate-imports': noDuplicateImports,
     'no-empty-blocks': noEmptyBlocks,
+    'no-important': noImportant,
+    'no-invalid-at-rules': noInvalidAtRules,
+    'no-invalid-properties': noInvalidProperties,
+    'prefer-logical-properties': preferLogicalProperties,
     'prefer-theme-tokens': preferThemeTokens,
+    'relative-font-units': relativeFontUnits,
+    'use-baseline': useBaseline,
+    'use-layers': useLayers,
     'valid-apply-directive': validApplyDirective,
     'valid-modifier-syntax': validModifierSyntax,
     'valid-theme-function': validThemeFunction,
@@ -68,7 +82,7 @@ export default plugin;
 // Re-export types that users might need
 
 // Export our custom parser/syntax if needed
-export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
+export { tailwindV4Syntax } from './parser';
 export type { PluginOptions } from './types';
 
 export type { CSSLanguageOptions } from '@eslint/css';

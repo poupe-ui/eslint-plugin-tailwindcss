@@ -96,6 +96,11 @@ Basic syntax validation only. Good for existing projects.
 - ✅ `valid-theme-function`
 - ✅ `valid-modifier-syntax`
 - ✅ `valid-apply-directive`
+- ✅ `no-invalid-at-rules`
+- ✅ `no-invalid-properties`
+- ✅ `no-duplicate-imports`
+- ✅ `no-empty-blocks`
+- ✅ `no-important`
 
 ### `recommended` (Default)
 
@@ -112,6 +117,7 @@ All rules enabled with strict settings. Best for new projects.
 
 - ✅ All rules as errors
 - ✅ Strictest configuration options
+- ✅ Includes optional @eslint/css rules (logical properties, relative units, layers)
 
 ### Complete Example
 
@@ -178,6 +184,9 @@ Rules that catch potential bugs or invalid syntax.
 | [no-conflicting-utilities](./docs/rules/no-conflicting-utilities.md) | Detects conflicting Tailwind utilities that affect the same CSS properties | |
 | [no-duplicate-imports](./docs/rules/no-duplicate-imports.md) | Disallow duplicate @import rules | |
 | [no-empty-blocks](./docs/rules/no-empty-blocks.md) | Disallow empty rule blocks and at-rule blocks | |
+| [no-invalid-at-rules](./docs/rules/no-invalid-at-rules.md) | Disallow invalid at-rule names and syntax | |
+| [no-invalid-properties](./docs/rules/no-invalid-properties.md) | Disallow invalid CSS property names | |
+| [use-baseline](./docs/rules/use-baseline.md) | Enforce use of widely-supported CSS features | |
 | [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
 | [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |
 | [valid-theme-function](./docs/rules/valid-theme-function.md) | Validates usage of the `theme()` function in CSS files | 🔧 |
@@ -189,7 +198,11 @@ Rules that guide towards better code patterns and maintainability.
 | Rule | Description | 🔧 |
 | :--- | :--- | :--- |
 | [no-arbitrary-value-overuse](./docs/rules/no-arbitrary-value-overuse.md) | Warns when too many arbitrary values are used instead of theme tokens | |
+| [no-important](./docs/rules/no-important.md) | Discourage use of !important | |
+| [prefer-logical-properties](./docs/rules/prefer-logical-properties.md) | Enforce the use of logical properties over physical properties | 🔧 |
 | [prefer-theme-tokens](./docs/rules/prefer-theme-tokens.md) | Suggests using theme tokens instead of hard-coded values | |
+| [relative-font-units](./docs/rules/relative-font-units.md) | Prefer relative units (rem/em) over absolute (px) for fonts | |
+| [use-layers](./docs/rules/use-layers.md) | Encourage use of @layer for better CSS architecture | |
 
 ### Stylistic Issues (Implemented)
 
@@ -213,9 +226,9 @@ Rules that catch general CSS syntax errors and invalid constructs.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| no-invalid-properties | Disallow invalid CSS property names and values | | Priority |
-| no-invalid-at-rules | Disallow invalid at-rule names and syntax | | Planned |
-| no-invalid-named-grid-areas | Disallow malformed CSS Grid template areas | | Planned |
+| no-invalid-named-grid-areas | Disallow malformed CSS Grid template areas | | Priority |
+| no-unknown-pseudo-class | Detect invalid pseudo-classes | | Planned |
+| no-unknown-pseudo-element | Detect invalid pseudo-elements | | Planned |
 
 #### Best Practices (Planned)
 
@@ -225,11 +238,6 @@ Rules that enforce modern CSS patterns.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| use-baseline | Enforce widely supported CSS features based on browser compatibility | | Planned |
-| no-important | Disallow !important declarations | | Planned |
-| prefer-logical-properties | Prefer logical properties over physical for i18n | 🔧 | Planned |
-| relative-font-units | Prefer relative units (rem/em) over absolute (px) for a11y | 🔧 | Planned |
-| use-layers | Encourage @layer usage for cascade management | | Planned |
 
 ##### Tailwind v4 Compatibility
 

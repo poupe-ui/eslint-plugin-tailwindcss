@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-07-01
+
+### Added
+
+- New CSS parity rules for better alignment with @eslint/css:
+  - `no-invalid-properties` - Validates CSS property names
+  - `no-invalid-at-rules` - Validates CSS at-rule names
+  - `use-baseline` - Enforces use of widely-supported CSS features
+  - `no-important` - Discourages use of !important flags
+  - `prefer-logical-properties` - Wrapper for @eslint/css rule
+  - `relative-font-units` - Wrapper for @eslint/css rule
+  - `use-layers` - Wrapper for @eslint/css rule
+
 ## [0.2.0] - 2025-07-01
 
 ### Added
