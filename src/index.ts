@@ -72,7 +72,7 @@ export default plugin;
 // Re-export types that users might need
 
 // Export our custom parser/syntax if needed
-export { tailwindV4Syntax } from './parser/tailwind-v4-syntax';
+export { tailwindV4Syntax } from './parser';
 export type { PluginOptions } from './types';
 
 export type { CSSLanguageOptions } from '@eslint/css';
