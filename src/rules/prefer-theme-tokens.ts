@@ -1,6 +1,6 @@
 import type { DeclarationPlain, StyleSheetPlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { getNodeText } from '../utils/ast';
 import {
@@ -76,7 +76,22 @@ function getPropertyCategory(property: string): string | undefined {
   return propertyMappings[property] || undefined;
 }
 
-export const preferThemeTokens: CSSRuleModule = {
+// Define the rule options type
+type PreferThemeTokensOptions = [{
+  categories?: string[]
+  ignoreProperties?: string[]
+}];
+
+// Define the message IDs
+type PreferThemeTokensMessageIds =
+  | 'useThemeToken'
+  | 'useThemeTokenWithSuggestion';
+
+// Define the rule with proper types
+export const preferThemeTokens: CSSRuleDefinition<{
+  RuleOptions: PreferThemeTokensOptions
+  MessageIds: PreferThemeTokensMessageIds
+}> = {
   meta: {
     type: 'suggestion',
     docs: {

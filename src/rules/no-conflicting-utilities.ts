@@ -1,6 +1,6 @@
 import type { AtrulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { isAtRule } from '../utils/ast';
 import {
@@ -131,7 +131,21 @@ function findConflictingUtilities(utilities: string[]): Array<{
   return conflicts;
 }
 
-export const noConflictingUtilities: CSSRuleModule = {
+// Define the rule options type
+type NoConflictingUtilitiesOptions = [{
+  checkCustomProperties?: boolean
+}];
+
+// Define the message IDs
+type NoConflictingUtilitiesMessageIds =
+  | 'conflictingUtilities'
+  | 'duplicateUtility';
+
+// Define the rule with proper types
+export const noConflictingUtilities: CSSRuleDefinition<{
+  RuleOptions: NoConflictingUtilitiesOptions
+  MessageIds: NoConflictingUtilitiesMessageIds
+}> = {
   meta: {
     type: 'problem',
     docs: {
@@ -160,6 +174,7 @@ export const noConflictingUtilities: CSSRuleModule = {
   },
 
   create(context) {
+    // Options available for future use
     // const options = context.options[0] || {};
     // const checkCustomProperties = options.checkCustomProperties || false;
 

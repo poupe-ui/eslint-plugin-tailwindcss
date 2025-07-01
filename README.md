@@ -11,6 +11,12 @@ ESLint plugin for Tailwind CSS v4 with advanced linting rules.
 - 🎨 **Theme-aware** - Encourages consistent use of design tokens
 - ⚡ **Performance** - Optimized for large codebases
 
+## Requirements
+
+- ESLint 9.0 or higher
+- Node.js 18.0 or higher
+- Flat config format (eslint.config.js)
+
 ## Installation
 
 ```bash
@@ -30,18 +36,18 @@ yarn add -D @poupe/eslint-plugin-tailwindcss @eslint/css
 
 ### Basic Setup
 
-Add the plugin to your ESLint flat configuration:
+Create an `eslint.config.mjs` file with TypeScript type checking:
 
 ```js
 // @ts-check
-// eslint.config.mjs
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
   {
     files: ['**/*.css'],
+    language: 'css/css', // Required
     plugins: {
-      tailwindcss: tailwindcss,
+      tailwindcss,
     },
     rules: {
       'tailwindcss/valid-theme-function': 'error',
@@ -57,22 +63,25 @@ export default [
 
 ### Using Preset Configurations
 
-For easier setup, use one of the preset configurations:
+Use preset configurations for a quick start:
 
 ```js
 // @ts-check
-// eslint.config.mjs
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
-  // Use recommended settings
-  tailwindcss.configs.recommended,
-
-  // Or override specific rules
   {
     files: ['**/*.css'],
+    language: 'css/css',
+    plugins: {
+      tailwindcss,
+    },
     rules: {
-      'tailwindcss/no-arbitrary-value-overuse': 'error', // Upgrade to error
+      // Use recommended settings
+      ...tailwindcss.configs.recommended.rules,
+
+      // Override specific rules if needed
+      'tailwindcss/no-arbitrary-value-overuse': 'error',
     },
   },
 ];
@@ -103,6 +112,58 @@ All rules enabled with strict settings. Best for new projects.
 
 - ✅ All rules as errors
 - ✅ Strictest configuration options
+
+### Complete Example
+
+Here's a comprehensive `eslint.config.mjs` with TypeScript support:
+
+```js
+// @ts-check
+import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import css from '@eslint/css';
+import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
+
+export default [
+  // JavaScript/TypeScript files
+  {
+    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': typescript,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...typescript.configs.recommended.rules,
+    },
+  },
+
+  // CSS files with Tailwind CSS support
+  {
+    files: ['**/*.css'],
+    language: 'css/css',
+    plugins: {
+      css,
+      tailwindcss,
+    },
+    rules: {
+      // @eslint/css rules
+      'css/no-duplicate-imports': 'error',
+      'css/no-empty-blocks': 'error',
+
+      // Tailwind CSS specific rules
+      ...tailwindcss.configs.recommended.rules,
+    },
+  },
+];
+```
 
 ## Rules
 

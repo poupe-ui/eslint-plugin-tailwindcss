@@ -1,6 +1,6 @@
 {
   "name": "@poupe/eslint-plugin-tailwindcss",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "type": "module",
   "description": "ESLint plugin for Tailwind CSS v4 with advanced linting rules",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -59,6 +59,7 @@
     "publint": "publint"
   },
   "dependencies": {
+    "@eslint/core": "^0.14.0",
     "@eslint/css-tree": "^3.6.1"
   },
   "devDependencies": {

@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-07-01
+
+### Added
+
+- Direct dependency on `@eslint/core` for modern ESLint architecture
+- Full compatibility with @eslint/css rules and ecosystem
+- Language support with `CSSLanguage` from @eslint/css
+
+### Changed
+
+- **BREAKING**: Migrated to @eslint/core architecture
+- **BREAKING**: Now requires ESLint 9.0+ and flat config format
+- **BREAKING**: Configuration must include `language: 'css/css'` field
+- Plugin now dynamically reads name and version from package.json
+- All rules migrated to use `CSSRuleDefinition` type from @eslint/core
+- Updated all documentation to use `eslint.config.mjs` with TypeScript checks
+- Improved TypeScript type safety throughout the codebase
+- Updated dependencies: eslint to ^9.30.0, unbuild to ^3.5.0
+
+### Removed
+
+- Support for legacy ESLint configuration format (.eslintrc)
+- Migration-related type exports that were for backward compatibility
+
 ## [0.1.5] - 2025-06-30
 
 ### Added

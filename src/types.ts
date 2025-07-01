@@ -1,19 +1,73 @@
-import type { CSSSourceCode } from '@eslint/css';
-import type { Rule } from 'eslint';
+/**
+ * Type definitions for `@poupe/eslint-plugin-tailwindcss`
+ */
+
+// ------------------------------------------------------------------------------
+// Imports
+// ------------------------------------------------------------------------------
+
+import type { RuleDefinition, RuleVisitor } from '@eslint/core';
+import type { CSSLanguageOptions, CSSSourceCode } from '@eslint/css';
+import type { CssNodeNames, CssNodePlain } from '@eslint/css-tree';
+
+// ------------------------------------------------------------------------------
+// Helpers
+// ------------------------------------------------------------------------------
+
+/** Adds matching `:exit` selectors for all properties of a `RuleVisitor`. */
+type WithExit<RuleVisitorType extends RuleVisitor> = {
+  [Key in keyof RuleVisitorType as
+  | Key
+  | `${Key & string}:exit`]: RuleVisitorType[Key];
+};
+
+// ------------------------------------------------------------------------------
+// Types
+// ------------------------------------------------------------------------------
 
 /**
- * Rule context type for CSS rules
+ * A CSS syntax element, including nodes and comments.
  */
-export type CSSRuleContext = Rule.RuleContext & {
-  sourceCode: CSSSourceCode
+export type CSSSyntaxElement = CssNodePlain;
+
+type CSSNodeVisitor = {
+  [Type in CssNodeNames]: (
+    node: Extract<CssNodePlain, { type: Type }>,
+  ) => void;
 };
 
 /**
- * CSS rule module type
+ * A visitor for CSS nodes.
  */
-export interface CSSRuleModule extends Rule.RuleModule {
-  create(context: CSSRuleContext): Rule.RuleListener
-}
+export interface CSSRuleVisitor
+  extends RuleVisitor,
+  Partial<WithExit<CSSNodeVisitor>> {}
+
+export type CSSRuleDefinitionTypeOptions = {
+  RuleOptions: unknown[]
+  MessageIds: string
+  ExtRuleDocs: Record<string, unknown>
+};
+
+/**
+ * A rule definition for CSS.
+ */
+export type CSSRuleDefinition<
+  Options extends Partial<CSSRuleDefinitionTypeOptions> = object,
+> = RuleDefinition<
+  // Language specific type options (non-configurable)
+  {
+    LangOptions: CSSLanguageOptions
+    Code: CSSSourceCode
+    Visitor: CSSRuleVisitor
+    Node: CssNodePlain
+  } & Required<
+    // Rule specific type options (custom)
+    Options &
+      // Rule specific type options (defaults)
+    Omit<CSSRuleDefinitionTypeOptions, keyof Options>
+  >
+>;
 
 /**
  * Plugin configuration options

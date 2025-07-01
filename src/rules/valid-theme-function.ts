@@ -1,6 +1,6 @@
 import type { FunctionNodePlain, StyleSheetPlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
 
 import { getNodeText, isNodeType, walk } from '../utils/ast';
 import {
@@ -10,7 +10,23 @@ import {
   type ThemeValue,
 } from '../utils/theme';
 
-export const validThemeFunction: CSSRuleModule = {
+// Define the rule options type
+type ValidThemeFunctionOptions = [{
+  checkPaths?: boolean
+}];
+
+// Define the message IDs
+type ValidThemeFunctionMessageIds =
+  | 'invalidThemePath'
+  | 'invalidThemePathWithSuggestion'
+  | 'emptyThemeFunction'
+  | 'invalidThemeSyntax';
+
+// Define the rule with proper types
+export const validThemeFunction: CSSRuleDefinition<{
+  RuleOptions: ValidThemeFunctionOptions
+  MessageIds: ValidThemeFunctionMessageIds
+}> = {
   meta: {
     type: 'problem',
     docs: {
@@ -60,13 +76,10 @@ export const validThemeFunction: CSSRuleModule = {
       },
     };
 
-    function validateThemeFunction(
-      node: FunctionNodePlain,
-      themeValues: Map<string, ThemeValue>,
-    ) {
-      const sourceCode = context.sourceCode;
+    function validateThemeFunction(node: FunctionNodePlain, themeValues: Map<string, ThemeValue>) {
+      const functionText = getNodeText(node, context.sourceCode);
 
-      // Check if function has children (arguments)
+      // Check for empty theme function
       if (!node.children || node.children.length === 0) {
         context.report({
           node,
@@ -75,30 +88,30 @@ export const validThemeFunction: CSSRuleModule = {
         return;
       }
 
-      // Get the argument text
-      const argumentText = getNodeText(node.children[0], sourceCode).trim();
-
-      // Remove quotes if present
-      const path = argumentText.replaceAll(/^['"]|['"]$/g, '');
-
-      // Check if it's a valid path format
-      if (!path || path.includes(' ') || !/^[\w.-]+$/.test(path)) {
-        context.report({
-          node,
-          messageId: 'invalidThemeSyntax',
-        });
+      // Extract the path from theme function
+      const pathMatch = functionText.match(/theme\s*\(\s*["']([^"']+)["']\s*\)/);
+      if (!pathMatch) {
+        // Check if it's a syntax error (missing quotes, etc.)
+        if (functionText.includes('(') && functionText.includes(')')) {
+          context.report({
+            node,
+            messageId: 'invalidThemeSyntax',
+          });
+        }
         return;
       }
 
-      // Check if the theme path exists
-      if (!isValidThemePath(path, themeValues)) {
+      const path = pathMatch[1];
+      const isValid = isValidThemePath(path, themeValues);
+
+      if (!isValid) {
         const suggestions = suggestSimilarTokens(path, themeValues);
 
         if (suggestions.length > 0) {
           const suggestionText = suggestions
-            .slice(0, 2)
+            .slice(0, 3)
             .map(s => `"${s}"`)
-            .join(' or ');
+            .join(', ');
 
           context.report({
             node,
@@ -108,10 +121,15 @@ export const validThemeFunction: CSSRuleModule = {
               suggestions: suggestionText,
             },
             fix(fixer) {
-              // Suggest the most likely match as a fix
-              const bestMatch = suggestions[0];
-              const newText = `theme("${bestMatch}")`;
-              return fixer.replaceText(node, newText);
+              // Auto-fix to the first suggestion if there's only one
+              if (suggestions.length === 1) {
+                const newText = functionText.replace(
+                  /theme\s*\(\s*["'][^"']+["']\s*\)/,
+                  `theme("${suggestions[0]}")`,
+                );
+                return fixer.replaceText(node, newText);
+              }
+              return null; // eslint-disable-line unicorn/no-null
             },
           });
         } else {

@@ -1,6 +1,12 @@
 import type { AtrulePlain } from '@eslint/css-tree';
 
-import type { CSSRuleModule } from '../types';
+import type { CSSRuleDefinition } from '../types';
+
+// Define the rule options type
+type NoDuplicateImportsOptions = [];
+
+// Define the message IDs
+type NoDuplicateImportsMessageIds = 'duplicateImport';
 
 /**
  * ESLint rule to disallow duplicate `@import` rules in CSS files.
@@ -19,7 +25,10 @@ import type { CSSRuleModule } from '../types';
  * @import "styles.css";
  * ```
  */
-export const noDuplicateImports: CSSRuleModule = {
+export const noDuplicateImports: CSSRuleDefinition<{
+  RuleOptions: NoDuplicateImportsOptions
+  MessageIds: NoDuplicateImportsMessageIds
+}> = {
   meta: {
     type: 'problem',
     docs: {
