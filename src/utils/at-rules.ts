@@ -5,7 +5,7 @@
 
 /* eslint-disable unicorn/no-null -- Required to match @eslint/css-tree types */
 
-import type { AtRuleSyntax } from './types';
+import type { AtRuleSyntax, StringWithDistance } from './types';
 
 /**
  * Configuration for Tailwind v4 at-rules with their syntax
@@ -287,11 +287,13 @@ function findSimilarStrings(
   candidates: string[],
   maxDistance: number,
 ): string[] {
-  return candidates
+  const candidatesWithDistance: StringWithDistance[] = candidates
     .map(candidate => ({
       value: candidate,
       distance: levenshteinDistance(input.toLowerCase(), candidate.toLowerCase()),
-    }))
+    }));
+
+  return candidatesWithDistance
     .filter(item => item.distance <= maxDistance && item.distance > 0)
     .sort((a, b) => a.distance - b.distance)
     .map(item => item.value);

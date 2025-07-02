@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Refactored inline object type definitions to named interfaces for better code organization:
+  - Added `ModifierValidationResult` interface for modifier validation
+  - Added `ThemeTokenSuggestion` interface for theme token suggestions
+  - Added `StringWithDistance` interface for similarity calculations
+  - Added `TokenSuggestion` interface for token scoring
+
 ## [0.2.1] - 2025-07-01
 
 ### Added

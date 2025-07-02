@@ -12,6 +12,14 @@ export interface ThemeValue {
 }
 
 /**
+ * Represents a theme token with similarity score
+ */
+interface TokenSuggestion {
+  token: string
+  score: number
+}
+
+/**
  * Extract theme values from the CSS AST
  */
 export function extractThemeValues(ast: StyleSheetPlain, sourceText: string): Map<string, ThemeValue> {
@@ -174,7 +182,7 @@ export function suggestSimilarTokens(
   maxSuggestions: number = 3,
 ): string[] {
   const normalizedPath = path.toLowerCase().replaceAll(/[.-]/g, '');
-  const suggestions: Array<{ token: string; score: number }> = [];
+  const suggestions: TokenSuggestion[] = [];
 
   for (const [token] of themeValues) {
     const normalizedToken = token.toLowerCase().replaceAll(/[.-]/g, '');

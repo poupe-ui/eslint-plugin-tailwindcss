@@ -11,11 +11,7 @@ import { extractUtilitiesFromApply, parseUtilityClass } from '../utils/tailwind'
  * @param modifier - The full modifier string including brackets
  * @returns Validation result with error details if invalid
  */
-function validateArbitraryModifier(modifier: string): {
-  valid: boolean
-  messageId?: string
-  reason?: string
-} {
+function validateArbitraryModifier(modifier: string): ModifierValidationResult {
   const content = modifier.slice(1, -1);
 
   // Check for nested brackets - simple check for double brackets
@@ -61,6 +57,16 @@ function validateArbitraryModifier(modifier: string): {
 }
 
 /**
+ * Result of validating a modifier
+ */
+interface ModifierValidationResult {
+  valid: boolean
+  messageId?: string
+  reason?: string
+  fix?: string
+}
+
+/**
  * Validates parameterized modifiers (e.g., nth-child(3), nth-last-of-type(2n+1))
  *
  * @param name - The modifier name (e.g., 'nth-child')
@@ -70,11 +76,7 @@ function validateArbitraryModifier(modifier: string): {
 function validateParameterizedModifier(
   name: string,
   param: string,
-): {
-    valid: boolean
-    messageId?: string
-    reason?: string
-  } {
+): ModifierValidationResult {
   const validParameterized = [
     'nth-child',
     'nth-last-child',
@@ -290,12 +292,7 @@ export const validModifierSyntax: CSSRuleDefinition<{
       },
     };
 
-    function validateModifier(modifier: string): {
-      valid: boolean
-      messageId?: string
-      reason?: string
-      fix?: string
-    } {
+    function validateModifier(modifier: string): ModifierValidationResult {
       // Check for empty modifier
       if (modifier === '') {
         return {

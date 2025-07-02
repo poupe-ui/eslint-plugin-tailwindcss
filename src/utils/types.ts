@@ -9,3 +9,12 @@ import type { SyntaxConfig } from '@eslint/css-tree';
 export type AtRuleSyntax = NonNullable<SyntaxConfig['atrules']>[string];
 
 export { type SyntaxConfig } from '@eslint/css-tree';
+
+/**
+ * Represents a string value with its distance score
+ * Used for similarity calculations
+ */
+export interface StringWithDistance {
+  value: string
+  distance: number
+}
