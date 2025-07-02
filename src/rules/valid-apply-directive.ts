@@ -82,12 +82,12 @@ type ValidApplyDirectiveOptions = [{
 
 // Define the message IDs
 type ValidApplyDirectiveMessageIds =
-  | 'emptyApply'
-  | 'tooManyUtilities'
-  | 'invalidUtility'
-  | 'cssPropertyInApply'
-  | 'nestedApply'
-  | 'applyInMediaQuery';
+  'applyInMediaQuery' |
+  'cssPropertyInApply' |
+  'emptyApply' |
+  'invalidUtility' |
+  'nestedApply' |
+  'tooManyUtilities';
 
 // Define the rule with proper types
 export const validApplyDirective: CSSRuleDefinition<{

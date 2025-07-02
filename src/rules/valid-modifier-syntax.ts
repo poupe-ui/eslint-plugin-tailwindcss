@@ -113,12 +113,12 @@ type ValidModifierSyntaxOptions = [{
 
 // Define the message IDs
 type ValidModifierSyntaxMessageIds =
-  | 'invalidModifier'
-  | 'emptyModifier'
-  | 'nestedBrackets'
-  | 'unclosedBracket'
-  | 'invalidCharacters'
-  | 'duplicateModifier';
+  'duplicateModifier' |
+  'emptyModifier' |
+  'invalidCharacters' |
+  'invalidModifier' |
+  'nestedBrackets' |
+  'unclosedBracket';
 
 // Define the rule with proper types
 export const validModifierSyntax: CSSRuleDefinition<{
@@ -273,8 +273,8 @@ export const validModifierSyntax: CSSRuleDefinition<{
                   modifier,
                   reason: validation.reason || '',
                 },
-                fix: validation.fix
-                  ? (fixer) => {
+                fix: validation.fix ?
+                  (fixer) => {
                     const newUtility = utility.replace(
                       modifier + ':',
                       validation.fix + ':',
@@ -283,8 +283,8 @@ export const validModifierSyntax: CSSRuleDefinition<{
                       .map(u => (u === utility ? newUtility : u))
                       .join(' ');
                     return fixer.replaceText(node.prelude!, newPrelude);
-                  }
-                  : undefined,
+                  } :
+                  undefined,
               });
             }
           }
@@ -333,8 +333,8 @@ export const validModifierSyntax: CSSRuleDefinition<{
           const [prefix, suffix] = parts;
           // Handle group-* and peer-* modifiers
           if (
-            (prefix === 'group' || prefix === 'peer')
-            && builtInModifiers.has(suffix)
+            (prefix === 'group' || prefix === 'peer') &&
+            builtInModifiers.has(suffix)
           ) {
             return { valid: true };
           }

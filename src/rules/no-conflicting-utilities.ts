@@ -76,9 +76,9 @@ function groupUtilitiesByProperty(
 
     // Find matching property
     for (const { pattern, property } of propertyMappings) {
-      const matches = typeof pattern === 'string'
-        ? baseUtility === pattern
-        : pattern.test(baseUtility);
+      const matches = typeof pattern === 'string' ?
+        baseUtility === pattern :
+        pattern.test(baseUtility);
 
       if (matches) {
         if (!groups[property]) {
@@ -138,8 +138,8 @@ type NoConflictingUtilitiesOptions = [{
 
 // Define the message IDs
 type NoConflictingUtilitiesMessageIds =
-  | 'conflictingUtilities'
-  | 'duplicateUtility';
+  'conflictingUtilities' |
+  'duplicateUtility';
 
 // Define the rule with proper types
 export const noConflictingUtilities: CSSRuleDefinition<{

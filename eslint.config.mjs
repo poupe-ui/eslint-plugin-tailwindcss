@@ -7,6 +7,9 @@ export default defineConfig({
     perfectionist,
   },
   rules: {
+    '@stylistic/operator-linebreak': ['error', 'after', {
+      overrides: {},
+    }],
     'perfectionist/sort-imports': [
       'error',
       {

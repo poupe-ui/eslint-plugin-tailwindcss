@@ -92,8 +92,8 @@ type PreferThemeTokensOptions = [{
 
 // Define the message IDs
 type PreferThemeTokensMessageIds =
-  | 'useThemeToken'
-  | 'useThemeTokenWithSuggestion';
+  'useThemeToken' |
+  'useThemeTokenWithSuggestion';
 
 // Define the rule with proper types
 export const preferThemeTokens: CSSRuleDefinition<{
@@ -232,8 +232,8 @@ export const preferThemeTokens: CSSRuleDefinition<{
     ): string | undefined {
       // Look for exact matches in theme values
       for (const [token, themeValue] of themeValues) {
-        if (getThemeCategory(token) === category // Simple comparison - in real implementation would need better matching
-          && themeValue.value === value) {
+        if (getThemeCategory(token) === category && // Simple comparison - in real implementation would need better matching
+          themeValue.value === value) {
           // Convert CSS variable to dot notation
           // e.g., "--color-primary" -> "colors.primary"
           return token

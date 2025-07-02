@@ -12,10 +12,10 @@ type NoInvalidAtRulesOptions = [{
 
 // Define the message IDs
 type NoInvalidAtRulesMessageIds =
-  | 'invalidAtRule'
-  | 'invalidAtRuleWithSuggestion'
-  | 'unexpectedBlock'
-  | 'missingBlock';
+  'invalidAtRule' |
+  'invalidAtRuleWithSuggestion' |
+  'missingBlock' |
+  'unexpectedBlock';
 
 /**
  * Rule to disallow invalid at-rule names and validate their structure

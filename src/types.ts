@@ -17,8 +17,8 @@ import type { CssNodeNames, CssNodePlain } from '@eslint/css-tree';
 /** Adds matching `:exit` selectors for all properties of a `RuleVisitor`. */
 type WithExit<RuleVisitorType extends RuleVisitor> = {
   [Key in keyof RuleVisitorType as
-  | Key
-  | `${Key & string}:exit`]: RuleVisitorType[Key];
+  Key |
+  `${Key & string}:exit`]: RuleVisitorType[Key];
 };
 
 // ------------------------------------------------------------------------------

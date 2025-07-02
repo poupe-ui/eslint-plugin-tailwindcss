@@ -20,9 +20,9 @@ type UseBaselineRuleOptions = [UseBaselineOptions];
 
 // Define the message IDs
 type UseBaselineMessageIds =
-  | 'limitedAvailability'
-  | 'newlyAvailable'
-  | 'vendorPrefix';
+  'limitedAvailability' |
+  'newlyAvailable' |
+  'vendorPrefix';
 
 /**
  * Rule to enforce use of baseline (widely supported) CSS features
@@ -93,14 +93,14 @@ export const useBaseline: CSSRuleDefinition<{
       type: string,
       actualName: string,
     ) {
-      const isVendorPrefixed = actualName.startsWith('-webkit-')
-        || actualName.startsWith('-moz-')
-        || actualName.startsWith('-ms-')
-        || actualName.startsWith('-o-');
+      const isVendorPrefixed = actualName.startsWith('-webkit-') ||
+        actualName.startsWith('-moz-') ||
+        actualName.startsWith('-ms-') ||
+        actualName.startsWith('-o-');
 
-      const suggestion = feature.alternativeSuggestion
-        ? ` ${feature.alternativeSuggestion}`
-        : '';
+      const suggestion = feature.alternativeSuggestion ?
+        ` ${feature.alternativeSuggestion}` :
+        '';
 
       context.report({
         node,
