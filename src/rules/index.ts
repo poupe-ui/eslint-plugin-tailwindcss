@@ -5,6 +5,7 @@ export { noDuplicateImports } from './no-duplicate-imports';
 export { noEmptyBlocks } from './no-empty-blocks';
 export { noImportant } from './no-important';
 export { noInvalidAtRules } from './no-invalid-at-rules';
+export { noInvalidNamedGridAreas } from './no-invalid-named-grid-areas';
 export { noInvalidProperties } from './no-invalid-properties';
 export { preferLogicalProperties } from './prefer-logical-properties';
 export { preferThemeTokens } from './prefer-theme-tokens';
