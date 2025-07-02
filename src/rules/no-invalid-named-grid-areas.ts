@@ -57,21 +57,20 @@ function findNonRectangularAreas(grid: string[][]): GridAreaError[] {
     });
 
     for (let i = 0; i < indicesByRow.length; i++) {
-      for (let index = i + 1; index < indicesByRow.length; index++) {
+      for (let j = i + 1; j < indicesByRow.length; j++) {
         const row1 = indicesByRow[i];
-        const row2 = indicesByRow[index];
+        const row2 = indicesByRow[j];
 
         if (row1.length === 0 || row2.length === 0) {
           continue;
         }
 
-        if (
-          row1.length !== row2.length ||
-          !row1.every((value, index_) => value === row2[index_])
+        if (row1.length !== row2.length ||
+          !row1.every((value, k) => value === row2[k])
         ) {
-          const key = `${name}|${index}`;
+          const key = `${name}|${j}`;
           if (!reported.has(key)) {
-            errors.push({ name, row: index });
+            errors.push({ name, row: j });
             reported.add(key);
           }
         }
@@ -114,11 +113,9 @@ export const noInvalidNamedGridAreas: CSSRuleDefinition<{
             const declaration = child as DeclarationPlain;
             const propName = declaration.property.toLowerCase();
 
-            if (
-              validProps.has(propName) &&
+            if (validProps.has(propName) &&
               declaration.value &&
-              isNodeType(declaration.value, 'Value')
-            ) {
+              isNodeType(declaration.value, 'Value')) {
               const value = declaration.value as ValuePlain;
               const stringNodes = value.children.filter(
                 child => isNodeType(child, 'String'),
@@ -152,24 +149,29 @@ export const noInvalidNamedGridAreas: CSSRuleDefinition<{
                 }
               }
 
+              // Report empty grid areas first (higher priority)
               if (emptyNodes.length > 0) {
-                for (const emptyNode of emptyNodes) context.report({
-                  node: emptyNode,
-                  messageId: 'emptyGridArea',
-                })
-                ;
+                for (const emptyNode of emptyNodes) {
+                  context.report({
+                    node: emptyNode,
+                    messageId: 'emptyGridArea',
+                  });
+                }
                 return;
               }
 
+              // Report uneven grid areas second
               if (unevenNodes.length > 0) {
-                for (const unevenNode of unevenNodes) context.report({
-                  node: unevenNode,
-                  messageId: 'unevenGridArea',
-                })
-                ;
+                for (const unevenNode of unevenNodes) {
+                  context.report({
+                    node: unevenNode,
+                    messageId: 'unevenGridArea',
+                  });
+                }
                 return;
               }
 
+              // Report non-rectangular areas last (lowest priority)
               const nonRectErrors = findNonRectangularAreas(grid);
               for (const { name, row } of nonRectErrors) {
                 const stringNode = stringNodes[row];
