@@ -3,17 +3,19 @@
   "extends": [
     "config:recommended"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "postUpdateOptions": [
     "pnpmDedupe"
   ],
   "packageRules": [
     {
       "groupName": "eslint",
-      "matchPackagePatterns": [
-        "^eslint$",
-        "^@eslint/",
-        "^@types/eslint"
+      "matchPackageNames": [
+        "/^eslint$/",
+        "/^@eslint//",
+        "/^@types/eslint/"
       ]
     }
   ]
