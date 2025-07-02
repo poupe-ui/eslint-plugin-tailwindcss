@@ -48,12 +48,12 @@ type ConsistentSpacingOptions = [{
 
 // Define the message IDs
 type ConsistentSpacingMessageIds =
-  | 'expectedSpaceAfterColon'
-  | 'unexpectedSpaceAfterColon'
-  | 'expectedSpaceBeforeColon'
-  | 'unexpectedSpaceBeforeColon'
-  | 'multipleSpacesAfterColon'
-  | 'multipleSpacesBeforeColon';
+  'expectedSpaceAfterColon' |
+  'expectedSpaceBeforeColon' |
+  'multipleSpacesAfterColon' |
+  'multipleSpacesBeforeColon' |
+  'unexpectedSpaceAfterColon' |
+  'unexpectedSpaceBeforeColon';
 
 export const consistentSpacing: CSSRuleDefinition<{
   RuleOptions: ConsistentSpacingOptions

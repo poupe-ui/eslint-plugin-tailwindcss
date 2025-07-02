@@ -1,0 +1,27 @@
+name: Build
+on:
+  push:
+    branches-ignore:
+      - '**-wip'
+  pull_request:
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    # Pull requests from the same repository won't trigger this checks as they were already triggered by the push
+    if: (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: build
+        run: pnpm build
+      - name: publish
+        run: pnpm pkg-pr-new publish --package-manager=pnpm --pnpm

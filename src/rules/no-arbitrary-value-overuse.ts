@@ -74,9 +74,9 @@ type NoArbitraryValueOveruseOptions = [{
 
 // Define the message IDs
 type NoArbitraryValueOveruseMessageIds =
-  | 'tooManyArbitraryValues'
-  | 'tooManyArbitraryValuesInRule'
-  | 'considerThemeToken';
+  'considerThemeToken' |
+  'tooManyArbitraryValues' |
+  'tooManyArbitraryValuesInRule';
 
 // Define the rule with proper types
 export const noArbitraryValueOveruse: CSSRuleDefinition<{
@@ -208,8 +208,8 @@ export const noArbitraryValueOveruse: CSSRuleDefinition<{
 
       'StyleSheet:exit'() {
         // Check file-level limit
-        if (fileArbitraryCount > maxPerFile // Report on the first arbitrary value found
-          && arbitraryValues.length > 0) {
+        if (fileArbitraryCount > maxPerFile && // Report on the first arbitrary value found
+          arbitraryValues.length > 0) {
           context.report({
             node: arbitraryValues[0].node,
             messageId: 'tooManyArbitraryValues',

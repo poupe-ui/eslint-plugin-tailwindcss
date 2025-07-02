@@ -17,10 +17,10 @@ type ValidThemeFunctionOptions = [{
 
 // Define the message IDs
 type ValidThemeFunctionMessageIds =
-  | 'invalidThemePath'
-  | 'invalidThemePathWithSuggestion'
-  | 'emptyThemeFunction'
-  | 'invalidThemeSyntax';
+  'emptyThemeFunction' |
+  'invalidThemePath' |
+  'invalidThemePathWithSuggestion' |
+  'invalidThemeSyntax';
 
 // Define the rule with proper types
 export const validThemeFunction: CSSRuleDefinition<{

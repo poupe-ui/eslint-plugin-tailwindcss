@@ -230,9 +230,9 @@ function levenshteinDistance(string1: string, string2: string): number {
 
   for (let i = 1; i <= string2.length; i++) {
     for (let index = 1; index <= string1.length; index++) {
-      matrix[i][index] = string2[i - 1] === string1[index - 1]
-        ? matrix[i - 1][index - 1]
-        : Math.min(
+      matrix[i][index] = string2[i - 1] === string1[index - 1] ?
+        matrix[i - 1][index - 1] :
+        Math.min(
           matrix[i - 1][index - 1] + 1,
           matrix[i][index - 1] + 1,
           matrix[i - 1][index] + 1,

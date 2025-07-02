@@ -12,8 +12,8 @@ type NoInvalidPropertiesOptions = [{
 
 // Define the message IDs
 type NoInvalidPropertiesMessageIds =
-  | 'invalidProperty'
-  | 'invalidPropertyWithSuggestion';
+  'invalidProperty' |
+  'invalidPropertyWithSuggestion';
 
 // Define the rule with proper types
 export const noInvalidProperties: CSSRuleDefinition<{

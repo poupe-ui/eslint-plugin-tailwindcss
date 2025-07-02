@@ -7,5 +7,14 @@
   "postUpdateOptions": [
     "pnpmDedupe"
   ],
-  "rangeStrategy": "bump"
+  "packageRules": [
+    {
+      "groupName": "eslint",
+      "matchPackagePatterns": [
+        "^eslint$",
+        "^@eslint/",
+        "^@types/eslint"
+      ]
+    }
+  ]
 }
