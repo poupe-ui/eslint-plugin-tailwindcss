@@ -113,9 +113,9 @@ function findConflictingUtilities(utilities: string[]): Array<{
 
     // Check each pair of utilities
     for (let i = 0; i < utils.length - 1; i++) {
-      for (let index = i + 1; index < utils.length; index++) {
+      for (let j = i + 1; j < utils.length; j++) {
         const utility1 = utils[i];
-        const utility2 = utils[index];
+        const utility2 = utils[j];
 
         if (doUtilitiesConflict(utility1, utility2)) {
           conflicts.push({

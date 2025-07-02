@@ -74,6 +74,24 @@ describe('no-invalid-named-grid-areas', () => {
       // Valid dot tokens (empty cells)
       { code: '.grid { grid-template-areas: ". a a" "b b ."; }' },
       { code: '.grid { grid-template-areas: "... a a" "b b ..."; }' },
+
+      // grid shorthand property
+      {
+        code: String.raw`.grid {
+          grid:
+            "a a a" 40px
+            "b c c" 40px
+            "b c c" 40px / 1fr 1fr 1fr;
+        }`,
+      },
+      {
+        code: String.raw`.grid {
+          grid:
+            ". header header ." minmax(5rem, 1fr)
+            "sidebar main main ." 1fr
+            ". footer footer ." minmax(5rem, 1fr) / 1fr 1fr 1fr 1fr;
+        }`,
+      },
     ],
 
     invalid: [
@@ -285,6 +303,61 @@ describe('no-invalid-named-grid-areas', () => {
             column: 13,
             endLine: 5,
             endColumn: 25,
+          },
+        ],
+      },
+
+      // grid shorthand with empty area
+      {
+        code: String.raw`.grid {
+          grid:
+            "" 40px
+            "b c c" 40px / 1fr 1fr 1fr;
+        }`,
+        errors: [
+          {
+            messageId: 'emptyGridArea',
+            line: 3,
+            column: 13,
+            endLine: 3,
+            endColumn: 15,
+          },
+        ],
+      },
+
+      // grid shorthand with uneven columns
+      {
+        code: String.raw`.grid {
+          grid:
+            "a a a" 40px
+            "b c" 40px / 1fr 1fr 1fr;
+        }`,
+        errors: [
+          {
+            messageId: 'unevenGridArea',
+            line: 4,
+            column: 13,
+            endLine: 4,
+            endColumn: 18,
+          },
+        ],
+      },
+
+      // grid shorthand with non-rectangular area
+      {
+        code: String.raw`.grid {
+          grid:
+            "a a b" 40px
+            "c a a" 40px / 1fr 1fr 1fr;
+        }`,
+        errors: [
+          {
+            messageId: 'nonRectangularGridArea',
+            data: { name: 'a' },
+            line: 4,
+            column: 13,
+            endLine: 4,
+            endColumn: 20,
           },
         ],
       },
