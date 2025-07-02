@@ -8,7 +8,8 @@ Copilot, etc.) when working with code in this repository.
 `@poupe/eslint-plugin-tailwindcss` is an ESLint plugin that provides linting
 rules for Tailwind CSS v4. It validates CSS files using Tailwind CSS syntax,
 ensuring proper usage of directives, modifiers, theme functions, and utility
-classes.
+classes. The plugin has achieved complete feature parity with @eslint/css,
+implementing all 10 core CSS validation rules.
 
 ## Commands
 

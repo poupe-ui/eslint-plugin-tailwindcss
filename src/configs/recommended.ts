@@ -12,6 +12,7 @@ export const recommended: Linter.Config = {
     'tailwindcss/no-empty-blocks': 'error',
     'tailwindcss/no-important': 'warn',
     'tailwindcss/no-invalid-at-rules': 'error',
+    'tailwindcss/no-invalid-named-grid-areas': 'error',
     'tailwindcss/no-invalid-properties': 'error',
     'tailwindcss/no-arbitrary-value-overuse': ['warn', {
       maxPerFile: 10,

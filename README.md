@@ -185,6 +185,7 @@ Rules that catch potential bugs or invalid syntax.
 | [no-duplicate-imports](./docs/rules/no-duplicate-imports.md) | Disallow duplicate @import rules | |
 | [no-empty-blocks](./docs/rules/no-empty-blocks.md) | Disallow empty rule blocks and at-rule blocks | |
 | [no-invalid-at-rules](./docs/rules/no-invalid-at-rules.md) | Disallow invalid at-rule names and syntax | |
+| [no-invalid-named-grid-areas](./docs/rules/no-invalid-named-grid-areas.md) | Disallow invalid named grid areas in CSS Grid templates | |
 | [no-invalid-properties](./docs/rules/no-invalid-properties.md) | Disallow invalid CSS property names | |
 | [use-baseline](./docs/rules/use-baseline.md) | Enforce use of widely-supported CSS features | |
 | [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
@@ -220,13 +221,12 @@ Rules that enforce code style and formatting conventions.
 
 #### Possible Errors (Planned)
 
-##### Core CSS Validation (@eslint/css parity)
+##### Core CSS Validation (Additional)
 
 Rules that catch general CSS syntax errors and invalid constructs.
 
 | Rule | Description | 🔧 | Status |
 | :--- | :--- | :--- | :--- |
-| no-invalid-named-grid-areas | Disallow malformed CSS Grid template areas | | Priority |
 | no-unknown-pseudo-class | Detect invalid pseudo-classes | | Planned |
 | no-unknown-pseudo-element | Detect invalid pseudo-elements | | Planned |
 

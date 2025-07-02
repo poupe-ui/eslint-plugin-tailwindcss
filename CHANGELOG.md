@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- **COMPLETE @eslint/css feature parity!** 🎉
+  - `no-invalid-named-grid-areas` - Validates CSS Grid template areas are
+    properly formed (rectangular, non-empty, consistent columns)
+
 ## [0.2.2] - 2025-07-02
 
 ### Added
