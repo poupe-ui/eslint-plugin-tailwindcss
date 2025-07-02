@@ -32,31 +32,31 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./parser": {
-      "import": "./dist/parser.mjs",
-      "require": "./dist/parser.cjs"
-    },
     "./configs/*": {
       "import": "./dist/configs/*.mjs",
       "require": "./dist/configs/*.cjs"
+    },
+    "./parser": {
+      "import": "./dist/parser.mjs",
+      "require": "./dist/parser.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check test build publint",
-    "dev:prepare": "unbuild --stub",
-    "postinstall": "[ -s dist/index.mjs ] || unbuild --stub",
-    "lint": "cross-env DEBUG=eslint:eslint eslint --fix .",
     "build": "unbuild",
     "clean": "rimraf dist node_modules",
-    "type-check": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage",
+    "dev:prepare": "unbuild --stub",
+    "lint": "cross-env DEBUG=eslint:eslint eslint --fix .",
+    "postinstall": "[ -s dist/index.mjs ] || unbuild --stub",
     "precommit": "run-s lint type-check test build",
-    "publint": "publint"
+    "prepack": "run-s lint type-check test build publint",
+    "publint": "publint",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@eslint/core": "^0.15.1",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@eslint/css": "^0.9.0",
-    "@poupe/eslint-config": "^0.7.8",
+    "@poupe/eslint-config": "^0.7.9",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.10.6",
     "@vitest/coverage-v8": "^3.2.4",

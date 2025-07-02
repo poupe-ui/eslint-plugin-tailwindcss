@@ -3,7 +3,7 @@
  * Based on MDN baseline data and browser support information
  */
 
-export type BaselineStatus = 'widely-available' | 'newly-available' | 'limited-availability';
+export type BaselineStatus = 'limited-availability' | 'newly-available' | 'widely-available';
 
 export interface CSSFeature {
   name: string
@@ -457,7 +457,7 @@ export function getVendorPrefix(property: string): string | undefined {
  */
 export function getFeatureStatus(
   name: string,
-  type: 'property' | 'at-rule' | 'pseudo-class' | 'function',
+  type: 'at-rule' | 'function' | 'property' | 'pseudo-class',
 ): CSSFeature | undefined {
   // Check for vendor prefix first
   if (hasVendorPrefix(name)) {
