@@ -2,6 +2,8 @@
  * CSS property validation utilities
  */
 
+import type { StringWithDistance } from './types';
+
 /**
  * Standard CSS properties with their expected value types
  * Based on CSS specifications and common browser support
@@ -429,11 +431,13 @@ function findSimilarStrings(
   candidates: string[],
   maxDistance: number,
 ): string[] {
-  return candidates
+  const candidatesWithDistance: StringWithDistance[] = candidates
     .map(candidate => ({
       value: candidate,
       distance: levenshteinDistance(input.toLowerCase(), candidate.toLowerCase()),
-    }))
+    }));
+
+  return candidatesWithDistance
     .filter(item => item.distance <= maxDistance && item.distance > 0)
     .sort((a, b) => a.distance - b.distance)
     .map(item => item.value);

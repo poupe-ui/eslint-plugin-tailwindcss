@@ -76,6 +76,14 @@ function getPropertyCategory(property: string): string | undefined {
   return propertyMappings[property] || undefined;
 }
 
+/**
+ * Represents a suggestion to use a theme token
+ */
+interface ThemeTokenSuggestion {
+  category: string
+  possibleToken?: string
+}
+
 // Define the rule options type
 type PreferThemeTokensOptions = [{
   categories?: string[]
@@ -196,7 +204,7 @@ export const preferThemeTokens: CSSRuleDefinition<{
     function shouldUseToken(
       property: string,
       value: string,
-    ): { category: string; possibleToken?: string } | undefined {
+    ): ThemeTokenSuggestion | undefined {
       // Check color values
       if (isColorValue(value)) {
         const category = getPropertyCategory(property);
