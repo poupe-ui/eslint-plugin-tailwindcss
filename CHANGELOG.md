@@ -3,13 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.2] - 2025-07-02
+
+### Added
+
+- Build infrastructure improvements:
+  - Configure pnpm version 9.15.2 with corepack support
+  - Set minimum Node.js version requirement to 18.0.0
+  - Add GitHub Actions workflow for builds
+  - Add renovate configuration validator workflow
+  - Configure Renovate to group eslint-related package updates
+  - Add cross-env and rimraf for cross-platform script compatibility
+
 ### Changed
 
-- Refactored inline object type definitions to named interfaces for better code organization:
+- Code quality improvements:
+  - Add @stylistic/operator-linebreak rule for consistent operator placement
+  - Fix union type formatting (remove leading | from first option,
+    alphabetical sorting)
+  - Apply consistent code formatting across the codebase
+  - Fix GitHub workflow indentation
+
+- Refactored inline object type definitions to named interfaces for better
+  code organization:
   - Added `ModifierValidationResult` interface for modifier validation
   - Added `ThemeTokenSuggestion` interface for theme token suggestions
   - Added `StringWithDistance` interface for similarity calculations
@@ -96,7 +117,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- New `consistent-spacing` rule for enforcing consistent spacing in CSS declarations
+- New `consistent-spacing` rule for enforcing consistent spacing in CSS
+  declarations
 - Comprehensive test coverage for all existing rules
 - Expanded documentation for rule development in AGENT.md
 - Testing section in README with examples and commands
@@ -108,7 +130,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improved code quality with stricter linting rules for JavaScript/TypeScript files
+- Improved code quality with stricter linting rules for JavaScript/TypeScript
+  files
 
 ## [0.1.2] - 2025-06-30
 
@@ -130,8 +153,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release of @poupe/eslint-plugin-tailwindcss
 - Six comprehensive ESLint rules for Tailwind CSS v4:
-  - `valid-theme-function`: Validates theme() function usage with auto-fix support
-  - `valid-modifier-syntax`: Validates Tailwind modifier syntax (hover:, sm:, etc.)
+  - `valid-theme-function`: Validates theme() function usage with auto-fix
+    support
+  - `valid-modifier-syntax`: Validates Tailwind modifier syntax (hover:,
+    sm:, etc.)
   - `valid-apply-directive`: Validates @apply directive usage in CSS files
   - `no-conflicting-utilities`: Detects and prevents conflicting Tailwind
     utility classes
@@ -149,7 +174,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated plugin internal name from `tailwindcss-v4` to `tailwindcss` for consistency
+- Updated plugin internal name from `tailwindcss-v4` to `tailwindcss` for
+  consistency
 - Sorted all rules alphabetically in configuration files
 - Added eslint-plugin-perfectionist for automated import/export sorting
 
