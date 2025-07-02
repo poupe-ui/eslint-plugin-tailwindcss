@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.3] - 2025-07-02
+
 ### Added
 
 - **COMPLETE @eslint/css feature parity!** 🎉
