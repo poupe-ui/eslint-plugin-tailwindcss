@@ -88,7 +88,7 @@ export const useBaseline: CSSRuleDefinition<{
      * Report a non-baseline feature usage
      */
     function reportFeature(
-      node: AtrulePlain | DeclarationPlain | RulePlain | FunctionNodePlain,
+      node: AtrulePlain | DeclarationPlain | FunctionNodePlain | RulePlain,
       feature: CSSFeature,
       type: string,
       actualName: string,

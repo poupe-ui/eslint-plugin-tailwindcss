@@ -31,7 +31,7 @@ export function isTailwindAtRule(name: string): name is TailwindAtRule {
  * Extract utility classes from an `@apply` rule
  */
 export function extractUtilitiesFromApply(
-  prelude: AtrulePreludePlain | Raw | null,
+  prelude: AtrulePreludePlain | null | Raw,
   sourceCode: CSSSourceCode,
 ): string[] {
   if (!prelude || !prelude.loc) return [];

@@ -111,7 +111,7 @@ export const THEME_CATEGORIES = {
  */
 export function getThemeCategory(
   tokenName: string,
-): keyof typeof THEME_CATEGORIES | 'other' {
+): 'other' | keyof typeof THEME_CATEGORIES {
   for (const [category, prefixes] of Object.entries(THEME_CATEGORIES)) {
     if (prefixes.some(prefix => tokenName.startsWith(prefix))) {
       return category as keyof typeof THEME_CATEGORIES;
