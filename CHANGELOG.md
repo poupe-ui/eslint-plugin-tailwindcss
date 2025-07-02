@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.4] - 2025-07-02
+
 ### Fixed
 
 - `no-invalid-named-grid-areas` - Improved variable naming and added tests for
