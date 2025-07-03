@@ -10,6 +10,7 @@ export { noInvalidProperties } from './no-invalid-properties';
 export { preferLogicalProperties } from './prefer-logical-properties';
 export { preferThemeTokens } from './prefer-theme-tokens';
 export { relativeFontUnits } from './relative-font-units';
+export { requireReferenceInVue } from './require-reference-in-vue';
 export { useBaseline } from './use-baseline';
 export { useLayers } from './use-layers';
 export { validApplyDirective } from './valid-apply-directive';

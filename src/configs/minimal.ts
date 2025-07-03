@@ -14,6 +14,7 @@ export const minimal: Linter.Config = {
     'tailwindcss/no-invalid-at-rules': 'error',
     'tailwindcss/no-invalid-named-grid-areas': 'error',
     'tailwindcss/no-invalid-properties': 'error',
+    'tailwindcss/require-reference-in-vue': 'error',
     'tailwindcss/use-baseline': 'error',
     'tailwindcss/valid-apply-directive': 'error',
     'tailwindcss/valid-modifier-syntax': 'error',
