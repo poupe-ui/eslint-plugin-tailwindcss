@@ -2,6 +2,7 @@ export { consistentSpacing } from './consistent-spacing';
 export { noArbitraryValueOveruse } from './no-arbitrary-value-overuse';
 export { noConflictingUtilities } from './no-conflicting-utilities';
 export { noDuplicateImports } from './no-duplicate-imports';
+export { noDuplicateReference } from './no-duplicate-reference';
 export { noEmptyBlocks } from './no-empty-blocks';
 export { noImportant } from './no-important';
 export { noInvalidAtRules } from './no-invalid-at-rules';
