@@ -1,5 +1,170 @@
-import type { CSSSourceCode } from '@eslint/css';
+import type { RuleContext, RuleContextTypeOptions } from '@eslint/core';
+import type { CSSLanguageOptions } from '@eslint/css';
 import type { AtrulePlain, CssNodePlain, DeclarationPlain, FunctionNodePlain } from '@eslint/css-tree';
+
+import { CSSSourceCode } from '@eslint/css';
+
+/**
+ * Type for CSS rule context - matches what CSS rules expect
+ */
+export type CSSRuleContext = RuleContext<{
+  LangOptions: CSSLanguageOptions
+  Code: CSSSourceCode
+  RuleOptions: unknown[]
+  Node: CssNodePlain
+  MessageIds: string
+}>;
+
+/**
+ * CSS context information for rule handlers
+ */
+export interface CSSContextInfo {
+  /**
+   * The type of CSS context
+   */
+  contextType: 'css-file' | 'vue-style'
+
+  /**
+   * Whether this is a Vue single-file component
+   */
+  isVueFile: boolean
+
+  /**
+   * The source code object (always available when CSS is detected)
+   */
+  sourceCode: unknown
+
+  /**
+   * The original rule context with proper CSS typing
+   */
+  context: CSSRuleContext
+
+  /**
+   * Get the source code as a CSSSourceCode instance if it is one
+   * @returns CSSSourceCode instance or undefined
+   */
+  getCSSSourceCode(): CSSSourceCode | undefined
+}
+
+/**
+ * Validates and extracts CSS context information from any rule context.
+ * This function accepts any RuleContext type and returns validated CSS information.
+ *
+ * @param context - ESLint rule context with any type parameters
+ * @returns Validated CSS context information, or undefined if not valid CSS content
+ *
+ * @example
+ * ```typescript
+ * // Works with any rule context type
+ * create(context) {
+ *   const cssInfo = getCSSContext(context);
+ *   if (!cssInfo) {
+ *     return {}; // Not CSS content
+ *   }
+ *
+ *   // Now we know we have valid CSS context with a CSS AST
+ *   const { sourceCode, isVueFile, contextType, context, getCSSSourceCode } = cssInfo;
+ *
+ *   // context is properly typed as CSSRuleContext
+ *   // sourceCode is always available for CSS content
+ *
+ *   // Get CSSSourceCode instance if available
+ *   const cssSourceCode = getCSSSourceCode();
+ *   if (cssSourceCode) {
+ *     // Can use CSSSourceCode-specific methods
+ *   }
+ *
+ *   if (isVueFile) {
+ *     // Special Vue handling
+ *   }
+ *
+ *   return {
+ *     Rule(node) {
+ *       // Safe to use CSS-specific logic
+ *     }
+ *   };
+ * }
+ * ```
+ */
+export function getCSSContext<T extends RuleContextTypeOptions = RuleContextTypeOptions>(
+  context: RuleContext<T>,
+): CSSContextInfo | undefined {
+  const context_ = context;
+
+  // Check if we have source code - if not, it's not CSS content
+  if (!context_.sourceCode) {
+    return undefined;
+  }
+
+  // Get filename
+  const filename = context_.filename || context_.getFilename();
+  const isVueFile = filename.endsWith('.vue');
+
+  // For CSS content, we need to check the AST type
+  const sourceCode = context_.sourceCode;
+
+  // Type guard to check if sourceCode has the properties we need
+  if (!sourceCode || typeof sourceCode !== 'object') {
+    return undefined;
+  }
+
+  const sourceCodeObject = sourceCode as unknown as {
+    ast?: { type?: string }
+    text?: unknown
+    [key: string]: unknown
+  };
+
+  // If we can't access the AST or text, it's not CSS content
+  if (!sourceCodeObject.ast || typeof sourceCodeObject.text !== 'string') {
+    return undefined;
+  }
+
+  // Check if the AST is a CSS StyleSheet
+  if (sourceCodeObject.ast.type !== 'StyleSheet') {
+    return undefined;
+  }
+
+  // Helper to create the context info object
+  const createContextInfo = (contextType: 'css-file' | 'vue-style', isVue: boolean): CSSContextInfo => {
+    return {
+      contextType,
+      isVueFile: isVue,
+      sourceCode: sourceCodeObject,
+      context: context_ as unknown as CSSRuleContext,
+      getCSSSourceCode() {
+        // Check if sourceCode is an instance of CSSSourceCode
+        if (this.sourceCode instanceof CSSSourceCode) {
+          return this.sourceCode;
+        }
+        return undefined;
+      },
+    };
+  };
+
+  // Vue file - <style> blocks
+  if (isVueFile) {
+    return createContextInfo('vue-style', true);
+  }
+
+  // Regular CSS file
+  return createContextInfo('css-file', false);
+}
+
+/**
+ * Check if the current rule context is for CSS content.
+ * Accepts any value and safely checks if it's a valid CSS context.
+ *
+ * @param context - Any value (will be validated)
+ * @returns true if the context is for CSS content
+ */
+export function isCSSContext(context: unknown): boolean {
+  // Just try to get CSS context - if it works, it's CSS
+  try {
+    return getCSSContext(context as RuleContext<RuleContextTypeOptions>) !== undefined;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Check if a node is of a specific type

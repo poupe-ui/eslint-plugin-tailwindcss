@@ -8,6 +8,42 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.5] - 2025-07-03
+
+### Added
+
+- New rule: `require-reference-in-vue` - Ensures Vue SFC style blocks include
+  the required `@reference` directive for Tailwind CSS v4 compilation
+  - Auto-fixes missing `@reference` by adding `@reference "tailwindcss";` (configurable)
+  - Only applies to `.vue` files, not regular CSS files
+  - Essential for Vue components to access Tailwind theme and utilities
+- New rule: `no-duplicate-reference` - Disallow duplicate @reference directives
+  - Detects duplicate references to the same source
+  - Works with both string and url() syntax
+  - Uses CSS context helper to skip non-CSS content
+- Parser API exports for advanced use cases and custom rule development:
+  - `getCSSContext()` - Validates whether an ESLint rule context is processing
+    CSS content
+  - `isCSSContext()` - Quick check if a context contains CSS content
+  - `CSSContextInfo` type - Information about CSS context with typed `context`
+    property and `getCSSSourceCode()` method
+  - `CSSRuleContext` type - Type for CSS rule context
+  - `CSSSourceCode` class - Re-exported from @eslint/css for CSS source code
+    manipulation
+  - `CSSLanguageOptions` type - Re-exported from @eslint/css for CSS language
+    configuration
+  - `tailwindV4Syntax` - Tailwind v4 syntax configuration for extending
+    @eslint/css parsers
+- Documentation for parser API in README.md
+
+### Changed
+
+- Strengthened git workflow guidelines in AGENT.md to prevent commit mistakes
+
+### Internal
+
+- Updated `@poupe/eslint-config` dependency to v0.7.12
+
 ## [0.2.4] - 2025-07-02
 
 ### Fixed

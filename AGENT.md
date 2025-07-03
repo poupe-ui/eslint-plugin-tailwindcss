@@ -245,6 +245,11 @@ Validates theme() function usage with auto-fix support for common mistakes.
 Detects and prevents conflicting Tailwind utility classes that would
 override each other.
 
+#### no-duplicate-reference
+
+Prevents duplicate @reference directives in CSS files, ensuring each reference
+target is declared only once.
+
 #### no-arbitrary-value-overuse
 
 Discourages excessive use of arbitrary values, promoting design token usage.
@@ -426,6 +431,34 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `getChildrenOfType(node, type)`: Find specific children
 - `walk(node, callback)`: Traverse AST
 - `getNodeText(node, sourceCode)`: Get text content
+- `getCSSContext(context)`: Validate and extract CSS context info
+- `isCSSContext(context)`: Check if context is CSS
+
+#### CSS Context Validation
+
+The `getCSSContext` helper safely validates any context:
+
+```typescript
+create(context) {
+  const cssInfo = getCSSContext(context);
+  if (!cssInfo) {
+    return {}; // Not CSS - no need for additional checks
+  }
+
+  // Now guaranteed to have valid CSS context
+  const { context, isVueFile, contextType } = cssInfo;
+  const cssSourceCode = cssInfo.getCSSSourceCode();
+
+  // Rule implementation...
+}
+```
+
+This helper:
+
+- Accepts `unknown` input (flexible)
+- Returns validated CSS info or `undefined` (strict)
+- Handles Vue SFC `<style>` blocks
+- No type casting needed by caller
 
 #### Block and Comment Handling
 

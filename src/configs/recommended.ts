@@ -9,6 +9,7 @@ export const recommended: Linter.Config = {
   },
   rules: {
     'tailwindcss/no-duplicate-imports': 'error',
+    'tailwindcss/no-duplicate-reference': 'error',
     'tailwindcss/no-empty-blocks': 'error',
     'tailwindcss/no-important': 'warn',
     'tailwindcss/no-invalid-at-rules': 'error',
@@ -22,6 +23,7 @@ export const recommended: Linter.Config = {
     'tailwindcss/prefer-theme-tokens': ['warn', {
       categories: ['colors', 'spacing'],
     }],
+    'tailwindcss/require-reference-in-vue': 'error',
     'tailwindcss/use-baseline': 'error',
     'tailwindcss/valid-apply-directive': ['error', {
       maxUtilities: 20,
