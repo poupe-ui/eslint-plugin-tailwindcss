@@ -25,6 +25,7 @@ export const strict: Linter.Config = {
       categories: ['colors', 'spacing', 'sizing', 'typography', 'borders', 'effects'],
     }],
     'tailwindcss/relative-font-units': 'error',
+    'tailwindcss/require-reference-in-vue': 'error',
     'tailwindcss/use-baseline': ['error', {
       strictness: 'newly',
     }],

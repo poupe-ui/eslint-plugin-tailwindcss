@@ -101,6 +101,7 @@ Basic syntax validation only. Good for existing projects.
 - ✅ `no-duplicate-imports`
 - ✅ `no-empty-blocks`
 - ✅ `no-important`
+- ✅ `require-reference-in-vue`
 
 ### `recommended` (Default)
 
@@ -187,6 +188,7 @@ Rules that catch potential bugs or invalid syntax.
 | [no-invalid-at-rules](./docs/rules/no-invalid-at-rules.md) | Disallow invalid at-rule names and syntax | |
 | [no-invalid-named-grid-areas](./docs/rules/no-invalid-named-grid-areas.md) | Disallow invalid named grid areas in CSS Grid templates | |
 | [no-invalid-properties](./docs/rules/no-invalid-properties.md) | Disallow invalid CSS property names | |
+| [require-reference-in-vue](./docs/rules/require-reference-in-vue.md) | Require @reference directive in Vue SFC style blocks | 🔧 |
 | [use-baseline](./docs/rules/use-baseline.md) | Enforce use of widely-supported CSS features | |
 | [valid-apply-directive](./docs/rules/valid-apply-directive.md) | Validates the `@apply` directive usage | |
 | [valid-modifier-syntax](./docs/rules/valid-modifier-syntax.md) | Ensures Tailwind modifiers follow correct syntax patterns | |

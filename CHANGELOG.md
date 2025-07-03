@@ -10,6 +10,11 @@ and this project adheres to
 
 ### Added
 
+- New rule: `require-reference-in-vue` - Ensures Vue SFC style blocks include
+  the required `@reference` directive for Tailwind CSS v4 compilation
+  - Auto-fixes missing `@reference` by adding `@reference "tailwindcss";` (configurable)
+  - Only applies to `.vue` files, not regular CSS files
+  - Essential for Vue components to access Tailwind theme and utilities
 - Parser API exports for advanced use cases and custom rule development:
   - `getCSSContext()` - Validates whether an ESLint rule context is processing
     CSS content
