@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.5] - 2025-07-03
+
 ### Added
 
 - New rule: `require-reference-in-vue` - Ensures Vue SFC style blocks include
@@ -33,6 +35,14 @@ and this project adheres to
   - `tailwindV4Syntax` - Tailwind v4 syntax configuration for extending
     @eslint/css parsers
 - Documentation for parser API in README.md
+
+### Changed
+
+- Strengthened git workflow guidelines in AGENT.md to prevent commit mistakes
+
+### Internal
+
+- Updated `@poupe/eslint-config` dependency to v0.7.12
 
 ## [0.2.4] - 2025-07-02
 
