@@ -9,6 +9,7 @@ export const recommended: Linter.Config = {
   },
   rules: {
     'tailwindcss/no-duplicate-imports': 'error',
+    'tailwindcss/no-duplicate-reference': 'error',
     'tailwindcss/no-empty-blocks': 'error',
     'tailwindcss/no-important': 'warn',
     'tailwindcss/no-invalid-at-rules': 'error',

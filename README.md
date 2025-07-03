@@ -99,6 +99,7 @@ Basic syntax validation only. Good for existing projects.
 - ✅ `no-invalid-at-rules`
 - ✅ `no-invalid-properties`
 - ✅ `no-duplicate-imports`
+- ✅ `no-duplicate-reference`
 - ✅ `no-empty-blocks`
 - ✅ `no-important`
 - ✅ `require-reference-in-vue`
@@ -184,6 +185,7 @@ Rules that catch potential bugs or invalid syntax.
 | :--- | :--- | :--- |
 | [no-conflicting-utilities](./docs/rules/no-conflicting-utilities.md) | Detects conflicting Tailwind utilities that affect the same CSS properties | |
 | [no-duplicate-imports](./docs/rules/no-duplicate-imports.md) | Disallow duplicate @import rules | |
+| [no-duplicate-reference](./docs/rules/no-duplicate-reference.md) | Disallow duplicate @reference directives | |
 | [no-empty-blocks](./docs/rules/no-empty-blocks.md) | Disallow empty rule blocks and at-rule blocks | |
 | [no-invalid-at-rules](./docs/rules/no-invalid-at-rules.md) | Disallow invalid at-rule names and syntax | |
 | [no-invalid-named-grid-areas](./docs/rules/no-invalid-named-grid-areas.md) | Disallow invalid named grid areas in CSS Grid templates | |

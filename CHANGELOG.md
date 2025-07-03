@@ -15,6 +15,10 @@ and this project adheres to
   - Auto-fixes missing `@reference` by adding `@reference "tailwindcss";` (configurable)
   - Only applies to `.vue` files, not regular CSS files
   - Essential for Vue components to access Tailwind theme and utilities
+- New rule: `no-duplicate-reference` - Disallow duplicate @reference directives
+  - Detects duplicate references to the same source
+  - Works with both string and url() syntax
+  - Uses CSS context helper to skip non-CSS content
 - Parser API exports for advanced use cases and custom rule development:
   - `getCSSContext()` - Validates whether an ESLint rule context is processing
     CSS content

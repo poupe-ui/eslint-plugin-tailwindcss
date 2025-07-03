@@ -245,6 +245,11 @@ Validates theme() function usage with auto-fix support for common mistakes.
 Detects and prevents conflicting Tailwind utility classes that would
 override each other.
 
+#### no-duplicate-reference
+
+Prevents duplicate @reference directives in CSS files, ensuring each reference
+target is declared only once.
+
 #### no-arbitrary-value-overuse
 
 Discourages excessive use of arbitrary values, promoting design token usage.
