@@ -47,18 +47,30 @@ All code follows these conventions (enforced by .editorconfig and ESLint):
 
 ### Pre-commit Checklist (MANDATORY)
 
-Before committing any changes, ALWAYS run:
+#### CRITICAL: THINK BEFORE YOU COMMIT - READ THIS SECTION TWICE
 
-1. `pnpm precommit` - Run all precommit checks (includes lint, type-check,
+Before committing any changes, ALWAYS:
+
+1. **Run `git status` and READ every file listed**
+2. **Ask yourself: "Do ALL these files belong in this commit?"**
+3. **If working on feature X, do NOT include unrelated feature Y files**
+4. **NEVER stage files in bulk with `git add -A` or `git add .`**
+5. `pnpm precommit` - Run all precommit checks (includes lint, type-check,
    test, build)
-2. Fix any issues found by the precommit checks
-3. If linter made automatic fixes, create fixup commits:
+6. Fix any issues found by the precommit checks
+7. If linter made automatic fixes, create fixup commits:
    - Use `git blame` to identify which commit introduced the code
    - Create fixup: `git commit -s --fixup=<commit-hash> path/to/file`
    - ALWAYS specify the file path, never rely on staged files
-4. Update AGENT.md if guidelines change
-5. Update README.md if public API changes
-6. Review documentation formatting follows guidelines
+8. Update CHANGELOG.md under [Unreleased] section:
+   - Add entries for new features under ### Added
+   - Add entries for bug fixes under ### Fixed
+   - Add entries for breaking changes under ### BREAKING CHANGES
+   - Follow Keep a Changelog format
+9. Update AGENT.md if guidelines change
+10. Update README.md if public API changes
+11. Review documentation formatting follows guidelines
+12. Verify all imports are actually used (common linting issue)
 
 ### DO
 
@@ -79,7 +91,7 @@ Before committing any changes, ALWAYS run:
 
 ### Direct Commits (MANDATORY - NO EXCEPTIONS)
 
-🚨 **CRITICAL**: NEVER use the staging area or commit without explicit files
+#### 🚨 CRITICAL: NEVER use the staging area or commit without explicit files
 
 #### FORBIDDEN commands that will commit unintended files
 
@@ -88,17 +100,27 @@ Before committing any changes, ALWAYS run:
 git commit                    # ❌ Commits everything staged
 git commit -a                 # ❌ Stages and commits all tracked files
 git add . && git commit       # ❌ Stages everything then commits
+git commit --amend            # ❌ Will include whatever is staged
+git commit --amend --no-edit  # ❌ Same problem, includes staged files
 ```
 
 #### ALWAYS specify files directly in the commit command
+
+```bash
+# ALWAYS DO:
+git add src/file1.ts src/file2.ts              # ✅ Explicit files only
+git commit -sF .commit-msg file1.ts file2.ts   # ✅ Explicit files
+git commit --amend -F .commit-msg file1.ts file2.ts  # ✅ Explicit files
+```
 
 ### Commit Message Guidelines
 
 - First line: type(scope): brief description (50 chars max)
 - Blank line
 - Body: what and why, not how (wrap at 72 chars)
-- Use commit message files: Write to `.commit-msg`, then `git commit -sF .commit-msg`
-- Delete commit message files after use: `rm .commit-msg`
+- Use commit message files: Write to `.commit-msg-<descriptive-slug>`, then use
+  `git commit -sF .commit-msg-<descriptive-slug>`
+- Delete commit message files after use: `rm .commit-msg-<descriptive-slug>`
 - For fixup commits: No message needed, just `git commit -s --fixup=<hash> file`
 
 ### TSDoc Guidelines
@@ -108,15 +130,38 @@ git add . && git commit       # ❌ Stages everything then commits
 - Prefer TSDoc over JSDoc for TypeScript files
 - Add TSDoc for all public APIs and complex internal functions
 
+### Common Mistakes That Waste Credits (STRICT ENFORCEMENT)
+
+**CRITICAL**: Using bare `git commit` without file arguments is the #1 mistake
+that leads to committing unintended files. This is unacceptable and shows a lack
+of attention to detail.
+
+- Committing unrelated work (e.g., CSS rule fixes + unrelated documentation)
+- Using `git add -A` or `git add .` instead of specific files
+- Not reading `git status` output before committing
+- Using `--amend` without explicit file lists
+- Rushing commits without thoughtful review
+- Staging files without verifying they belong in the commit
+- Including test files in feature commits without reason
+- Mixing refactoring with feature implementation
+
 ## Agent-Specific Instructions
 
-### Claude Code Specific Instructions
+### Claude Code-Specific Instructions
 
 - Use TodoWrite tool for complex multi-step tasks
 - **CRITICAL: Always enumerate files explicitly in git commit commands**
 - **NEVER use bare `git commit` without file arguments**
+- **ALWAYS run tests before marking a to-do as completed**
 - Fix issues immediately without commentary
 - Stay focused on the task at hand
+- When creating PRs, ensure description includes:
+  - Summary of changes (what and why)
+  - Test plan with specific steps
+  - Any breaking changes or migration notes
+- Use PR body files: Write to `.pr-body-<descriptive-slug>`, then
+  `gh pr create --title "..." --body-file .pr-body-<descriptive-slug>`
+- Delete PR body files after use: `rm .pr-body-<descriptive-slug>`
 
 ### Universal Agent Guidelines
 
@@ -124,6 +169,8 @@ git add . && git commit       # ❌ Stages everything then commits
 - Follow the pre-commit checklist strictly
 - Use Write tool for commit messages, not echo, -m, or heredocs
 - NEVER USE `cd` IN BASH COMMANDS - NO EXCEPTIONS
+- Always check for merge conflicts before committing
+- Run `git status` before AND after commits to verify state
 
 ## Architecture
 
@@ -604,18 +651,18 @@ When implementing a new rule:
 
    ```bash
    # Create commit message file
-   echo "feat(rules): add rule-name rule" > .commit-msg
-   echo "" >> .commit-msg
-   echo "Add description here..." >> .commit-msg
+   echo "feat(rules): add rule-name rule" > .commit-msg-add-rule
+   echo "" >> .commit-msg-add-rule
+   echo "Add description here..." >> .commit-msg-add-rule
 
    # Commit specifying all files
-   git commit -sF .commit-msg src/rules/rule-name.ts \
+   git commit -sF .commit-msg-add-rule src/rules/rule-name.ts \
      src/__tests__/rules/rule-name.test.ts \
      src/rules/index.ts src/index.ts \
      src/configs/strict.ts README.md
 
    # Clean up
-   rm .commit-msg
+   rm .commit-msg-add-rule
    ```
 
 2. **Config updates** (use fixup if related to rule addition):
