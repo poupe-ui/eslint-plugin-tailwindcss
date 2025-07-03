@@ -8,6 +8,23 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Parser API exports for advanced use cases and custom rule development:
+  - `getCSSContext()` - Validates whether an ESLint rule context is processing
+    CSS content
+  - `isCSSContext()` - Quick check if a context contains CSS content
+  - `CSSContextInfo` type - Information about CSS context with typed `context`
+    property and `getCSSSourceCode()` method
+  - `CSSRuleContext` type - Type for CSS rule context
+  - `CSSSourceCode` class - Re-exported from @eslint/css for CSS source code
+    manipulation
+  - `CSSLanguageOptions` type - Re-exported from @eslint/css for CSS language
+    configuration
+  - `tailwindV4Syntax` - Tailwind v4 syntax configuration for extending
+    @eslint/css parsers
+- Documentation for parser API in README.md
+
 ## [0.2.4] - 2025-07-02
 
 ### Fixed

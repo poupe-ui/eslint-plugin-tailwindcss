@@ -333,6 +333,149 @@ Full TypeScript support with exported types:
 import type { TailwindCSSRules, TailwindCSSConfigs } from '@poupe/eslint-plugin-tailwindcss';
 ```
 
+### Parser API
+
+The plugin exports a parser API for advanced use cases and custom rule development:
+
+```ts
+import {
+  // CSS context utilities
+  getCSSContext,
+  isCSSContext,
+  type CSSContextInfo,
+  type CSSRuleContext,
+
+  // CSS types from @eslint/css
+  CSSSourceCode,
+  type CSSLanguageOptions,
+
+  // Tailwind v4 syntax configuration
+  tailwindV4Syntax,
+} from '@poupe/eslint-plugin-tailwindcss/parser';
+```
+
+#### CSS Context Utilities
+
+##### `getCSSContext(context)`
+
+Validates whether an ESLint rule context is processing CSS content (including
+Vue SFC `<style>` blocks).
+
+```ts
+export function getCSSContext<T extends RuleContextTypeOptions>(
+  context: RuleContext<T>,
+): CSSContextInfo | undefined
+```
+
+Returns `CSSContextInfo` if the context contains CSS content, or `undefined` otherwise.
+
+##### `isCSSContext(context)`
+
+Quick check if a context contains CSS content.
+
+```ts
+export function isCSSContext(context: unknown): boolean
+```
+
+##### `CSSContextInfo`
+
+Information about CSS context:
+
+```ts
+interface CSSContextInfo {
+  contextType: 'css-file' | 'vue-style'   // Type of CSS context
+  isVueFile: boolean                       // Whether it's a Vue SFC
+  sourceCode: unknown                      // The source code object
+  context: CSSRuleContext                  // Properly typed CSS rule context
+  getCSSSourceCode(): CSSSourceCode | undefined // Get CSSSourceCode instance
+}
+```
+
+#### Example: Custom Rule Using Parser API
+
+```ts
+import { getCSSContext } from '@poupe/eslint-plugin-tailwindcss/parser';
+
+export const myCustomRule = {
+  meta: { /* ... */ },
+  create(context) {
+    // Check if we're in CSS context
+    const cssInfo = getCSSContext(context);
+    if (!cssInfo) {
+      return {}; // Not CSS content
+    }
+
+    // Now we have properly typed CSS context
+    const { context: cssContext, getCSSSourceCode } = cssInfo;
+
+    // Check if we have a CSSSourceCode instance
+    const cssSourceCode = getCSSSourceCode();
+    if (cssSourceCode) {
+      // Can use CSSSourceCode-specific APIs
+    }
+
+    return {
+      StyleSheet(node) {
+        // Rule implementation with typed context
+        cssContext.report({
+          node,
+          message: 'Example error'
+        });
+      }
+    };
+  }
+};
+```
+
+#### CSS Types from @eslint/css
+
+##### `CSSSourceCode`
+
+The `CSSSourceCode` class from @eslint/css provides methods for working with CSS
+source code:
+
+```ts
+const cssSourceCode = cssInfo.getCSSSourceCode();
+if (cssSourceCode) {
+  // Access CSS-specific source code methods
+  const text = cssSourceCode.getText(node);
+  const lines = cssSourceCode.getLines();
+}
+```
+
+##### `CSSLanguageOptions`
+
+Type definition for CSS language configuration options used by @eslint/css:
+
+```ts
+interface CSSLanguageOptions {
+  // Parser options for CSS
+}
+```
+
+#### Tailwind v4 Syntax Configuration
+
+The `tailwindV4Syntax` export provides the syntax configuration for Tailwind
+CSS v4 at-rules:
+
+```ts
+const tailwindV4Syntax: Partial<SyntaxConfig> = {
+  atrules: {
+    // Tailwind directives
+    theme: { /* ... */ },
+    import: { /* ... */ },
+    plugin: { /* ... */ },
+    utility: { /* ... */ },
+    variant: { /* ... */ },
+    source: { /* ... */ },
+    // ... and more
+  }
+};
+```
+
+This can be used when extending @eslint/css parsers or creating custom CSS
+linting tools.
+
 ## Configuration Examples
 
 ### With TypeScript
