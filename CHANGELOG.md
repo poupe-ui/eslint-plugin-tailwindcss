@@ -8,6 +8,40 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **deps**: `@eslint/css` moved from devDependencies to dependencies
+  (plugin instantiates `CSSLanguage` at runtime)
+- **deps**: `@eslint/css` peer dependency `^0.9.0` → `~0.14.1`
+- **engines**: Node.js `>=18.20.8` → `>= 20.19.0`,
+  pnpm `>=10.0.0` → `>= 10.30.0`
+- **types**: Added `Plugin` interface to avoid TS2742 declaration
+  portability issue with `@eslint/core`
+
+### Updated
+
+- `@eslint/core` ^0.15.1 → ~0.17.0
+- `@eslint/css` ^0.9.0 → ~0.14.1
+- `@poupe/eslint-config` ^0.7.9 → ~0.8.0
+- `typescript` ~5.7.3 → ~5.9.3
+- `vitest` ^3.2.4 → ~4.0.18
+- `@vitest/coverage-v8` ^3.2.4 → ~4.0.18
+- `cross-env` ^7.0.3 → ~10.1.0
+- `unbuild` ^3.5.0 → ~3.6.1
+- `eslint` ^9.30.0 → ^9.39.3
+- `eslint-plugin-perfectionist` ^4.15.0 → ^4.15.1
+- `pkg-pr-new` ^0.0.54 → ~0.0.65
+- `publint` ^0.3.12 → ^0.3.18
+- `rimraf` ^6.0.1 → ^6.1.3
+- `packageManager` pnpm 10.12.4 → 10.30.3
+
+### Fixed
+
+- **tests**: Restructured `malformed-css.test.ts` — `RuleTester.run()`
+  calls were incorrectly nested inside `it()` blocks, masking wrong
+  test expectations (`@apply;` and `theme()` incorrectly marked as
+  valid). Parser error cases now use `Linter.verify()` directly.
+
 ## [0.2.4] - 2025-07-02
 
 ### Fixed

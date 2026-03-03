@@ -11,17 +11,14 @@ jobs:
     # Pull requests from the same repository won't trigger this checks as they were already triggered by the push
     if: (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 18
-      - name: Enable corepack
-        run: corepack enable
-      - name: Install dependencies
-        run: pnpm install
-      - name: Lint
-        run: pnpm lint
-      - name: build
-        run: pnpm build
-      - name: publish
+          node-version: '20.19.0'
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: true
+      - name: Prepack
+        run: pnpm prepack
+      - name: Publish
         run: pnpm pkg-pr-new publish --package-manager=pnpm --pnpm

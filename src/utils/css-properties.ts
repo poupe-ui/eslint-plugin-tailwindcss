@@ -439,6 +439,6 @@ function findSimilarStrings(
 
   return candidatesWithDistance
     .filter(item => item.distance <= maxDistance && item.distance > 0)
-    .sort((a, b) => a.distance - b.distance)
+    .toSorted((a, b) => a.distance - b.distance)
     .map(item => item.value);
 }
