@@ -194,7 +194,7 @@ export function suggestSimilarTokens(
   }
 
   return suggestions
-    .sort((a, b) => b.score - a.score)
+    .toSorted((a, b) => b.score - a.score)
     .slice(0, maxSuggestions)
     .map(s => s.token);
 }
