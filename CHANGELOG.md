@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- **tests**: Restructured `malformed-css.test.ts` — `RuleTester.run()`
+  calls were incorrectly nested inside `it()` blocks, masking wrong
+  test expectations (`@apply;` and `theme()` incorrectly marked as
+  valid). Parser error cases now use `Linter.verify()` directly.
+
 ## [0.2.4] - 2025-07-02
 
 ### Fixed

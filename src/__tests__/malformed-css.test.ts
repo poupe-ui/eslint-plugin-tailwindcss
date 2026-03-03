@@ -1,138 +1,98 @@
 import css from '@eslint/css';
-import { RuleTester } from 'eslint';
+import { Linter, RuleTester } from 'eslint';
 
 import { consistentSpacing } from '../rules/consistent-spacing';
 import { validApplyDirective } from '../rules/valid-apply-directive';
-import { validModifierSyntax } from '../rules/valid-modifier-syntax';
 import { validThemeFunction } from '../rules/valid-theme-function';
 
-const ruleTester = new RuleTester({
-  language: 'css/css',
+const cssConfig = {
+  language: 'css/css' as const,
   plugins: {
     css,
   },
-});
+};
+
+const linter = new Linter();
+const ruleTester = new RuleTester(cssConfig);
+
+function expectParseError(code: string) {
+  const messages = linter.verify(code, cssConfig);
+  expect(messages.filter(m => m.fatal).length).toBeGreaterThan(0);
+}
+
+function expectNoParseError(code: string) {
+  const messages = linter.verify(code, cssConfig);
+  expect(messages.filter(m => m.fatal)).toHaveLength(0);
+}
 
 describe('Malformed CSS handling', () => {
-  describe('Parser behavior with malformed CSS', () => {
-    const testCases = [
-      {
-        name: 'Missing closing brace',
-        code: '.test { color: red',
-        shouldParse: true, // Parser is lenient
-      },
-      {
-        name: 'Missing value after colon',
-        code: '.test { color: }',
-        shouldParse: true, // Parser accepts this
-      },
-      {
-        name: 'Missing semicolon',
-        code: '.test { color: red }',
-        shouldParse: true, // Valid CSS
-      },
-      {
-        name: 'Double colon',
-        code: '.test { color:: red; }',
-        shouldParse: true, // Parser may accept this
-      },
-      {
-        name: 'Missing property name',
-        code: '.test { : red; }',
-        shouldParse: true, // Parser is lenient
-      },
-      {
-        name: 'Unclosed string',
-        code: '.test { content: "unclosed }',
-        shouldParse: true, // Parser is lenient
-      },
-      {
-        name: 'Invalid at-rule',
-        code: '@apply;',
-        shouldParse: true, // Valid syntax, just empty
-      },
-      {
-        name: 'Nested at-rule in wrong context',
-        code: '.test { @apply text-red-500 }',
-        shouldParse: true, // Parser accepts nested at-rules
-      },
+  describe('Parser accepts lenient CSS', () => {
+    const cases = [
+      { name: 'Missing value after colon', code: '.test { color: }' },
+      { name: 'Missing semicolon', code: '.test { color: red }' },
+      { name: 'Empty at-rule', code: '@apply;' },
     ];
 
-    for (const { name, code, shouldParse } of testCases) {
-      it(`${name}: ${shouldParse ? 'should parse' : 'should not parse'}`, () => {
-        if (shouldParse) {
-          expect(() => {
-            ruleTester.run('test', consistentSpacing, {
-              valid: [{ code }],
-              invalid: [],
-            });
-          }).not.toThrow();
-        } else {
-          expect(() => {
-            ruleTester.run('test', consistentSpacing, {
-              valid: [{ code }],
-              invalid: [],
-            });
-          }).toThrow();
-        }
+    for (const { name, code } of cases) {
+      it(`${name}: should parse without fatal errors`, () => {
+        expectNoParseError(code);
       });
     }
   });
 
-  describe('Rule behavior with edge cases', () => {
-    it('consistent-spacing should handle declarations without values gracefully', () => {
-      ruleTester.run('tailwindcss/consistent-spacing', consistentSpacing, {
-        valid: [
-          // These should not crash the rule
-          { code: '.test { color: }' },
-          { code: '.test { color: ; }' },
-        ],
-        invalid: [],
+  describe('Parser rejects malformed CSS', () => {
+    const cases = [
+      { name: 'Missing closing brace', code: '.test { color: red' },
+      { name: 'Double colon in declaration', code: '.test { color:: red; }' },
+      { name: 'Missing property name', code: '.test { : red; }' },
+      { name: 'Unclosed string', code: '.test { content: "unclosed }' },
+      { name: 'Nested at-rule without block', code: '.test { @apply text-red-500 }' },
+      { name: 'Leading colon modifier in @apply', code: '.test { @apply :text-red-500; }' },
+      { name: 'Double colon modifier in @apply', code: '.test { @apply hover::text-red-500; }' },
+      { name: 'Unclosed theme() call', code: '.test { color: theme(; }' },
+    ];
+
+    for (const { name, code } of cases) {
+      it(`${name}: should produce fatal parsing errors`, () => {
+        expectParseError(code);
       });
+    }
+  });
+
+  describe('Rule edge cases', () => {
+    // consistent-spacing: declarations without values should not crash
+    ruleTester.run('tailwindcss/consistent-spacing (missing values)', consistentSpacing, {
+      valid: [
+        { code: '.test { color: }' },
+        { code: '.test { color: ; }' },
+      ],
+      invalid: [],
     });
 
-    it('valid-apply-directive should handle empty @apply', () => {
-      ruleTester.run('tailwindcss/valid-apply-directive', validApplyDirective, {
-        valid: [
-          { code: '@apply;' }, // Empty but valid syntax
-        ],
-        invalid: [
-          {
-            code: '@apply ;', // Space but no utilities
-            errors: [{ messageId: 'emptyApply' }],
-          },
-        ],
-      });
+    // valid-apply-directive: empty @apply is invalid
+    ruleTester.run('tailwindcss/valid-apply-directive (empty)', validApplyDirective, {
+      valid: [],
+      invalid: [
+        {
+          code: '@apply;',
+          errors: [{ messageId: 'emptyApply' }],
+        },
+        {
+          code: '@apply ;',
+          errors: [{ messageId: 'emptyApply' }],
+        },
+      ],
     });
 
-    it('valid-modifier-syntax should handle malformed modifiers', () => {
-      ruleTester.run('tailwindcss/valid-modifier-syntax', validModifierSyntax, {
-        valid: [],
-        invalid: [
-          {
-            code: '.test { @apply :text-red-500; }',
-            errors: [{ messageId: 'emptyModifier' }],
-          },
-          {
-            code: '.test { @apply hover::text-red-500; }',
-            errors: [{ messageId: 'emptyModifier' }],
-          },
-        ],
-      });
-    });
-
-    it('valid-theme-function should handle malformed theme calls', () => {
-      ruleTester.run('tailwindcss/valid-theme-function', validThemeFunction, {
-        valid: [
-          { code: '.test { color: theme(); }' }, // Empty but syntactically valid
-        ],
-        invalid: [
-          {
-            code: '.test { color: theme(; }',
-            errors: [], // Parser error, not rule error
-          },
-        ],
-      });
+    // valid-theme-function: empty theme() is invalid
+    ruleTester.run('tailwindcss/valid-theme-function (empty)', validThemeFunction, {
+      valid: [],
+      invalid: [
+        {
+          code: '.test { color: theme(); }',
+          errors: [{ messageId: 'emptyThemeFunction' }],
+        },
+      ],
     });
   });
 });
