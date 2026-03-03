@@ -11,6 +11,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import type { Plugin } from './types';
 import { minimal, recommended, strict } from './configs';
 import {
   consistentSpacing,
@@ -45,7 +46,7 @@ const pkg = JSON.parse(
 // Plugin
 // ------------------------------------------------------------------------------
 
-const plugin = {
+const plugin: Plugin = {
   meta: {
     name: pkg.name,
     version: pkg.version,

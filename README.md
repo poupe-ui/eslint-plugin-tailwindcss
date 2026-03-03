@@ -14,23 +14,24 @@ ESLint plugin for Tailwind CSS v4 with advanced linting rules.
 ## Requirements
 
 - ESLint 9.0 or higher
-- Node.js 18.0 or higher
+- Node.js 20.19.0 or higher
 - Flat config format (eslint.config.js)
 
 ## Installation
 
 ```bash
 # pnpm
-pnpm add -D @poupe/eslint-plugin-tailwindcss @eslint/css
+pnpm add -D @poupe/eslint-plugin-tailwindcss
 
 # npm
-npm install -D @poupe/eslint-plugin-tailwindcss @eslint/css
+npm install -D @poupe/eslint-plugin-tailwindcss
 
 # yarn
-yarn add -D @poupe/eslint-plugin-tailwindcss @eslint/css
+yarn add -D @poupe/eslint-plugin-tailwindcss
 ```
 
-**Note:** This plugin requires `@eslint/css` as a peer dependency for CSS parsing.
+**Note:** `@eslint/css` is included as a dependency and will be installed
+automatically.
 
 ## Usage
 

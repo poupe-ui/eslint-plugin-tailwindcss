@@ -6,9 +6,10 @@
 // Imports
 // ------------------------------------------------------------------------------
 
-import type { RuleDefinition, RuleVisitor } from '@eslint/core';
+import type { Language, RuleDefinition, RuleVisitor } from '@eslint/core';
 import type { CSSLanguageOptions, CSSSourceCode } from '@eslint/css';
 import type { CssNodeNames, CssNodePlain } from '@eslint/css-tree';
+import type { Linter } from 'eslint';
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -67,6 +68,17 @@ export type CSSRuleDefinition<
     Omit<CSSRuleDefinitionTypeOptions, keyof Options>
   >
 >;
+
+/**
+ * ESLint plugin type with explicit \@eslint/core references
+ * to avoid TS2742 declaration portability issues.
+ */
+export interface Plugin {
+  meta: { name: string; version: string }
+  languages: Record<string, Language>
+  rules: Record<string, RuleDefinition>
+  configs: Record<string, Linter.Config>
+}
 
 /**
  * Plugin configuration options
