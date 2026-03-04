@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-03-04
+
 ### Changed
 
 - **deps**: `@eslint/css` moved from devDependencies to dependencies
