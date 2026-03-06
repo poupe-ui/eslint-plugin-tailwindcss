@@ -12,6 +12,7 @@ and this project adheres to
 
 - **build**: Switched to ESM-only output — removed CJS `main` field
   and `require` entries from exports
+- **engines**: pnpm minimum `>= 10.30.0` → `>= 10.30.3`
 
 ## [0.2.5] - 2026-03-04
 
