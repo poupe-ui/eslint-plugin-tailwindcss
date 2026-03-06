@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **build**: Switched to ESM-only output — removed CJS `main` field
+  and `require` entries from exports
+
 ## [0.2.5] - 2026-03-04
 
 ### Changed

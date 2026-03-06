@@ -24,21 +24,17 @@
     "linting"
   ],
   "sideEffects": false,
-  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs"
     },
     "./configs/*": {
-      "import": "./dist/configs/*.mjs",
-      "require": "./dist/configs/*.cjs"
+      "import": "./dist/configs/*.mjs"
     },
     "./parser": {
-      "import": "./dist/parser.mjs",
-      "require": "./dist/parser.cjs"
+      "import": "./dist/parser.mjs"
     }
   },
   "files": [
