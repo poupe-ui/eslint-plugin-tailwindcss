@@ -66,7 +66,7 @@
   "devDependencies": {
     "@poupe/eslint-config": "~0.8.0",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.10.6",
+    "@types/node": "^24.0.0",
     "@vitest/coverage-v8": "~4.0.18",
     "cross-env": "~10.1.0",
     "eslint": "^9.39.3",
