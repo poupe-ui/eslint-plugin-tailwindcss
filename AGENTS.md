@@ -1,4 +1,4 @@
-# AGENT.md
+# AGENTS.md
 
 This file provides guidance to AI coding assistants (Claude Code, GitHub
 Copilot, etc.) when working with code in this repository.
@@ -67,7 +67,7 @@ Before committing any changes, ALWAYS:
    - Add entries for bug fixes under ### Fixed
    - Add entries for breaking changes under ### BREAKING CHANGES
    - Follow Keep a Changelog format
-9. Update AGENT.md if guidelines change
+9. Update AGENTS.md if guidelines change
 10. Update README.md if public API changes
 11. Review documentation formatting follows guidelines
 12. Verify all imports are actually used (common linting issue)

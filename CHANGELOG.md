@@ -130,12 +130,12 @@ and this project adheres to
 
 - New `no-duplicate-imports` rule to detect duplicate @import statements
 - New `no-empty-blocks` rule to detect empty CSS rule blocks and at-rule blocks
-- CSS AST implementation guidance in AGENT.md
+- CSS AST implementation guidance in AGENTS.md
 - Rule documentation files for new rules
 
 ### Improved
 
-- Enhanced AGENT.md with detailed CSS AST structure documentation
+- Enhanced AGENTS.md with detailed CSS AST structure documentation
 - Added guidance for handling comments in CSS blocks
 - Documented import URL extraction patterns
 
@@ -171,7 +171,7 @@ and this project adheres to
 - New `consistent-spacing` rule for enforcing consistent spacing in CSS
   declarations
 - Comprehensive test coverage for all existing rules
-- Expanded documentation for rule development in AGENT.md
+- Expanded documentation for rule development in AGENTS.md
 - Testing section in README with examples and commands
 
 ### Fixed
@@ -236,4 +236,4 @@ and this project adheres to
 - Configured Vitest for unit testing with coverage support
 - Added pre-commit hooks and validation scripts
 - Integrated with @poupe/eslint-config for development
-- Added comprehensive documentation (README.md, AGENT.md)
+- Added comprehensive documentation (README.md, AGENTS.md)
