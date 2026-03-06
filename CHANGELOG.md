@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-03-06
+
 ### Added
 
 - New rule: `require-reference-in-vue` - Ensures Vue SFC style blocks include
