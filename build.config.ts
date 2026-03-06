@@ -15,7 +15,6 @@ export default defineBuildConfig({
   declaration: true,
   clean: true,
   rollup: {
-    emitCJS: true,
     output: {
       exports: 'named',
     },
