@@ -8,8 +8,7 @@ Copilot, etc.) when working with code in this repository.
 `@poupe/eslint-plugin-tailwindcss` is an ESLint plugin that provides linting
 rules for Tailwind CSS v4. It validates CSS files using Tailwind CSS syntax,
 ensuring proper usage of directives, modifiers, theme functions, and utility
-classes. The plugin has achieved complete feature parity with @eslint/css,
-implementing all 10 core CSS validation rules.
+classes. The plugin has achieved complete feature parity with @eslint/css.
 
 ## Commands
 
@@ -41,7 +40,7 @@ All code follows these conventions (enforced by .editorconfig and ESLint):
 - **Comments**: Use TSDoc format for documentation
 - **Naming**: camelCase for variables/functions, PascalCase for types/interfaces
 - **Final Newline**: Always insert
-- **Trailing Whitespace**: Always trim
+- **Trailing Whitespace**: Always trim (except Markdown)
 
 ## Development Practices
 
@@ -149,10 +148,10 @@ of attention to detail.
 
 ### Claude Code-Specific Instructions
 
-- Use TodoWrite tool for complex multi-step tasks
+- Use TaskCreate tool for complex multi-step tasks
 - **CRITICAL: Always enumerate files explicitly in git commit commands**
 - **NEVER use bare `git commit` without file arguments**
-- **ALWAYS run tests before marking a to-do as completed**
+- **ALWAYS run tests before marking a task as completed**
 - Fix issues immediately without commentary
 - Stay focused on the task at hand
 - When creating PRs, ensure description includes:
@@ -182,40 +181,45 @@ rules to enforce best practices.
 
 1. **CSS Parsing**: Uses @eslint/css to parse CSS files with Tailwind syntax
 2. **Rule Categories**:
-   - Validation rules (valid-apply-directive, valid-modifier-syntax)
-   - Best practice rules (prefer-theme-tokens, no-arbitrary-value-overuse)
-   - Conflict prevention (no-conflicting-utilities)
+   - Validation rules (syntax correctness, at-rule and property validation)
+   - Best practice rules (theme tokens, design consistency)
+   - CSS parity rules (wrappers and extensions of @eslint/css rules)
 3. **Configuration Presets**:
    - `minimal`: Essential error prevention
    - `recommended`: Balanced rule set
    - `strict`: All rules for maximum quality
-4. **Parser Extension**: Custom parser for Tailwind v4 syntax
+4. **Syntax Extension**: At-rule definitions extending the @eslint/css parser
+   for Tailwind v4
 
 ### Project Structure
 
 ```text
 .
 ├── src/              # Source code
+│   ├── __tests__/    # Unit tests
+│   │   ├── rules/    # Rule-specific tests
+│   │   └── malformed-css.test.ts
 │   ├── configs/      # Preset configurations
+│   │   ├── index.ts
 │   │   ├── minimal.ts
 │   │   ├── recommended.ts
 │   │   └── strict.ts
-│   ├── parser/       # Tailwind syntax parser
+│   ├── parser/       # Tailwind v4 syntax extension
+│   │   ├── index.ts
 │   │   └── tailwind-v4-syntax.ts
-│   ├── rules/        # ESLint rules
-│   │   ├── no-arbitrary-value-overuse.ts
-│   │   ├── no-conflicting-utilities.ts
-│   │   ├── prefer-theme-tokens.ts
-│   │   ├── valid-apply-directive.ts
-│   │   ├── valid-modifier-syntax.ts
-│   │   └── valid-theme-function.ts
+│   ├── rules/        # ESLint rules (one file per rule)
+│   │   └── index.ts  # Barrel exports
 │   ├── utils/        # Shared utilities
 │   │   ├── ast.ts    # AST manipulation helpers
+│   │   ├── at-rules.ts # At-rule definitions
+│   │   ├── browser-compat.ts # Browser compat data
+│   │   ├── css-properties.ts # CSS property validation
 │   │   ├── tailwind.ts # Tailwind-specific utilities
-│   │   └── theme.ts  # Theme token utilities
+│   │   ├── theme.ts  # Theme token utilities
+│   │   └── types.ts  # Shared type definitions
 │   ├── index.ts      # Main plugin export
 │   └── types.ts      # TypeScript definitions
-├── __tests__/        # Unit tests
+├── docs/rules/       # Rule documentation (one file per rule)
 ├── build.config.ts   # Build configuration
 ├── eslint.config.mjs # Self-linting configuration
 ├── package.json      # Package manifest
@@ -224,34 +228,10 @@ rules to enforce best practices.
 
 ### ESLint Rules
 
-#### valid-apply-directive
-
-Validates @apply directive usage in CSS files, ensuring only valid Tailwind
-utility classes are used.
-
-#### valid-modifier-syntax
-
-Validates Tailwind modifier syntax including responsive modifiers (sm:, lg:),
-state modifiers (hover:, focus:), new v4 modifiers (inert:, target:, open:,
-starting:, popover-open:), dynamic modifiers (not-*, in-*), and arbitrary
-modifiers with brackets ([&:hover]).
-
-#### valid-theme-function
-
-Validates theme() function usage with auto-fix support for common mistakes.
-
-#### no-conflicting-utilities
-
-Detects and prevents conflicting Tailwind utility classes that would
-override each other.
-
-#### no-arbitrary-value-overuse
-
-Discourages excessive use of arbitrary values, promoting design token usage.
-
-#### prefer-theme-tokens
-
-Encourages use of theme tokens over arbitrary values for consistency.
+All rules are in `src/rules/` with corresponding tests in
+`src/__tests__/rules/` and documentation in `docs/rules/`. See
+`src/rules/index.ts` for the full list of exported rules and
+`src/index.ts` for the rule-name-to-export mapping.
 
 ## Common Tasks
 
@@ -262,26 +242,31 @@ Encourages use of theme tokens over arbitrary values for consistency.
 1. **Create the rule file** in `src/rules/rule-name.ts`
 
    ```typescript
-   import type { CSSRuleModule } from '../types';
    import type { StyleSheetPlain } from '@eslint/css-tree';
-   import { walk, isNodeType } from '../utils/ast';
 
-   export const ruleName: CSSRuleModule = {
+   import type { CSSRuleDefinition } from '../types';
+
+   type RuleNameOptions = [];
+   type RuleNameMessageIds = 'messageId';
+
+   export const ruleName: CSSRuleDefinition<{
+     RuleOptions: RuleNameOptions
+     MessageIds: RuleNameMessageIds
+   }> = {
      meta: {
-       type: 'problem' | 'suggestion' | 'layout',
+       type: 'problem', // or 'suggestion', 'layout'
        docs: {
          description: 'Rule description',
-         category: 'Possible Errors' | 'Best Practices' | 'Stylistic Issues',
-         recommended: true | false,
+         category: 'Possible Errors', // or 'Best Practices', 'Stylistic Issues'
+         recommended: true,
        },
-       fixable: 'code' | 'whitespace' | null,
-       schema: [...], // Configuration options
+       fixable: undefined, // or 'code', 'whitespace'
+       schema: [],
        messages: {
          messageId: 'Error message text',
        },
      },
      create(context) {
-       // Rule implementation
        return {
          StyleSheet(node: StyleSheetPlain) {
            // Process CSS AST
@@ -315,8 +300,9 @@ Encourages use of theme tokens over arbitrary values for consistency.
 5. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
 
    ```typescript
-   import { RuleTester } from 'eslint';
    import css from '@eslint/css';
+   import { RuleTester } from 'eslint';
+
    import { ruleName } from '../../rules/rule-name';
 
    const ruleTester = new RuleTester({
@@ -420,12 +406,8 @@ Encourages use of theme tokens over arbitrary values for consistency.
 - `Block`: Container for declarations/rules
 - `Comment`: Comment nodes (see below)
 
-**Utility functions** in `src/utils/ast.ts`:
-
-- `isNodeType(node, type)`: Type guard
-- `getChildrenOfType(node, type)`: Find specific children
-- `walk(node, callback)`: Traverse AST
-- `getNodeText(node, sourceCode)`: Get text content
+**Utility functions**: See `src/utils/ast.ts` for type guards,
+tree traversal (`walk`), and node inspection helpers.
 
 #### Block and Comment Handling
 
@@ -650,16 +632,12 @@ When implementing a new rule:
 1. **Initial implementation commit**:
 
    ```bash
-   # Create commit message file
-   echo "feat(rules): add rule-name rule" > .commit-msg-add-rule
-   echo "" >> .commit-msg-add-rule
-   echo "Add description here..." >> .commit-msg-add-rule
-
-   # Commit specifying all files
+   # Create .commit-msg-add-rule using Write tool, then:
    git commit -sF .commit-msg-add-rule src/rules/rule-name.ts \
      src/__tests__/rules/rule-name.test.ts \
      src/rules/index.ts src/index.ts \
-     src/configs/strict.ts README.md
+     src/configs/strict.ts docs/rules/rule-name.md \
+     README.md CHANGELOG.md
 
    # Clean up
    rm .commit-msg-add-rule
