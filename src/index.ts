@@ -18,6 +18,7 @@ import {
   noArbitraryValueOveruse,
   noConflictingUtilities,
   noDuplicateImports,
+  noDuplicateReference,
   noEmptyBlocks,
   noImportant,
   noInvalidAtRules,
@@ -26,6 +27,7 @@ import {
   preferLogicalProperties,
   preferThemeTokens,
   relativeFontUnits,
+  requireReferenceInVue,
   useBaseline,
   useLayers,
   validApplyDirective,
@@ -59,6 +61,7 @@ const plugin: Plugin = {
     'no-arbitrary-value-overuse': noArbitraryValueOveruse,
     'no-conflicting-utilities': noConflictingUtilities,
     'no-duplicate-imports': noDuplicateImports,
+    'no-duplicate-reference': noDuplicateReference,
     'no-empty-blocks': noEmptyBlocks,
     'no-important': noImportant,
     'no-invalid-at-rules': noInvalidAtRules,
@@ -67,6 +70,7 @@ const plugin: Plugin = {
     'prefer-logical-properties': preferLogicalProperties,
     'prefer-theme-tokens': preferThemeTokens,
     'relative-font-units': relativeFontUnits,
+    'require-reference-in-vue': requireReferenceInVue,
     'use-baseline': useBaseline,
     'use-layers': useLayers,
     'valid-apply-directive': validApplyDirective,
@@ -87,6 +91,3 @@ export default plugin;
 // Export our custom parser/syntax if needed
 export { tailwindV4Syntax } from './parser';
 export type { PluginOptions } from './types';
-
-export type { CSSLanguageOptions } from '@eslint/css';
-export { CSSSourceCode } from '@eslint/css';

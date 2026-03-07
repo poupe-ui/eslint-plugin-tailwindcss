@@ -407,7 +407,8 @@ All rules are in `src/rules/` with corresponding tests in
 - `Comment`: Comment nodes (see below)
 
 **Utility functions**: See `src/utils/ast.ts` for type guards,
-tree traversal (`walk`), and node inspection helpers.
+tree traversal (`walk`), node inspection helpers, and CSS context
+validation (`getCSSContext`, `isCSSContext`).
 
 #### Block and Comment Handling
 
