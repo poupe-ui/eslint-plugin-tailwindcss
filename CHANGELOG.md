@@ -8,6 +8,17 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **scripts**: Replaced `postinstall` with `prepare` using
+  `@kagal/cross-test` for cross-platform compatibility
+- **scripts**: Added `lint:check` script (ESLint without auto-fix)
+- **scripts**: Updated `prepack` to fix `package.json` formatting
+  before running `lint:check`
+- **scripts**: Removed `cross-env` and `DEBUG` from `lint` script
+- **deps**: Added `@kagal/cross-test` as dev dependency
+- **deps**: Removed `cross-env` dev dependency
+
 ## [0.2.6] - 2026-03-06
 
 ### Added

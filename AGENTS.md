@@ -16,6 +16,7 @@ classes. The plugin has achieved complete feature parity with @eslint/css.
 
 - `pnpm build` - Build the package
 - `pnpm lint` - Run ESLint with auto-fix enabled
+- `pnpm lint:check` - Run ESLint without auto-fix (check only)
 - `pnpm type-check` - Check TypeScript types
 - `pnpm clean` - Remove dist folder and node_modules
 - `pnpm prepack` - Full validation before publishing
@@ -695,4 +696,4 @@ pnpm clean && pnpm build
 2. **Type Errors**: Check `tsconfig.json` references
 3. **Rule Not Working**: Check rule is exported and added to config
 4. **Test Failures**: Use `--reporter=verbose` flag
-5. **ESLint Integration**: Debug output included in `pnpm lint`
+5. **ESLint Integration**: Run `pnpm lint:check` to check without fixing
