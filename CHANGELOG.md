@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-03-14
+
 ### Changed
 
 - **scripts**: Replaced `postinstall` with `prepare` using
