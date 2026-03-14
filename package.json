@@ -45,9 +45,9 @@
     "clean": "rimraf dist node_modules",
     "dev:prepare": "unbuild --stub",
     "lint": "cross-env DEBUG=eslint:eslint eslint --fix .",
-    "postinstall": "[ -s dist/index.mjs ] || unbuild --stub",
     "precommit": "run-s lint type-check test build",
     "prepack": "run-s lint type-check test build publint",
+    "prepare": "cross-test -s dist/index.mjs || unbuild --stub",
     "publint": "publint",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
@@ -60,6 +60,7 @@
     "@eslint/css-tree": "^3.6.1"
   },
   "devDependencies": {
+    "@kagal/cross-test": "^0.1.2",
     "@poupe/eslint-config": "~0.8.1",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.10.6",

@@ -18,6 +18,9 @@ importers:
         specifier: ^3.6.1
         version: 3.6.9
     devDependencies:
+      '@kagal/cross-test':
+        specifier: ^0.1.2
+        version: 0.1.2
       '@poupe/eslint-config':
         specifier: ~0.8.1
         version: 0.8.3(jiti@2.6.1)(typescript@5.9.3)(vue-eslint-parser@10.4.0(eslint@9.39.3(jiti@2.6.1)))
@@ -506,6 +509,11 @@ packages:
   '@jsdevtools/ez-spawn@3.0.4':
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
     engines: {node: '>=10'}
+
+  '@kagal/cross-test@0.1.2':
+    resolution: {integrity: sha512-dw1042wWp7C3Xq89OxC1OpvmASLSOVVB04pmKQZnbaIwZbzN+61jRSJlavnNt38joiFJHknucwddj2S3tnXQow==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   '@microsoft/tsdoc-config@0.18.1':
     resolution: {integrity: sha512-9brPoVdfN9k9g0dcWkFeA7IH9bbcttzDJlXvkf8b2OBzd5MueR1V2wkKBL0abn0otvmkHJC6aapBOTJDDeMCZg==}
@@ -2790,6 +2798,8 @@ snapshots:
       cross-spawn: 7.0.6
       string-argv: 0.3.2
       type-detect: 4.1.0
+
+  '@kagal/cross-test@0.1.2': {}
 
   '@microsoft/tsdoc-config@0.18.1':
     dependencies:
