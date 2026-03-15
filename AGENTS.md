@@ -55,8 +55,8 @@ Before committing any changes, ALWAYS:
 2. **Ask yourself: "Do ALL these files belong in this commit?"**
 3. **If working on feature X, do NOT include unrelated feature Y files**
 4. **NEVER stage files in bulk with `git add -A` or `git add .`**
-5. `pnpm precommit` - Run all precommit checks (includes lint, type-check,
-   test, build)
+5. `pnpm precommit` - Run all precommit checks (includes build, lint,
+   type-check, test)
 6. Fix any issues found by the precommit checks
 7. If linter made automatic fixes, create fixup commits:
    - Use `git blame` to identify which commit introduced the code

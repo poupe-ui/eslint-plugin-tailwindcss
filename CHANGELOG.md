@@ -8,6 +8,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **scripts**: Reordered `precommit` and `prepack` to run `build`
+  before `lint` so all generated artifacts exist during linting
+- **deps**: Updated `@eslint/css-tree` ^3.6.1 → ^3.6.9,
+  `@poupe/eslint-config` ~0.8.1 → ~0.8.3,
+  `@types/node` ^22.10.6 → ^22.19.15,
+  `eslint` ^9.39.3 → ^9.39.4,
+  `pkg-pr-new` ~0.0.65 → ~0.0.66
+
 ## [0.2.7] - 2026-03-14
 
 ### Changed
