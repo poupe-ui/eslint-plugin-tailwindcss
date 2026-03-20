@@ -56,8 +56,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@eslint/core": "~0.17.0",
-    "@eslint/css": "~0.14.1",
+    "@eslint/core": "~1.1.0",
+    "@eslint/css": "~1.0.0",
     "@eslint/css-tree": "^3.6.9"
   },
   "devDependencies": {
@@ -66,7 +66,7 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.15",
     "@vitest/coverage-v8": "~4.0.18",
-    "eslint": "^9.39.4",
+    "eslint": "^10.0.0",
     "eslint-plugin-perfectionist": "^4.15.1",
     "npm-run-all2": "^8.0.4",
     "pkg-pr-new": "~0.0.66",
@@ -78,7 +78,7 @@
   },
   "peerDependencies": {
     "@eslint/css": "~0.14.1",
-    "eslint": "^9.30.0"
+    "eslint": "^9.30.0 || ^10.0.0"
   },
   "engines": {
     "node": ">= 20.19.0",
