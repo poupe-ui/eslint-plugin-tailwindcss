@@ -1,3 +1,5 @@
+import type { RuleDefinition } from '@eslint/core';
+
 import { consistentSpacing } from './consistent-spacing';
 import { noArbitraryValueOveruse } from './no-arbitrary-value-overuse';
 import { noConflictingUtilities } from './no-conflicting-utilities';
@@ -19,10 +21,9 @@ import { validModifierSyntax } from './valid-modifier-syntax';
 import { validThemeFunction } from './valid-theme-function';
 
 /**
- * All plugin rules keyed by their kebab-case name.
- * Single source of truth for rule registration and type derivation.
+ * Internal rule map — literal keys preserved for type derivation.
  */
-export const pluginRules = {
+const rules = {
   'consistent-spacing': consistentSpacing,
   'no-arbitrary-value-overuse': noArbitraryValueOveruse,
   'no-conflicting-utilities': noConflictingUtilities,
@@ -43,3 +44,14 @@ export const pluginRules = {
   'valid-modifier-syntax': validModifierSyntax,
   'valid-theme-function': validThemeFunction,
 };
+
+/**
+ * Rule name keys — derived from the internal map.
+ */
+export type PluginRuleKey = keyof typeof rules;
+
+/**
+ * All plugin rules keyed by their kebab-case name.
+ * Single source of truth for rule registration.
+ */
+export const pluginRules: Record<PluginRuleKey, RuleDefinition> = rules;

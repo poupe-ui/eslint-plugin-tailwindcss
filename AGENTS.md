@@ -8,7 +8,10 @@ Copilot, etc.) when working with code in this repository.
 `@poupe/eslint-plugin-tailwindcss` is an ESLint plugin that provides linting
 rules for Tailwind CSS v4. It validates CSS files using Tailwind CSS syntax,
 ensuring proper usage of directives, modifiers, theme functions, and utility
-classes. The plugin has achieved complete feature parity with @eslint/css.
+classes. The plugin complements @eslint/css — it provides
+Tailwind-specific rules and wraps selected @eslint/css rules for
+convenience. Consumers wanting full @eslint/css coverage should use
+both plugins (or use `@poupe/eslint-config`).
 
 ## Commands
 
@@ -190,8 +193,8 @@ rules to enforce best practices.
    - `minimal`: Essential error prevention
    - `recommended`: Balanced rule set
    - `strict`: All rules for maximum quality
-4. **Syntax Extension**: At-rule definitions extending the @eslint/css parser
-   for Tailwind v4
+4. **Syntax Extension**: Wraps `tailwind-csstree`'s `tailwind4` callback
+   with `@tailwind` for v3 legacy compatibility
 
 ### Project Structure
 
@@ -200,6 +203,7 @@ rules to enforce best practices.
 ├── src/              # Source code
 │   ├── __tests__/    # Unit tests
 │   │   ├── rules/    # Rule-specific tests
+│   │   ├── utils/    # Utility tests (ast.test.ts)
 │   │   └── malformed-css.test.ts
 │   ├── configs/      # Preset configurations
 │   │   ├── index.ts
@@ -213,11 +217,12 @@ rules to enforce best practices.
 │   │   └── tailwind-v4-syntax.ts
 │   ├── globs.ts      # GLOB_CSS constant
 │   ├── rules/        # ESLint rules (one file per rule)
-│   │   └── index.ts  # pluginRules record (source of truth)
+│   │   └── index.ts  # rules map, PluginRuleKey, pluginRules
 │   ├── utils/        # Shared utilities
 │   │   ├── ast.ts    # AST manipulation helpers
-│   │   ├── at-rules.ts # At-rule definitions
+│   │   ├── at-rules.ts # At-rule definitions (used by rules)
 │   │   ├── browser-compat.ts # Browser compat data
+│   │   ├── css.ts    # @eslint/css rules re-export (type boundary)
 │   │   ├── css-properties.ts # CSS property validation
 │   │   ├── tailwind.ts # Tailwind-specific utilities
 │   │   ├── theme.ts  # Theme token utilities
@@ -235,8 +240,10 @@ rules to enforce best practices.
 
 All rules are in `src/rules/` with corresponding tests in
 `src/__tests__/rules/` and documentation in `docs/rules/`.
-`src/rules/index.ts` exports `pluginRules` — the single source of truth
-for rule registration and `TailwindcssRuleKey` type derivation.
+`src/rules/index.ts` has an internal `rules` map (literal keys) that
+derives `PluginRuleKey`, and re-exports `pluginRules` with explicit
+`Record<PluginRuleKey, RuleDefinition>` type. `TailwindcssRuleKey` in
+`src/configs/rules.ts` derives from `PluginRuleKey`.
 
 ## Common Tasks
 
@@ -281,28 +288,24 @@ for rule registration and `TailwindcssRuleKey` type derivation.
    };
    ```
 
-2. **Export from** `src/rules/index.ts` (keep alphabetically sorted)
+2. **Add to** `src/rules/index.ts` (import + internal `rules` map,
+   keep alphabetically sorted)
 
    ```typescript
-   export { ruleName } from './rule-name';
-   ```
-
-3. **Add to** `src/index.ts` (import and rules object, keep sorted)
-
-   ```typescript
-   import { ruleName } from './rules';
+   import { ruleName } from './rule-name';
    // ...
-   rules: {
+   const rules = {
+     // ...
      'rule-name': ruleName,
-   },
+   };
    ```
 
-4. **Add to config presets** as appropriate:
+3. **Add to config presets** as appropriate:
    - `minimal.ts`: Essential rules only
    - `recommended.ts`: Balanced ruleset
    - `strict.ts`: All rules with strict settings
 
-5. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
+4. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
 
    ```typescript
    import css from '@eslint/css';
@@ -331,7 +334,7 @@ for rule registration and `TailwindcssRuleKey` type derivation.
    });
    ```
 
-6. **Create rule documentation** in `docs/rules/rule-name.md`
+5. **Create rule documentation** in `docs/rules/rule-name.md`
 
    ````markdown
    # rule-name
@@ -385,7 +388,7 @@ for rule registration and `TailwindcssRuleKey` type derivation.
    - [Relevant documentation links]
    ````
 
-7. **Update** `README.md` rules table
+6. **Update** `README.md` rules table
 
    - Add entry to appropriate category in implemented rules section
    - Include link to documentation: `[rule-name](./docs/rules/rule-name.md)`
@@ -608,9 +611,9 @@ When implementing a new rule:
    - Keep under 80 characters for table formatting
    - Use common abbreviations if needed (i18n, a11y, etc.)
 
-### Beyond @eslint/css Parity
+### Beyond @eslint/css Wrappers
 
-**Important**: Parity with @eslint/css is just the beginning. Our rules should be:
+**Important**: Wrapping @eslint/css rules is not the goal. Our rules should be:
 
 1. **More configurable**: Add options that @eslint/css doesn't have
    - Example: `no-empty-blocks` could have `allowComments` option
@@ -641,7 +644,7 @@ When implementing a new rule:
    # Create .commit-msg-add-rule using Write tool, then:
    git commit -sF .commit-msg-add-rule src/rules/rule-name.ts \
      src/__tests__/rules/rule-name.test.ts \
-     src/rules/index.ts src/index.ts \
+     src/rules/index.ts \
      src/configs/strict.ts docs/rules/rule-name.md \
      README.md CHANGELOG.md
 

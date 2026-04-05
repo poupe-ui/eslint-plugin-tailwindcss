@@ -1,30 +1,27 @@
-import type { SyntaxConfig } from '../utils/types';
+import { tailwind4 } from 'tailwind-csstree';
 
-import { IMPORT_AT_RULE_DEFINITION, TAILWIND_AT_RULE_DEFINITIONS } from '../utils/at-rules';
+// tailwind-csstree 0.3.0 provides tailwind4 as a SyntaxExtensionCallback.
+// Derive type from value to sidestep the @eslint/css vs @eslint/css-tree
+// callback signature mismatch.
+type SyntaxExtensionCallback = typeof tailwind4;
 
 /**
- * Extended Tailwind CSS v4 syntax for `@eslint/css`
+ * Tailwind CSS v4 syntax extension for `@eslint/css`.
  *
- * Tailwind CSS v4 allows arbitrary variants to be created freely.
- * This syntax definition supports:
- * - All built-in variants (hover:, focus:, dark:, sm:, etc.)
- * - Arbitrary variants using square brackets [&:nth-child(3)]:
- * - Stacked variants (dark:hover:focus:)
- * - Custom variants created with `@custom-variant`
- * - All Tailwind directives (`@theme`, `@source`, `@utility`, etc.)
+ * Wraps `tailwind-csstree`'s `tailwind4` callback (custom parsers for
+ * `@apply`/`@import`, Tailwind type definitions, `theme()` scope,
+ * wildcard custom property nodes) and adds `@tailwind` for v3 legacy
+ * compatibility.
  */
-
-/**
- * Partial SyntaxConfig for Tailwind CSS v4
- * Only defining the atrules property that `@eslint/css` uses
- */
-export const tailwindV4Syntax: Partial<SyntaxConfig> = {
-  atrules: {
-    // Standard CSS @import with Tailwind extension
-    import: IMPORT_AT_RULE_DEFINITION,
-    // Include all Tailwind-specific at-rules
-    ...TAILWIND_AT_RULE_DEFINITIONS,
-  },
-  // The properties option doesn't need to duplicate @apply
-  // since it's already defined in atrules
+export const tailwindV4Syntax: SyntaxExtensionCallback = (previous, assign) => {
+  const tw = tailwind4(previous, assign);
+  return {
+    ...tw,
+    atrules: {
+      ...tw.atrules,
+      tailwind: {
+        prelude: 'base | components | utilities | variants',
+      },
+    },
+  };
 };

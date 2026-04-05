@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Breaking
+
+- **deps**: `@eslint/css` peer dep ~0.14.1 → ^1.1.0
+- **parser**: `tailwindV4Syntax` is now a `SyntaxExtensionCallback`
+  (was `Partial<SyntaxConfig>`)
+
 ### Added
 
 - **configs**: `base` preset — setup-only config with file globs,
@@ -16,19 +22,29 @@ and this project adheres to
 - **exports**: `GLOB_CSS` constant (`**/*.?(post)css`)
 - **exports**: `TailwindcssRules` type — IDE-friendly typed rule
   configuration derived from `pluginRules`
+- **exports**: `PluginRuleKey` type — literal union of rule names
 - **exports**: `minimalRules`, `recommendedRules`, `strictRules`
   rule preset objects
 
 ### Changed
 
+- **parser**: `tailwindV4Syntax` now wraps `tailwind-csstree`'s
+  `tailwind4` callback (custom parsers for `@apply`/`@import`,
+  Tailwind type definitions, `theme()` scope, wildcard custom
+  property nodes) plus `@tailwind` for v3 legacy compatibility.
+  Replaces local at-rule definitions.
 - **configs**: Presets are now self-contained — each includes file
   globs, `tailwindcss/css` language, Tailwind v4 syntax, and the
   plugin self-reference. No manual setup required.
-- **rules**: `pluginRules` record in `src/rules/index.ts` is now the
-  single source of truth for rule registration and type derivation
+- **rules**: `pluginRules` typed as `Record<PluginRuleKey,
+  RuleDefinition>` — decoupled from internal rule map to prevent
+  TS2742 declaration portability issues with `@eslint/css` v1
 - **scripts**: Reordered `precommit` and `prepack` to run `build`
   before `lint` so all generated artifacts exist during linting
-- **deps**: Updated `@kagal/cross-test` ^0.1.2 → ~0.1.3,
+- **deps**: `@eslint/core` ~0.17.0 → ^1.1.1,
+  `@eslint/css` ~0.14.1 → ^1.1.0,
+  added `tailwind-csstree` ~0.3.0,
+  `@kagal/cross-test` ^0.1.2 → ~0.1.3,
   `@eslint/css-tree` ^3.6.1 → ^3.6.9,
   `@poupe/eslint-config` ~0.8.1 → ~0.8.4,
   `@types/node` ^22.10.6 → ^22.19.15,

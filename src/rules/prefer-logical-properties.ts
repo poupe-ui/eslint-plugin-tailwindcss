@@ -1,4 +1,4 @@
-import css from '@eslint/css';
+import { cssRules } from '../utils/css';
 
 /**
  * Wrapper for \@eslint/css prefer-logical-properties rule
@@ -8,4 +8,4 @@ import css from '@eslint/css';
  * It replaces physical properties (left, right, top, bottom) with logical ones
  * (inline-start, inline-end, block-start, block-end).
  */
-export const preferLogicalProperties = css.rules['prefer-logical-properties'];
+export const preferLogicalProperties = cssRules['prefer-logical-properties'];

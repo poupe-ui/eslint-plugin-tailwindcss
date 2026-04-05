@@ -1,14 +1,14 @@
 import type { Linter } from 'eslint';
 
-import type { pluginRules } from '../rules';
+import type { PluginRuleKey } from '../rules';
 
 type RuleEntry = Linter.RuleEntry;
 
 /**
  * All rule keys provided by `@poupe/eslint-plugin-tailwindcss`.
- * Derived from `pluginRules` — the single source of truth.
+ * Derived from `PluginRuleKey` — the single source of truth.
  */
-export type TailwindcssRuleKey = `tailwindcss/${keyof typeof pluginRules}`;
+export type TailwindcssRuleKey = `tailwindcss/${PluginRuleKey}`;
 
 /**
  * Typed rule configuration for `@poupe/eslint-plugin-tailwindcss`.

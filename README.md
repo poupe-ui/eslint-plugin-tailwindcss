@@ -13,7 +13,7 @@ ESLint plugin for Tailwind CSS v4 with advanced linting rules.
 
 ## Requirements
 
-- ESLint 9.0 or higher
+- ESLint 9.30.0 or higher
 - Node.js 20.19.0 or higher
 - Flat config format (eslint.config.js)
 
@@ -88,18 +88,20 @@ Basic syntax validation only. Good for existing projects.
 - ✅ `valid-modifier-syntax`
 - ✅ `valid-apply-directive`
 - ✅ `no-invalid-at-rules`
+- ✅ `no-invalid-named-grid-areas`
 - ✅ `no-invalid-properties`
 - ✅ `no-duplicate-imports`
 - ✅ `no-duplicate-reference`
 - ✅ `no-empty-blocks`
 - ✅ `no-important`
 - ✅ `require-reference-in-vue`
+- ✅ `use-baseline`
 
 ### `recommended` (Default)
 
 Balanced set of rules for most projects.
 
-- ✅ All rules from `minimal`
+- ✅ All rules from `minimal` (`no-important` relaxed to warning)
 - ✅ `no-conflicting-utilities`
 - ⚠️ `no-arbitrary-value-overuse` (warning)
 - ⚠️ `prefer-theme-tokens` (warning)
@@ -110,7 +112,8 @@ All rules enabled with strict settings. Best for new projects.
 
 - ✅ All rules as errors
 - ✅ Strictest configuration options
-- ✅ Includes additional rules (logical properties, relative units, layers)
+- ✅ Includes additional rules (consistent spacing, logical properties,
+  relative units, layers)
 
 ### Complete Example
 
@@ -192,13 +195,6 @@ Rules that catch general CSS syntax errors and invalid constructs.
 
 #### Best Practices (Planned)
 
-##### CSS Best Practices (@eslint/css parity)
-
-Rules that enforce modern CSS patterns.
-
-| Rule | Description | 🔧 | Status |
-| :--- | :--- | :--- | :--- |
-
 ##### Tailwind v4 Compatibility
 
 Rules specific to Tailwind CSS version management and migration.
@@ -277,8 +273,10 @@ Rules for consistent comment styles.
 
 This plugin extends @eslint/css with Tailwind CSS v4 syntax support:
 
-- ✅ **Directives**: `@theme`, `@import`, `@plugin`, `@utility`, `@variant`, `@source`
-- ✅ **Functions**: `theme()`, `screen()`
+- ✅ **Directives**: `@theme`, `@import`, `@apply`, `@plugin`, `@utility`,
+  `@variant`, `@custom-variant`, `@source`, `@config`, `@reference`,
+  `@tailwind` (v3 legacy)
+- ✅ **Functions**: `theme()`
 - ✅ **Arbitrary Values**: `[value]` syntax
 - ✅ **Modifiers**: `hover:`, `focus:`, `sm:`, `lg:`, `inert:`, `target:`,
   `open:`, `starting:`, `popover-open:`, `not-*:`, `in-*:`, `[&:state]:`
@@ -405,32 +403,30 @@ if (cssSourceCode) {
 
 ##### `CSSLanguageOptions`
 
-Type definition for CSS language configuration options used by @eslint/css:
+Type definition for CSS language configuration options from @eslint/css:
 
 ```ts
 interface CSSLanguageOptions {
-  // Parser options for CSS
+  tolerant?: boolean;
+  customSyntax?: Partial<SyntaxConfig> | SyntaxExtensionCallback;
 }
 ```
 
 #### Tailwind v4 Syntax Configuration
 
-The `tailwindV4Syntax` export provides the syntax configuration for Tailwind
-CSS v4 at-rules:
+The `tailwindV4Syntax` export is a `SyntaxExtensionCallback` that wraps
+[`tailwind-csstree`][tailwind-csstree]'s `tailwind4` callback and adds
+`@tailwind` for v3 legacy compatibility:
 
 ```ts
-const tailwindV4Syntax: Partial<SyntaxConfig> = {
-  atrules: {
-    // Tailwind directives
-    theme: { /* ... */ },
-    import: { /* ... */ },
-    plugin: { /* ... */ },
-    utility: { /* ... */ },
-    variant: { /* ... */ },
-    source: { /* ... */ },
-    // ... and more
-  }
-};
+import { tailwindV4Syntax } from '@poupe/eslint-plugin-tailwindcss/parser';
+
+// Use in a custom ESLint config:
+{
+  languageOptions: {
+    customSyntax: tailwindV4Syntax,
+  },
+}
 ```
 
 This can be used when extending @eslint/css parsers or creating custom CSS
@@ -476,6 +472,34 @@ import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
   tailwindcss.configs.strict,
+];
+```
+
+### With @eslint/css
+
+Use both plugins to get `css/*` rules alongside `tailwindcss/*` rules.
+The Tailwind preset is self-contained; `@eslint/css` needs its own
+config entry with plugin registration and language:
+
+```js
+// eslint.config.mjs
+import css from '@eslint/css';
+import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
+
+export default [
+  // @eslint/css — general CSS rules (css/css language)
+  {
+    files: ['**/*.css'],
+    plugins: { css },
+    language: 'css/css',
+    rules: {
+      ...css.configs.recommended.rules,
+      // Tailwind directives are valid — handled by tailwindcss/css
+      'css/no-invalid-at-rules': 'off',
+    },
+  },
+  // Tailwind CSS — Tailwind-specific rules (tailwindcss/css language)
+  tailwindcss.configs.recommended,
 ];
 ```
 
@@ -581,3 +605,4 @@ MIT © [Apptly Software Ltd][poupe-ui]
 
 [eslint-config]: https://github.com/poupe-ui/eslint-config
 [poupe-ui]: https://github.com/poupe-ui
+[tailwind-csstree]: https://github.com/humanwhocodes/tailwind-csstree
