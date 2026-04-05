@@ -110,7 +110,7 @@ export const validThemeFunction: CSSRuleDefinition<{
         if (suggestions.length > 0) {
           const suggestionText = suggestions
             .slice(0, 3)
-            .map(s => `"${s}"`)
+            .map((s) => `"${s}"`)
             .join(', ');
 
           context.report({

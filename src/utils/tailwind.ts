@@ -168,7 +168,7 @@ export const VALUE_ACCEPTING_UTILITIES = [
  * Check if a utility accepts a value
  */
 export function isValueAcceptingUtility(utility: string): boolean {
-  return VALUE_ACCEPTING_UTILITIES.some(prefix =>
+  return VALUE_ACCEPTING_UTILITIES.some((prefix) =>
     utility.startsWith(prefix),
   );
 }
@@ -199,10 +199,10 @@ export function doUtilitiesConflict(utility1: string, utility2: string): boolean
   };
 
   for (const [, utilities] of Object.entries(propertyGroups)) {
-    const utility1InGroup = utilities.some(u =>
+    const utility1InGroup = utilities.some((u) =>
       parsed1.utility === u || parsed1.utility.startsWith(u + '-'),
     );
-    const utility2InGroup = utilities.some(u =>
+    const utility2InGroup = utilities.some((u) =>
       parsed2.utility === u || parsed2.utility.startsWith(u + '-'),
     );
 

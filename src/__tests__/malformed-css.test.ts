@@ -17,12 +17,12 @@ const ruleTester = new RuleTester(cssConfig);
 
 function expectParseError(code: string) {
   const messages = linter.verify(code, cssConfig);
-  expect(messages.filter(m => m.fatal).length).toBeGreaterThan(0);
+  expect(messages.filter((m) => m.fatal).length).toBeGreaterThan(0);
 }
 
 function expectNoParseError(code: string) {
   const messages = linter.verify(code, cssConfig);
-  expect(messages.filter(m => m.fatal)).toHaveLength(0);
+  expect(messages.filter((m) => m.fatal)).toHaveLength(0);
 }
 
 describe('Malformed CSS handling', () => {

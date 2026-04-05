@@ -12,11 +12,14 @@ and this project adheres to
 
 - **scripts**: Reordered `precommit` and `prepack` to run `build`
   before `lint` so all generated artifacts exist during linting
-- **deps**: Updated `@eslint/css-tree` ^3.6.1 → ^3.6.9,
-  `@poupe/eslint-config` ~0.8.1 → ~0.8.3,
+- **deps**: Updated `@kagal/cross-test` ^0.1.2 → ~0.1.3,
+  `@eslint/css-tree` ^3.6.1 → ^3.6.9,
+  `@poupe/eslint-config` ~0.8.1 → ~0.8.4,
   `@types/node` ^22.10.6 → ^22.19.15,
   `eslint` ^9.39.3 → ^9.39.4,
   `pkg-pr-new` ~0.0.65 → ~0.0.66
+- **style**: Arrow function parameters now always parenthesised
+  (`@stylistic/arrow-parens: always` from eslint-config 0.8.4)
 
 ## [0.2.7] - 2026-03-14
 

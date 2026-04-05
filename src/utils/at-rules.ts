@@ -288,13 +288,13 @@ function findSimilarStrings(
   maxDistance: number,
 ): string[] {
   const candidatesWithDistance: StringWithDistance[] = candidates
-    .map(candidate => ({
+    .map((candidate) => ({
       value: candidate,
       distance: levenshteinDistance(input.toLowerCase(), candidate.toLowerCase()),
     }));
 
   return candidatesWithDistance
-    .filter(item => item.distance <= maxDistance && item.distance > 0)
+    .filter((item) => item.distance <= maxDistance && item.distance > 0)
     .toSorted((a, b) => a.distance - b.distance)
-    .map(item => item.value);
+    .map((item) => item.value);
 }

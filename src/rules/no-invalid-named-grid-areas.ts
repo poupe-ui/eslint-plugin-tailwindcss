@@ -40,7 +40,7 @@ function findNonRectangularAreas(grid: string[][]): GridAreaError[] {
   const errors: GridAreaError[] = [];
   const reported = new Set<string>();
   const names = [...new Set(grid.flat())].filter(
-    name => !nullCellToken.test(name),
+    (name) => !nullCellToken.test(name),
   );
 
   for (const name of names) {
@@ -118,7 +118,7 @@ export const noInvalidNamedGridAreas: CSSRuleDefinition<{
               isNodeType(declaration.value, 'Value')) {
               const value = declaration.value as ValuePlain;
               const stringNodes = value.children.filter(
-                child => isNodeType(child, 'String'),
+                (child) => isNodeType(child, 'String'),
               );
 
               if (stringNodes.length === 0) {

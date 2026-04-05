@@ -251,7 +251,7 @@ export function hasFunction(
   if (!value) return false;
 
   const functions = getChildrenOfType(value, 'Function');
-  return functions.some(fn => fn.name === functionName);
+  return functions.some((fn) => fn.name === functionName);
 }
 
 /**
@@ -274,7 +274,7 @@ export function hasPseudoClass(
   if (!selector) return false;
 
   const pseudoClasses = getChildrenOfType(selector, 'PseudoClassSelector');
-  return pseudoClasses.some(pc => pc.name === pseudoClass);
+  return pseudoClasses.some((pc) => pc.name === pseudoClass);
 }
 
 /**
