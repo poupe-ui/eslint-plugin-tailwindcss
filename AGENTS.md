@@ -186,6 +186,7 @@ rules to enforce best practices.
    - Best practice rules (theme tokens, design consistency)
    - CSS parity rules (wrappers and extensions of @eslint/css rules)
 3. **Configuration Presets**:
+   - `base`: Setup-only (files, language, syntax, plugin self-ref, no rules)
    - `minimal`: Essential error prevention
    - `recommended`: Balanced rule set
    - `strict`: All rules for maximum quality
@@ -202,14 +203,17 @@ rules to enforce best practices.
 │   │   └── malformed-css.test.ts
 │   ├── configs/      # Preset configurations
 │   │   ├── index.ts
+│   │   ├── base.ts   # Setup-only config (no rules)
+│   │   ├── rules.ts  # TailwindcssRules type + rule presets
 │   │   ├── minimal.ts
 │   │   ├── recommended.ts
 │   │   └── strict.ts
 │   ├── parser/       # Tailwind v4 syntax extension
 │   │   ├── index.ts
 │   │   └── tailwind-v4-syntax.ts
+│   ├── globs.ts      # GLOB_CSS constant
 │   ├── rules/        # ESLint rules (one file per rule)
-│   │   └── index.ts  # Barrel exports
+│   │   └── index.ts  # pluginRules record (source of truth)
 │   ├── utils/        # Shared utilities
 │   │   ├── ast.ts    # AST manipulation helpers
 │   │   ├── at-rules.ts # At-rule definitions
@@ -230,9 +234,9 @@ rules to enforce best practices.
 ### ESLint Rules
 
 All rules are in `src/rules/` with corresponding tests in
-`src/__tests__/rules/` and documentation in `docs/rules/`. See
-`src/rules/index.ts` for the full list of exported rules and
-`src/index.ts` for the rule-name-to-export mapping.
+`src/__tests__/rules/` and documentation in `docs/rules/`.
+`src/rules/index.ts` exports `pluginRules` — the single source of truth
+for rule registration and `TailwindcssRuleKey` type derivation.
 
 ## Common Tasks
 

@@ -30,58 +30,42 @@ npm install -D @poupe/eslint-plugin-tailwindcss
 yarn add -D @poupe/eslint-plugin-tailwindcss
 ```
 
-**Note:** `@eslint/css` is included as a dependency and will be installed
-automatically.
+**Note:** The plugin registers its own `tailwindcss/css` language
+(built on `@eslint/css`). If you also want `css/*` rules from
+`@eslint/css`, import that plugin separately in your config
+or use [`@poupe/eslint-config`][eslint-config].
 
 ## Usage
 
 ### Basic Setup
 
-Create an `eslint.config.mjs` file with TypeScript type checking:
+Create an `eslint.config.mjs` file:
 
 ```js
 // @ts-check
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
-  {
-    files: ['**/*.css'],
-    language: 'css/css', // Required
-    plugins: {
-      tailwindcss,
-    },
-    rules: {
-      'tailwindcss/valid-theme-function': 'error',
-      'tailwindcss/valid-modifier-syntax': 'error',
-      'tailwindcss/valid-apply-directive': 'error',
-      'tailwindcss/no-arbitrary-value-overuse': 'warn',
-      'tailwindcss/prefer-theme-tokens': 'warn',
-      'tailwindcss/no-conflicting-utilities': 'error',
-    },
-  },
+  tailwindcss.configs.recommended,
 ];
 ```
 
-### Using Preset Configurations
+Each preset config includes file globs (`**/*.?(post)css`),
+`tailwindcss/css` language with Tailwind v4 syntax, and the plugin
+self-reference.
 
-Use preset configurations for a quick start:
+### Overriding Rules
+
+Override specific rules after a preset:
 
 ```js
 // @ts-check
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
+  tailwindcss.configs.recommended,
   {
-    files: ['**/*.css'],
-    language: 'css/css',
-    plugins: {
-      tailwindcss,
-    },
     rules: {
-      // Use recommended settings
-      ...tailwindcss.configs.recommended.rules,
-
-      // Override specific rules if needed
       'tailwindcss/no-arbitrary-value-overuse': 'error',
     },
   },
@@ -89,6 +73,12 @@ export default [
 ```
 
 ## Available Configurations
+
+### `base`
+
+Setup-only config with no rules. Provides file globs (`**/*.?(post)css`),
+`tailwindcss/css` language, tolerant parsing, Tailwind v4 custom syntax,
+and the plugin self-reference. All other presets extend `base`.
 
 ### `minimal`
 
@@ -120,7 +110,7 @@ All rules enabled with strict settings. Best for new projects.
 
 - ✅ All rules as errors
 - ✅ Strictest configuration options
-- ✅ Includes optional @eslint/css rules (logical properties, relative units, layers)
+- ✅ Includes additional rules (logical properties, relative units, layers)
 
 ### Complete Example
 
@@ -129,48 +119,13 @@ Here's a comprehensive `eslint.config.mjs` with TypeScript support:
 ```js
 // @ts-check
 import js from '@eslint/js';
-import typescript from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import css from '@eslint/css';
+import tseslint from 'typescript-eslint';
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
-  // JavaScript/TypeScript files
-  {
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescript,
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...typescript.configs.recommended.rules,
-    },
-  },
-
-  // CSS files with Tailwind CSS support
-  {
-    files: ['**/*.css'],
-    language: 'css/css',
-    plugins: {
-      css,
-      tailwindcss,
-    },
-    rules: {
-      // @eslint/css rules
-      'css/no-duplicate-imports': 'error',
-      'css/no-empty-blocks': 'error',
-
-      // Tailwind CSS specific rules
-      ...tailwindcss.configs.recommended.rules,
-    },
-  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  tailwindcss.configs.recommended,
 ];
 ```
 
@@ -335,7 +290,7 @@ This plugin extends @eslint/css with Tailwind CSS v4 syntax support:
 Full TypeScript support with exported types:
 
 ```ts
-import type { TailwindCSSRules, TailwindCSSConfigs } from '@poupe/eslint-plugin-tailwindcss';
+import type { TailwindcssRules } from '@poupe/eslint-plugin-tailwindcss';
 ```
 
 ### Parser API
@@ -488,32 +443,11 @@ linting tools.
 ```js
 // eslint.config.mjs
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
-import typescript from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import tseslint from 'typescript-eslint';
 
 export default [
-  // TypeScript configuration
-  {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescript,
-    },
-    rules: {
-      ...typescript.configs['recommended-type-checked'].rules,
-    },
-  },
-  // Tailwind CSS configuration
-  {
-    files: ['**/*.css'],
-    ...tailwindcss.configs.recommended,
-  },
+  ...tseslint.configs.recommended,
+  tailwindcss.configs.recommended,
 ];
 ```
 
@@ -526,14 +460,14 @@ import vue from 'eslint-plugin-vue';
 
 export default [
   ...vue.configs['flat/recommended'],
-  {
-    files: ['**/*.{css,vue}'],
-    ...tailwindcss.configs.recommended,
-  },
+  tailwindcss.configs.recommended,
 ];
 ```
 
 ### With PostCSS
+
+The preset file glob (`**/*.?(post)css`) covers `.css` and `.postcss`
+files. No additional configuration is needed:
 
 ```js
 // @ts-check
@@ -541,10 +475,7 @@ export default [
 import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default [
-  {
-    files: ['**/*.{css,pcss,postcss}'],
-    ...tailwindcss.configs.strict,
-  },
+  tailwindcss.configs.strict,
 ];
 ```
 
@@ -569,14 +500,11 @@ module.exports = {
 
 ### Rules not applying to CSS files
 
-Ensure your config targets CSS files:
+Use a preset config directly — it already targets `**/*.?(post)css`:
 
 ```js
 export default [
-  {
-    files: ['**/*.css'], // Don't forget this!
-    ...tailwindcss.configs.recommended,
-  },
+  tailwindcss.configs.recommended,
 ];
 ```
 
@@ -649,4 +577,7 @@ describe('rule-name', () => {
 
 ## License
 
-MIT © [Apptly Software Ltd](https://github.com/poupe-ui)
+MIT © [Apptly Software Ltd][poupe-ui]
+
+[eslint-config]: https://github.com/poupe-ui/eslint-config
+[poupe-ui]: https://github.com/poupe-ui

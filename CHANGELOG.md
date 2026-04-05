@@ -8,8 +8,24 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- **configs**: `base` preset — setup-only config with file globs,
+  `tailwindcss/css` language, Tailwind v4 syntax, and plugin
+  self-reference (no rules)
+- **exports**: `GLOB_CSS` constant (`**/*.?(post)css`)
+- **exports**: `TailwindcssRules` type — IDE-friendly typed rule
+  configuration derived from `pluginRules`
+- **exports**: `minimalRules`, `recommendedRules`, `strictRules`
+  rule preset objects
+
 ### Changed
 
+- **configs**: Presets are now self-contained — each includes file
+  globs, `tailwindcss/css` language, Tailwind v4 syntax, and the
+  plugin self-reference. No manual setup required.
+- **rules**: `pluginRules` record in `src/rules/index.ts` is now the
+  single source of truth for rule registration and type derivation
 - **scripts**: Reordered `precommit` and `prepack` to run `build`
   before `lint` so all generated artifacts exist during linting
 - **deps**: Updated `@kagal/cross-test` ^0.1.2 → ~0.1.3,
