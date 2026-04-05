@@ -202,6 +202,7 @@ rules to enforce best practices.
 .
 ├── src/              # Source code
 │   ├── __tests__/    # Unit tests
+│   │   ├── parser/   # Parser tests (tailwind-v4-syntax)
 │   │   ├── rules/    # Rule-specific tests
 │   │   ├── utils/    # Utility tests (ast.test.ts)
 │   │   └── malformed-css.test.ts

@@ -16,6 +16,11 @@ and this project adheres to
 
 ### Added
 
+- **tests**: `tailwindV4Syntax` callback — unit tests for returned
+  structure (at-rules, custom parsers, types, scope) and integration
+  tests via `Linter.verify()` for all Tailwind v4 directives, v3
+  legacy `@tailwind`, functions, wildcard custom properties, and
+  standard CSS regression
 - **configs**: `base` preset — setup-only config with file globs,
   `tailwindcss/css` language, Tailwind v4 syntax, and plugin
   self-reference (no rules)
