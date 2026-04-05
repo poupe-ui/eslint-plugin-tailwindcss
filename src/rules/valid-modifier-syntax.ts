@@ -280,7 +280,7 @@ export const validModifierSyntax: CSSRuleDefinition<{
                       validation.fix + ':',
                     );
                     const newPrelude = utilities
-                      .map(u => (u === utility ? newUtility : u))
+                      .map((u) => (u === utility ? newUtility : u))
                       .join(' ');
                     return fixer.replaceText(node.prelude!, newPrelude);
                   } :

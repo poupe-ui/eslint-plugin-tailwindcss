@@ -23,7 +23,7 @@ function isColorValue(value: string): boolean {
     /^(red|blue|green|yellow|black|white|gray|grey)$/i,
   ];
 
-  return colorPatterns.some(pattern => pattern.test(value.trim()));
+  return colorPatterns.some((pattern) => pattern.test(value.trim()));
 }
 
 function isSpacingValue(value: string): boolean {

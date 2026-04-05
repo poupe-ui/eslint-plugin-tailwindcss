@@ -229,7 +229,7 @@ export const noConflictingUtilities: CSSRuleDefinition<{
               const index2 = utilities.indexOf(conflict.utility2);
               const toRemove = index1 < index2 ? conflict.utility1 : conflict.utility2;
 
-              const newUtilities = utilities.filter(u => u !== toRemove);
+              const newUtilities = utilities.filter((u) => u !== toRemove);
               return fixer.replaceText(
                 node.prelude!,
                 newUtilities.join(' '),

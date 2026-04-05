@@ -26,7 +26,7 @@ export function extractThemeValues(ast: StyleSheetPlain, sourceText: string): Ma
   const themeValues = new Map<string, ThemeValue>();
 
   // Find all @theme blocks
-  const themeRules = getChildrenOfType(ast, 'Atrule').filter(rule =>
+  const themeRules = getChildrenOfType(ast, 'Atrule').filter((rule) =>
     isAtRule(rule, 'theme'),
   );
 
@@ -113,7 +113,7 @@ export function getThemeCategory(
   tokenName: string,
 ): 'other' | keyof typeof THEME_CATEGORIES {
   for (const [category, prefixes] of Object.entries(THEME_CATEGORIES)) {
-    if (prefixes.some(prefix => tokenName.startsWith(prefix))) {
+    if (prefixes.some((prefix) => tokenName.startsWith(prefix))) {
       return category as keyof typeof THEME_CATEGORIES;
     }
   }
@@ -170,7 +170,7 @@ export function isValidThemePath(
     `--${path.replaceAll('.', '-')}`,
   ];
 
-  return possibleVars.some(variableName => themeValues.has(variableName));
+  return possibleVars.some((variableName) => themeValues.has(variableName));
 }
 
 /**
@@ -196,7 +196,7 @@ export function suggestSimilarTokens(
   return suggestions
     .toSorted((a, b) => b.score - a.score)
     .slice(0, maxSuggestions)
-    .map(s => s.token);
+    .map((s) => s.token);
 }
 
 /**

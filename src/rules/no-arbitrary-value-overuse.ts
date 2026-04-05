@@ -53,7 +53,7 @@ function shouldSuggestToken(value: string, utility: string): boolean {
   ];
 
   // Check if the utility type suggests using a token
-  const shouldUseToken = tokenUtilities.some(prefix =>
+  const shouldUseToken = tokenUtilities.some((prefix) =>
     utility.startsWith(prefix),
   );
 
@@ -62,7 +62,7 @@ function shouldSuggestToken(value: string, utility: string): boolean {
   }
 
   // Check if the value matches a pattern that suggests a token
-  return tokenPatterns.some(pattern => pattern.test(cleanValue));
+  return tokenPatterns.some((pattern) => pattern.test(cleanValue));
 }
 
 // Define the rule options type
