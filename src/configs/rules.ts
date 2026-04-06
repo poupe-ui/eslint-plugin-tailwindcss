@@ -1,19 +1,29 @@
+import type { RuleDefinition } from '@eslint/core';
 import type { Linter } from 'eslint';
 
-import type { PluginRuleKey } from '../rules';
+import type { pluginRules } from '../rules';
 
-type RuleEntry = Linter.RuleEntry;
+/**
+ * Extract `RuleOptions` from a `RuleDefinition`.
+ */
+type ExtractRuleOptions<T> = T extends RuleDefinition<infer O> ?
+  O extends { RuleOptions: infer R extends unknown[] } ? R : unknown[] :
+  unknown[];
 
 /**
  * All rule keys provided by `@poupe/eslint-plugin-tailwindcss`.
- * Derived from `PluginRuleKey` — the single source of truth.
+ * Derived from `pluginRules` — the single source of truth.
  */
-export type TailwindcssRuleKey = `tailwindcss/${PluginRuleKey}`;
+export type TailwindcssRuleKey = `tailwindcss/${keyof typeof pluginRules}`;
 
 /**
  * Typed rule configuration for `@poupe/eslint-plugin-tailwindcss`.
+ * Each rule entry carries the rule's specific options.
  */
-export type TailwindcssRules = Partial<Record<TailwindcssRuleKey, RuleEntry>>;
+export type TailwindcssRules = {
+  [K in keyof typeof pluginRules as `tailwindcss/${K}`]?:
+  Linter.RuleEntry<ExtractRuleOptions<typeof pluginRules[K]>>;
+};
 
 export const minimalRules: TailwindcssRules = {
   'tailwindcss/no-duplicate-imports': 'error',

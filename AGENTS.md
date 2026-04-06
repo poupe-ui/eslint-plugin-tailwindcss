@@ -218,7 +218,7 @@ rules to enforce best practices.
 │   │   └── tailwind-v4-syntax.ts
 │   ├── globs.ts      # GLOB_CSS constant
 │   ├── rules/        # ESLint rules (one file per rule)
-│   │   └── index.ts  # rules map, PluginRuleKey, pluginRules
+│   │   └── index.ts  # pluginRules (satisfies), PluginRuleKey
 │   ├── utils/        # Shared utilities
 │   │   ├── ast.ts    # AST manipulation helpers
 │   │   ├── at-rules.ts # At-rule definitions (used by rules)
@@ -241,10 +241,13 @@ rules to enforce best practices.
 
 All rules are in `src/rules/` with corresponding tests in
 `src/__tests__/rules/` and documentation in `docs/rules/`.
-`src/rules/index.ts` has an internal `rules` map (literal keys) that
-derives `PluginRuleKey`, and re-exports `pluginRules` with explicit
-`Record<PluginRuleKey, RuleDefinition>` type. `TailwindcssRuleKey` in
-`src/configs/rules.ts` derives from `PluginRuleKey`.
+`src/rules/index.ts` exports `pluginRules` with
+`satisfies Record<string, RuleDefinition>` — preserving per-rule
+`CSSRuleDefinition<...>` types while validating assignability.
+`PluginRuleKey = keyof typeof pluginRules`. `TailwindcssRules` in
+`src/configs/rules.ts` is a mapped type that extracts each rule's
+`RuleOptions` via `ExtractRuleOptions`, giving consumers typed
+config entries.
 
 ## Common Tasks
 
@@ -289,16 +292,16 @@ derives `PluginRuleKey`, and re-exports `pluginRules` with explicit
    };
    ```
 
-2. **Add to** `src/rules/index.ts` (import + internal `rules` map,
+2. **Add to** `src/rules/index.ts` (import + `pluginRules` map,
    keep alphabetically sorted)
 
    ```typescript
    import { ruleName } from './rule-name';
    // ...
-   const rules = {
+   export const pluginRules = {
      // ...
      'rule-name': ruleName,
-   };
+   } satisfies Record<string, RuleDefinition>;
    ```
 
 3. **Add to config presets** as appropriate:

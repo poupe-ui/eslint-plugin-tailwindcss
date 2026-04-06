@@ -61,6 +61,9 @@ export {
   strictRules,
   type TailwindcssRules,
 } from './configs';
+
 export { GLOB_CSS } from './globs';
 export { tailwindV4Syntax } from './parser';
+
+export type { PluginRuleKey } from './rules';
 export type { PluginOptions } from './types';

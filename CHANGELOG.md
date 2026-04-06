@@ -25,8 +25,8 @@ and this project adheres to
   `tailwindcss/css` language, Tailwind v4 syntax, and plugin
   self-reference (no rules)
 - **exports**: `GLOB_CSS` constant (`**/*.?(post)css`)
-- **exports**: `TailwindcssRules` type — IDE-friendly typed rule
-  configuration derived from `pluginRules`
+- **exports**: `TailwindcssRules` type — mapped type with per-rule
+  `RuleOptions` extraction for typed config entries
 - **exports**: `PluginRuleKey` type — literal union of rule names
 - **exports**: `minimalRules`, `recommendedRules`, `strictRules`
   rule preset objects
@@ -41,9 +41,9 @@ and this project adheres to
 - **configs**: Presets are now self-contained — each includes file
   globs, `tailwindcss/css` language, Tailwind v4 syntax, and the
   plugin self-reference. No manual setup required.
-- **rules**: `pluginRules` typed as `Record<PluginRuleKey,
-  RuleDefinition>` — decoupled from internal rule map to prevent
-  TS2742 declaration portability issues with `@eslint/css` v1
+- **rules**: `pluginRules` uses `satisfies Record<string,
+  RuleDefinition>` — preserves per-rule `CSSRuleDefinition` types
+  in declarations while preventing TS2742 portability issues
 - **scripts**: Reordered `precommit` and `prepack` to run `build`
   before `lint` so all generated artifacts exist during linting
 - **deps**: `@eslint/core` ~0.17.0 → ^1.1.1,

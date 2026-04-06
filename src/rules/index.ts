@@ -21,9 +21,10 @@ import { validModifierSyntax } from './valid-modifier-syntax';
 import { validThemeFunction } from './valid-theme-function';
 
 /**
- * Internal rule map — literal keys preserved for type derivation.
+ * All plugin rules keyed by their kebab-case name.
+ * Single source of truth for rule registration and type derivation.
  */
-const rules = {
+export const pluginRules = {
   'consistent-spacing': consistentSpacing,
   'no-arbitrary-value-overuse': noArbitraryValueOveruse,
   'no-conflicting-utilities': noConflictingUtilities,
@@ -43,15 +44,9 @@ const rules = {
   'valid-apply-directive': validApplyDirective,
   'valid-modifier-syntax': validModifierSyntax,
   'valid-theme-function': validThemeFunction,
-};
+} satisfies Record<string, RuleDefinition>;
 
 /**
- * Rule name keys — derived from the internal map.
+ * Rule name keys — derived from `pluginRules`.
  */
-export type PluginRuleKey = keyof typeof rules;
-
-/**
- * All plugin rules keyed by their kebab-case name.
- * Single source of truth for rule registration.
- */
-export const pluginRules: Record<PluginRuleKey, RuleDefinition> = rules;
+export type PluginRuleKey = keyof typeof pluginRules;
