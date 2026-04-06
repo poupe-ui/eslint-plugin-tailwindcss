@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-06
+
 ### Breaking
 
 - **deps**: `@eslint/css` peer dep ~0.14.1 → ^1.1.0
@@ -57,8 +59,13 @@ and this project adheres to
   `@eslint/css-tree` ^3.6.1 → ^3.6.9,
   `@poupe/eslint-config` ~0.8.1 → ~0.8.4,
   `@types/node` ^22.10.6 → ^22.19.15,
+  `@vitest/coverage-v8` ~4.0.18 → ~4.1.0,
   `eslint` ^9.39.3 → ^9.39.4,
-  `pkg-pr-new` ~0.0.65 → ~0.0.66
+  `pkg-pr-new` ~0.0.65 → ~0.0.66,
+  `vitest` ~4.0.18 → ~4.1.0,
+  `pnpm` 10.30.3 → 10.33.0
+- **ci**: `pnpm/action-setup` v4 → v5,
+  Node.js 20.19.0 → 20.20.2 in build/renovate workflows
 - **style**: Arrow function parameters now always parenthesised
   (`@stylistic/arrow-parens: always` from eslint-config 0.8.4)
 
