@@ -228,7 +228,8 @@ rules to enforce best practices.
 │   │   ├── tailwind.ts # Tailwind-specific utilities
 │   │   ├── theme.ts  # Theme token utilities
 │   │   └── types.ts  # Shared type definitions
-│   ├── index.ts      # Main plugin export
+│   ├── index.ts      # Root entry (re-exports)
+│   ├── plugin.ts     # Plugin object (meta, languages, rules)
 │   └── types.ts      # TypeScript definitions
 ├── docs/rules/       # Rule documentation (one file per rule)
 ├── build.config.ts   # Build configuration

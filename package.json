@@ -30,8 +30,8 @@
     ".": {
       "import": "./dist/index.mjs"
     },
-    "./configs/*": {
-      "import": "./dist/configs/*.mjs"
+    "./configs": {
+      "import": "./dist/configs.mjs"
     },
     "./parser": {
       "import": "./dist/parser.mjs"

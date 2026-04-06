@@ -24,6 +24,10 @@ and this project adheres to
 - **configs**: `base` preset — setup-only config with file globs,
   `tailwindcss/css` language, Tailwind v4 syntax, and plugin
   self-reference (no rules)
+- **exports**: `./configs` subpath — barrel export for standalone
+  config imports (e.g. `import { recommended } from '…/configs'`)
+- **exports**: `base`, `minimal`, `recommended`, `strict` config
+  objects as named exports from root entry
 - **exports**: `GLOB_CSS` constant (`**/*.?(post)css`)
 - **exports**: `TailwindcssRules` type — mapped type with per-rule
   `RuleOptions` extraction for typed config entries

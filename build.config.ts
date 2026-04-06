@@ -4,8 +4,8 @@ export default defineBuildConfig({
   entries: [
     'src/index',
     {
-      input: 'src/configs/',
-      outDir: 'dist/configs',
+      input: 'src/configs/index',
+      name: 'configs',
     },
     {
       input: 'src/parser/index',
