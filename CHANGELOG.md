@@ -8,16 +8,64 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-06
+
+### Breaking
+
+- **deps**: `@eslint/css` peer dep ~0.14.1 → ^1.1.0
+- **parser**: `tailwindV4Syntax` is now a `SyntaxExtensionCallback`
+  (was `Partial<SyntaxConfig>`)
+
+### Added
+
+- **tests**: `tailwindV4Syntax` callback — unit tests for returned
+  structure (at-rules, custom parsers, types, scope) and integration
+  tests via `Linter.verify()` for all Tailwind v4 directives, v3
+  legacy `@tailwind`, functions, wildcard custom properties, and
+  standard CSS regression
+- **configs**: `base` preset — setup-only config with file globs,
+  `tailwindcss/css` language, Tailwind v4 syntax, and plugin
+  self-reference (no rules)
+- **exports**: `./configs` subpath — barrel export for standalone
+  config imports (e.g. `import { recommended } from '…/configs'`)
+- **exports**: `base`, `minimal`, `recommended`, `strict` config
+  objects as named exports from root entry
+- **exports**: `GLOB_CSS` constant (`**/*.?(post)css`)
+- **exports**: `TailwindcssRules` type — mapped type with per-rule
+  `RuleOptions` extraction for typed config entries
+- **exports**: `PluginRuleKey` type — literal union of rule names
+- **exports**: `minimalRules`, `recommendedRules`, `strictRules`
+  rule preset objects
+
 ### Changed
 
+- **parser**: `tailwindV4Syntax` now wraps `tailwind-csstree`'s
+  `tailwind4` callback (custom parsers for `@apply`/`@import`,
+  Tailwind type definitions, `theme()` scope, wildcard custom
+  property nodes) plus `@tailwind` for v3 legacy compatibility.
+  Replaces local at-rule definitions.
+- **configs**: Presets are now self-contained — each includes file
+  globs, `tailwindcss/css` language, Tailwind v4 syntax, and the
+  plugin self-reference. No manual setup required.
+- **rules**: `pluginRules` uses `satisfies Record<string,
+  RuleDefinition>` — preserves per-rule `CSSRuleDefinition` types
+  in declarations while preventing TS2742 portability issues
 - **scripts**: Reordered `precommit` and `prepack` to run `build`
   before `lint` so all generated artifacts exist during linting
-- **deps**: Updated `@kagal/cross-test` ^0.1.2 → ~0.1.3,
+- **deps**: `@eslint/core` ~0.17.0 → ^1.1.1,
+  `@eslint/css` ~0.14.1 → ^1.1.0,
+  added `tailwind-csstree` ~0.3.0,
+  `@kagal/cross-test` ^0.1.2 → ~0.1.3,
   `@eslint/css-tree` ^3.6.1 → ^3.6.9,
   `@poupe/eslint-config` ~0.8.1 → ~0.8.4,
   `@types/node` ^22.10.6 → ^22.19.15,
+  `@vitest/coverage-v8` ~4.0.18 → ~4.1.0,
   `eslint` ^9.39.3 → ^9.39.4,
-  `pkg-pr-new` ~0.0.65 → ~0.0.66
+  `pkg-pr-new` ~0.0.65 → ~0.0.66,
+  `vitest` ~4.0.18 → ~4.1.0,
+  `pnpm` 10.30.3 → 10.33.0
+- **ci**: `pnpm/action-setup` v4 → v5,
+  Node.js 20.19.0 → 20.20.2 in build/renovate workflows
 - **style**: Arrow function parameters now always parenthesised
   (`@stylistic/arrow-parens: always` from eslint-config 0.8.4)
 

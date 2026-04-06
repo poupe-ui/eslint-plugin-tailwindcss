@@ -8,7 +8,10 @@ Copilot, etc.) when working with code in this repository.
 `@poupe/eslint-plugin-tailwindcss` is an ESLint plugin that provides linting
 rules for Tailwind CSS v4. It validates CSS files using Tailwind CSS syntax,
 ensuring proper usage of directives, modifiers, theme functions, and utility
-classes. The plugin has achieved complete feature parity with @eslint/css.
+classes. The plugin complements @eslint/css — it provides
+Tailwind-specific rules and wraps selected @eslint/css rules for
+convenience. Consumers wanting full @eslint/css coverage should use
+both plugins (or use `@poupe/eslint-config`).
 
 ## Commands
 
@@ -186,11 +189,12 @@ rules to enforce best practices.
    - Best practice rules (theme tokens, design consistency)
    - CSS parity rules (wrappers and extensions of @eslint/css rules)
 3. **Configuration Presets**:
+   - `base`: Setup-only (files, language, syntax, plugin self-ref, no rules)
    - `minimal`: Essential error prevention
    - `recommended`: Balanced rule set
    - `strict`: All rules for maximum quality
-4. **Syntax Extension**: At-rule definitions extending the @eslint/css parser
-   for Tailwind v4
+4. **Syntax Extension**: Wraps `tailwind-csstree`'s `tailwind4` callback
+   with `@tailwind` for v3 legacy compatibility
 
 ### Project Structure
 
@@ -198,27 +202,34 @@ rules to enforce best practices.
 .
 ├── src/              # Source code
 │   ├── __tests__/    # Unit tests
+│   │   ├── parser/   # Parser tests (tailwind-v4-syntax)
 │   │   ├── rules/    # Rule-specific tests
+│   │   ├── utils/    # Utility tests (ast.test.ts)
 │   │   └── malformed-css.test.ts
 │   ├── configs/      # Preset configurations
 │   │   ├── index.ts
+│   │   ├── base.ts   # Setup-only config (no rules)
+│   │   ├── rules.ts  # TailwindcssRules type + rule presets
 │   │   ├── minimal.ts
 │   │   ├── recommended.ts
 │   │   └── strict.ts
 │   ├── parser/       # Tailwind v4 syntax extension
 │   │   ├── index.ts
 │   │   └── tailwind-v4-syntax.ts
+│   ├── globs.ts      # GLOB_CSS constant
 │   ├── rules/        # ESLint rules (one file per rule)
-│   │   └── index.ts  # Barrel exports
+│   │   └── index.ts  # pluginRules (satisfies), PluginRuleKey
 │   ├── utils/        # Shared utilities
 │   │   ├── ast.ts    # AST manipulation helpers
-│   │   ├── at-rules.ts # At-rule definitions
+│   │   ├── at-rules.ts # At-rule definitions (used by rules)
 │   │   ├── browser-compat.ts # Browser compat data
+│   │   ├── css.ts    # @eslint/css rules re-export (type boundary)
 │   │   ├── css-properties.ts # CSS property validation
 │   │   ├── tailwind.ts # Tailwind-specific utilities
 │   │   ├── theme.ts  # Theme token utilities
 │   │   └── types.ts  # Shared type definitions
-│   ├── index.ts      # Main plugin export
+│   ├── index.ts      # Root entry (re-exports)
+│   ├── plugin.ts     # Plugin object (meta, languages, rules)
 │   └── types.ts      # TypeScript definitions
 ├── docs/rules/       # Rule documentation (one file per rule)
 ├── build.config.ts   # Build configuration
@@ -230,9 +241,14 @@ rules to enforce best practices.
 ### ESLint Rules
 
 All rules are in `src/rules/` with corresponding tests in
-`src/__tests__/rules/` and documentation in `docs/rules/`. See
-`src/rules/index.ts` for the full list of exported rules and
-`src/index.ts` for the rule-name-to-export mapping.
+`src/__tests__/rules/` and documentation in `docs/rules/`.
+`src/rules/index.ts` exports `pluginRules` with
+`satisfies Record<string, RuleDefinition>` — preserving per-rule
+`CSSRuleDefinition<...>` types while validating assignability.
+`PluginRuleKey = keyof typeof pluginRules`. `TailwindcssRules` in
+`src/configs/rules.ts` is a mapped type that extracts each rule's
+`RuleOptions` via `ExtractRuleOptions`, giving consumers typed
+config entries.
 
 ## Common Tasks
 
@@ -277,28 +293,24 @@ All rules are in `src/rules/` with corresponding tests in
    };
    ```
 
-2. **Export from** `src/rules/index.ts` (keep alphabetically sorted)
+2. **Add to** `src/rules/index.ts` (import + `pluginRules` map,
+   keep alphabetically sorted)
 
    ```typescript
-   export { ruleName } from './rule-name';
-   ```
-
-3. **Add to** `src/index.ts` (import and rules object, keep sorted)
-
-   ```typescript
-   import { ruleName } from './rules';
+   import { ruleName } from './rule-name';
    // ...
-   rules: {
+   export const pluginRules = {
+     // ...
      'rule-name': ruleName,
-   },
+   } satisfies Record<string, RuleDefinition>;
    ```
 
-4. **Add to config presets** as appropriate:
+3. **Add to config presets** as appropriate:
    - `minimal.ts`: Essential rules only
    - `recommended.ts`: Balanced ruleset
    - `strict.ts`: All rules with strict settings
 
-5. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
+4. **Create tests** in `src/__tests__/rules/rule-name.test.ts`
 
    ```typescript
    import css from '@eslint/css';
@@ -327,7 +339,7 @@ All rules are in `src/rules/` with corresponding tests in
    });
    ```
 
-6. **Create rule documentation** in `docs/rules/rule-name.md`
+5. **Create rule documentation** in `docs/rules/rule-name.md`
 
    ````markdown
    # rule-name
@@ -381,7 +393,7 @@ All rules are in `src/rules/` with corresponding tests in
    - [Relevant documentation links]
    ````
 
-7. **Update** `README.md` rules table
+6. **Update** `README.md` rules table
 
    - Add entry to appropriate category in implemented rules section
    - Include link to documentation: `[rule-name](./docs/rules/rule-name.md)`
@@ -604,9 +616,9 @@ When implementing a new rule:
    - Keep under 80 characters for table formatting
    - Use common abbreviations if needed (i18n, a11y, etc.)
 
-### Beyond @eslint/css Parity
+### Beyond @eslint/css Wrappers
 
-**Important**: Parity with @eslint/css is just the beginning. Our rules should be:
+**Important**: Wrapping @eslint/css rules is not the goal. Our rules should be:
 
 1. **More configurable**: Add options that @eslint/css doesn't have
    - Example: `no-empty-blocks` could have `allowComments` option
@@ -637,7 +649,7 @@ When implementing a new rule:
    # Create .commit-msg-add-rule using Write tool, then:
    git commit -sF .commit-msg-add-rule src/rules/rule-name.ts \
      src/__tests__/rules/rule-name.test.ts \
-     src/rules/index.ts src/index.ts \
+     src/rules/index.ts \
      src/configs/strict.ts docs/rules/rule-name.md \
      README.md CHANGELOG.md
 
