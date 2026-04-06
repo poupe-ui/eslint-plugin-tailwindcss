@@ -5,6 +5,9 @@ on:
       - '**-wip'
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   make:
     runs-on: ubuntu-latest
