@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Documentation
+
+- **README**: Add troubleshooting entry for the `customSyntax`
+  `TypeError` raised when an older `@eslint/css` (< 1.0) is resolved
+  against the plugin — typically because `@poupe/eslint-config`
+  is pinned below `~0.9.1`
+
 ## [0.3.1] - 2026-04-07
 
 ### Changed
