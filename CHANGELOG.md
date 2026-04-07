@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- **ci**: Add `pull-requests: write` permission to build workflow
+  so pkg-pr-new can post install comments on PRs
+
 ## [0.3.0] - 2026-04-06
 
 ### Breaking
