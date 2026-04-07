@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-04-07
+
 ### Changed
 
 - **deps**: `@poupe/eslint-config` ~0.9.0 → ~0.9.1 — ships
