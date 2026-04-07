@@ -532,6 +532,31 @@ export default [
 ];
 ```
 
+### `TypeError: ... Expected an object value for 'customSyntax' option`
+
+Full error:
+
+```text
+TypeError: Key "languageOptions": Expected an object value for
+'customSyntax' option.
+```
+
+This means an older `@eslint/css` (< 1.0) was resolved against the
+plugin. Versions before 1.0 only accept a plain object for
+`customSyntax`, while this plugin passes a `SyntaxExtensionCallback`
+(supported since `@eslint/css` 1.0). Although the plugin declares
+`@eslint/css ^1.1.0` as a peer dependency, pnpm only emits a warning
+when another package in the tree pins an older version, so the
+mismatch can slip through at install time and only surface when ESLint
+loads the config.
+
+To fix it, ensure `@eslint/css ^1.1.0` wins resolution in your project:
+
+- If you use [`@poupe/eslint-config`][eslint-config], upgrade to
+  `~0.9.1` or later — earlier versions pinned `@eslint/css 0.14.x`.
+- Otherwise, audit your lockfile (`pnpm why @eslint/css`) for the
+  package forcing the older version and upgrade or override it.
+
 ## Contributing
 
 Contributions are welcome! Please read our
