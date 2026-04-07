@@ -8,6 +8,22 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-04-07
+
+### Changed
+
+- **deps**: `@poupe/eslint-config` ~0.9.0 → ~0.9.1 — ships
+  perfectionist v5 with `partitionByNewLine` enabled on
+  `sort-exports`/`sort-named-exports`, allowing the local
+  overrides in `eslint.config.mjs` to be removed
+- **deps**: Drop direct `eslint-plugin-perfectionist` devDep —
+  provided transitively by `@poupe/eslint-config` (now v5)
+
+### Fixed
+
+- **ci**: Add `pull-requests: write` permission to build workflow
+  so pkg-pr-new can post install comments on PRs
+
 ## [0.3.0] - 2026-04-06
 
 ### Breaking

@@ -40,13 +40,13 @@ type CSSNodeVisitor = {
  * A visitor for CSS nodes.
  */
 export interface CSSRuleVisitor
-  extends RuleVisitor,
-  Partial<WithExit<CSSNodeVisitor>> {}
+  extends Partial<WithExit<CSSNodeVisitor>>,
+  RuleVisitor {}
 
 export type CSSRuleDefinitionTypeOptions = {
-  RuleOptions: unknown[]
-  MessageIds: string
   ExtRuleDocs: Record<string, unknown>
+  MessageIds: string
+  RuleOptions: unknown[]
 };
 
 /**
@@ -56,17 +56,17 @@ export type CSSRuleDefinition<
   Options extends Partial<CSSRuleDefinitionTypeOptions> = object,
 > = RuleDefinition<
   // Language specific type options (non-configurable)
-  {
-    LangOptions: CSSLanguageOptions
-    Code: CSSSourceCode
-    Visitor: CSSRuleVisitor
-    Node: CssNodePlain
-  } & Required<
+  Required<
     // Rule specific type options (custom)
     Options &
       // Rule specific type options (defaults)
     Omit<CSSRuleDefinitionTypeOptions, keyof Options>
-  >
+  > & {
+    Code: CSSSourceCode
+    LangOptions: CSSLanguageOptions
+    Node: CssNodePlain
+    Visitor: CSSRuleVisitor
+  }
 >;
 
 /**
@@ -74,10 +74,10 @@ export type CSSRuleDefinition<
  * to avoid TS2742 declaration portability issues.
  */
 export interface Plugin {
-  meta: { name: string; version: string }
-  languages: Record<string, Language>
-  rules: Record<string, RuleDefinition>
   configs: Record<string, Linter.Config>
+  languages: Record<string, Language>
+  meta: { name: string; version: string }
+  rules: Record<string, RuleDefinition>
 }
 
 /**

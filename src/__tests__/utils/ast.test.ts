@@ -12,8 +12,8 @@ interface MockAST {
 
 // Mock source code type
 interface MockSourceCode extends Partial<SourceCode> {
-  text?: string
   ast?: MockAST
+  text?: string
 }
 
 // Helper function moved to outer scope

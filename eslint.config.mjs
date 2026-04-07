@@ -13,20 +13,6 @@ export default defineConfig({
 }, {
   files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   rules: {
-    // TODO: remove after eslint-config enables partitionByNewLine
-    'perfectionist/sort-exports': ['error', {
-      type: 'natural',
-      order: 'asc',
-      ignoreCase: true,
-      partitionByNewLine: true,
-    }],
-    'perfectionist/sort-named-exports': ['error', {
-      type: 'natural',
-      order: 'asc',
-      ignoreCase: true,
-      groupKind: 'mixed',
-      partitionByNewLine: true,
-    }],
     'unicorn/prevent-abbreviations': ['error', {
       replacements: {
         props: false,

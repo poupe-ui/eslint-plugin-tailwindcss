@@ -6,10 +6,10 @@
 export type BaselineStatus = 'limited-availability' | 'newly-available' | 'widely-available';
 
 export interface CSSFeature {
-  name: string
-  status: BaselineStatus
   alternativeSuggestion?: string
   mdn?: string
+  name: string
+  status: BaselineStatus
 }
 
 /**
@@ -492,6 +492,7 @@ export function getFeatureStatus(
  * Options for use-baseline rule
  */
 export interface UseBaselineOptions {
+  ignore?: string[]
   /**
    * Strictness level for baseline checking
    * - 'limited': Only flag limited availability features (default)
@@ -499,5 +500,4 @@ export interface UseBaselineOptions {
    * - 'ignore': List of features to ignore
    */
   strictness?: 'limited' | 'newly'
-  ignore?: string[]
 }

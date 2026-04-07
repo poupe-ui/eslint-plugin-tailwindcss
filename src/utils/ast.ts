@@ -8,11 +8,11 @@ import { CSSSourceCode } from '@eslint/css';
  * Type for CSS rule context - matches what CSS rules expect
  */
 export type CSSRuleContext = RuleContext<{
-  LangOptions: CSSLanguageOptions
   Code: CSSSourceCode
-  RuleOptions: unknown[]
-  Node: CssNodePlain
+  LangOptions: CSSLanguageOptions
   MessageIds: string
+  Node: CssNodePlain
+  RuleOptions: unknown[]
 }>;
 
 /**
@@ -107,9 +107,9 @@ export function getCSSContext<T extends RuleContextTypeOptions = RuleContextType
   }
 
   const sourceCodeObject = sourceCode as unknown as {
+    [key: string]: unknown
     ast?: { type?: string }
     text?: unknown
-    [key: string]: unknown
   };
 
   // If we can't access the AST or text, it's not CSS content

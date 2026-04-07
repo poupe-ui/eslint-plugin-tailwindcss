@@ -67,9 +67,9 @@ function shouldSuggestToken(value: string, utility: string): boolean {
 
 // Define the rule options type
 type NoArbitraryValueOveruseOptions = [{
+  allowedUtilities?: string[]
   maxPerFile?: number
   maxPerRule?: number
-  allowedUtilities?: string[]
 }];
 
 // Define the message IDs
@@ -80,8 +80,8 @@ type NoArbitraryValueOveruseMessageIds =
 
 // Define the rule with proper types
 export const noArbitraryValueOveruse: CSSRuleDefinition<{
-  RuleOptions: NoArbitraryValueOveruseOptions
   MessageIds: NoArbitraryValueOveruseMessageIds
+  RuleOptions: NoArbitraryValueOveruseOptions
 }> = {
   meta: {
     type: 'suggestion',
@@ -132,8 +132,8 @@ export const noArbitraryValueOveruse: CSSRuleDefinition<{
     let fileArbitraryCount = 0;
     const arbitraryValues: Array<{
       node: AtrulePlain
-      value: string
       utility: string
+      value: string
     }> = [];
 
     return {
@@ -149,8 +149,8 @@ export const noArbitraryValueOveruse: CSSRuleDefinition<{
 
         let ruleArbitraryCount = 0;
         const ruleArbitraryValues: Array<{
-          value: string
           utility: string
+          value: string
         }> = [];
 
         for (const utility of utilities) {

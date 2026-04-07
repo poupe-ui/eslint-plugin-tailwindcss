@@ -97,8 +97,8 @@ type PreferThemeTokensMessageIds =
 
 // Define the rule with proper types
 export const preferThemeTokens: CSSRuleDefinition<{
-  RuleOptions: PreferThemeTokensOptions
   MessageIds: PreferThemeTokensMessageIds
+  RuleOptions: PreferThemeTokensOptions
 }> = {
   meta: {
     type: 'suggestion',

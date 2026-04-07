@@ -19,8 +19,8 @@ type RequireReferenceInVueMessageIds = 'missingReference';
  * This rule ensures that Vue SFC <style> blocks include the \@reference directive.
  */
 export const requireReferenceInVue: CSSRuleDefinition<{
-  RuleOptions: RequireReferenceInVueOptions
   MessageIds: RequireReferenceInVueMessageIds
+  RuleOptions: RequireReferenceInVueOptions
 }> = {
   meta: {
     type: 'problem',

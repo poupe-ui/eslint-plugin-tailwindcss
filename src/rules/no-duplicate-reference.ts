@@ -21,8 +21,8 @@ type NoDuplicateReferenceMessageIds = 'duplicateReference';
  * that each reference target is declared only once.
  */
 export const noDuplicateReference: CSSRuleDefinition<{
-  RuleOptions: NoDuplicateReferenceOptions
   MessageIds: NoDuplicateReferenceMessageIds
+  RuleOptions: NoDuplicateReferenceOptions
 }> = {
   meta: {
     type: 'problem',

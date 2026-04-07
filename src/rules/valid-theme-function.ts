@@ -24,8 +24,8 @@ type ValidThemeFunctionMessageIds =
 
 // Define the rule with proper types
 export const validThemeFunction: CSSRuleDefinition<{
-  RuleOptions: ValidThemeFunctionOptions
   MessageIds: ValidThemeFunctionMessageIds
+  RuleOptions: ValidThemeFunctionOptions
 }> = {
   meta: {
     type: 'problem',

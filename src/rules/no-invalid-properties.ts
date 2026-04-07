@@ -17,8 +17,8 @@ type NoInvalidPropertiesMessageIds =
 
 // Define the rule with proper types
 export const noInvalidProperties: CSSRuleDefinition<{
-  RuleOptions: NoInvalidPropertiesOptions
   MessageIds: NoInvalidPropertiesMessageIds
+  RuleOptions: NoInvalidPropertiesOptions
 }> = {
   meta: {
     type: 'problem',

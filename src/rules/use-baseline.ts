@@ -28,8 +28,8 @@ type UseBaselineMessageIds =
  * Rule to enforce use of baseline (widely supported) CSS features
  */
 export const useBaseline: CSSRuleDefinition<{
-  RuleOptions: UseBaselineRuleOptions
   MessageIds: UseBaselineMessageIds
+  RuleOptions: UseBaselineRuleOptions
 }> = {
   meta: {
     type: 'problem',
