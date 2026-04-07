@@ -18,10 +18,10 @@ interface SpacingOptions {
  * Location information for a position in the source code
  */
 interface LocationInfo {
-  /** Line number (1-based) */
-  line: number
   /** Column number (0-based) */
   column: number
+  /** Line number (1-based) */
+  line: number
   /** Character offset from start of file */
   offset: number
 }
@@ -32,10 +32,10 @@ interface LocationInfo {
 interface DeclarationInfo {
   /** The declaration AST node */
   node: DeclarationPlain
-  /** Length of the property name */
-  propertyLength: number
   /** Location where the property name ends */
   propertyEnd: LocationInfo
+  /** Length of the property name */
+  propertyLength: number
   /** Location where the value starts */
   valueStart: LocationInfo
 }
@@ -56,8 +56,8 @@ type ConsistentSpacingMessageIds =
   'unexpectedSpaceBeforeColon';
 
 export const consistentSpacing: CSSRuleDefinition<{
-  RuleOptions: ConsistentSpacingOptions
   MessageIds: ConsistentSpacingMessageIds
+  RuleOptions: ConsistentSpacingOptions
 }> = {
   meta: {
     type: 'layout',

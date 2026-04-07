@@ -8,6 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **deps**: `@poupe/eslint-config` ~0.9.0 → ~0.9.1 — ships
+  perfectionist v5 with `partitionByNewLine` enabled on
+  `sort-exports`/`sort-named-exports`, allowing the local
+  overrides in `eslint.config.mjs` to be removed
+- **deps**: Drop direct `eslint-plugin-perfectionist` devDep —
+  provided transitively by `@poupe/eslint-config` (now v5)
+
 ### Fixed
 
 - **ci**: Add `pull-requests: write` permission to build workflow

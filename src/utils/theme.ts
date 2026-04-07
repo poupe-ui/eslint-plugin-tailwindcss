@@ -6,17 +6,17 @@ import { getChildrenOfType, getDeclarations, isAtRule } from './ast';
  * Represents a theme value from `@theme` blocks
  */
 export interface ThemeValue {
+  loc: CssLocationRange
   name: string
   value: string
-  loc: CssLocationRange
 }
 
 /**
  * Represents a theme token with similarity score
  */
 interface TokenSuggestion {
-  token: string
   score: number
+  token: string
 }
 
 /**

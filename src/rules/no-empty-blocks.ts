@@ -39,8 +39,8 @@ type NoEmptyBlocksMessageIds = 'emptyBlock';
  * ```
  */
 export const noEmptyBlocks: CSSRuleDefinition<{
-  RuleOptions: NoEmptyBlocksOptions
   MessageIds: NoEmptyBlocksMessageIds
+  RuleOptions: NoEmptyBlocksOptions
 }> = {
   meta: {
     type: 'suggestion',

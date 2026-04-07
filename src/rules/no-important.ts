@@ -16,8 +16,8 @@ type NoImportantMessageIds = 'avoidImportant';
  * the natural cascade of CSS and makes styles harder to override.
  */
 export const noImportant: CSSRuleDefinition<{
-  RuleOptions: NoImportantOptions
   MessageIds: NoImportantMessageIds
+  RuleOptions: NoImportantOptions
 }> = {
   meta: {
     type: 'suggestion',

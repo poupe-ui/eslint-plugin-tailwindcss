@@ -94,14 +94,14 @@ function groupUtilitiesByProperty(
 }
 
 function findConflictingUtilities(utilities: string[]): Array<{
+  property: string
   utility1: string
   utility2: string
-  property: string
 }> {
   const conflicts: Array<{
+    property: string
     utility1: string
     utility2: string
-    property: string
   }> = [];
 
   // Group utilities by their affected CSS property
@@ -143,8 +143,8 @@ type NoConflictingUtilitiesMessageIds =
 
 // Define the rule with proper types
 export const noConflictingUtilities: CSSRuleDefinition<{
-  RuleOptions: NoConflictingUtilitiesOptions
   MessageIds: NoConflictingUtilitiesMessageIds
+  RuleOptions: NoConflictingUtilitiesOptions
 }> = {
   meta: {
     type: 'problem',

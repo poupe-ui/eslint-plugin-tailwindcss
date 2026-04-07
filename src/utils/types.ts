@@ -15,6 +15,6 @@ export { type SyntaxConfig } from '@eslint/css-tree';
  * Used for similarity calculations
  */
 export interface StringWithDistance {
-  value: string
   distance: number
+  value: string
 }

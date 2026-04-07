@@ -87,8 +87,8 @@ function findNonRectangularAreas(grid: string[][]): GridAreaError[] {
  * All rows must have the same number of cell tokens.
  */
 export const noInvalidNamedGridAreas: CSSRuleDefinition<{
-  RuleOptions: NoInvalidNamedGridAreasOptions
   MessageIds: NoInvalidNamedGridAreasMessageIds
+  RuleOptions: NoInvalidNamedGridAreasOptions
 }> = {
   meta: {
     type: 'problem',

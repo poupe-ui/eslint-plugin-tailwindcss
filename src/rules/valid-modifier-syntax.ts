@@ -60,10 +60,10 @@ function validateArbitraryModifier(modifier: string): ModifierValidationResult {
  * Result of validating a modifier
  */
 interface ModifierValidationResult {
-  valid: boolean
+  fix?: string
   messageId?: string
   reason?: string
-  fix?: string
+  valid: boolean
 }
 
 /**
@@ -122,8 +122,8 @@ type ValidModifierSyntaxMessageIds =
 
 // Define the rule with proper types
 export const validModifierSyntax: CSSRuleDefinition<{
-  RuleOptions: ValidModifierSyntaxOptions
   MessageIds: ValidModifierSyntaxMessageIds
+  RuleOptions: ValidModifierSyntaxOptions
 }> = {
   meta: {
     type: 'problem',

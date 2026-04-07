@@ -26,8 +26,8 @@ type NoDuplicateImportsMessageIds = 'duplicateImport';
  * ```
  */
 export const noDuplicateImports: CSSRuleDefinition<{
-  RuleOptions: NoDuplicateImportsOptions
   MessageIds: NoDuplicateImportsMessageIds
+  RuleOptions: NoDuplicateImportsOptions
 }> = {
   meta: {
     type: 'problem',

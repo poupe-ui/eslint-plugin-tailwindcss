@@ -91,8 +91,8 @@ type ValidApplyDirectiveMessageIds =
 
 // Define the rule with proper types
 export const validApplyDirective: CSSRuleDefinition<{
-  RuleOptions: ValidApplyDirectiveOptions
   MessageIds: ValidApplyDirectiveMessageIds
+  RuleOptions: ValidApplyDirectiveOptions
 }> = {
   meta: {
     type: 'problem',

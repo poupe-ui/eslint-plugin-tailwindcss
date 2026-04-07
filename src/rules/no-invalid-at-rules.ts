@@ -21,8 +21,8 @@ type NoInvalidAtRulesMessageIds =
  * Rule to disallow invalid at-rule names and validate their structure
  */
 export const noInvalidAtRules: CSSRuleDefinition<{
-  RuleOptions: NoInvalidAtRulesOptions
   MessageIds: NoInvalidAtRulesMessageIds
+  RuleOptions: NoInvalidAtRulesOptions
 }> = {
   meta: {
     type: 'problem',

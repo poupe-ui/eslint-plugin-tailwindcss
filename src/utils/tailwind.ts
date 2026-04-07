@@ -67,9 +67,9 @@ export function countArbitraryValues(value: string): number {
  * Parse a Tailwind utility class into its components
  */
 export interface ParsedUtility {
+  arbitraryValue?: string
   modifiers: string[]
   utility: string
-  arbitraryValue?: string
 }
 
 export function parseUtilityClass(className: string): ParsedUtility {
