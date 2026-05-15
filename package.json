@@ -58,7 +58,7 @@
   "dependencies": {
     "@eslint/core": "^1.1.1",
     "@eslint/css": "^1.1.0",
-    "@eslint/css-tree": "^3.6.9",
+    "@eslint/css-tree": "^4.0.0",
     "tailwind-csstree": "~0.3.0"
   },
   "devDependencies": {
@@ -67,7 +67,7 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.15",
     "@vitest/coverage-v8": "~4.1.0",
-    "eslint": "^9.39.4",
+    "eslint": "^10.0.0",
     "npm-run-all2": "^8.0.4",
     "pkg-pr-new": "~0.0.66",
     "publint": "^0.3.18",
@@ -78,7 +78,7 @@
   },
   "peerDependencies": {
     "@eslint/css": "^1.1.0",
-    "eslint": "^9.30.0"
+    "eslint": "^9.30.0 || ^10.0.0"
   },
   "engines": {
     "node": ">= 20.19.0",
