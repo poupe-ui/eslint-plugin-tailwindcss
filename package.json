@@ -45,9 +45,10 @@
     "clean": "rimraf dist node_modules",
     "dev:prepare": "unbuild --stub",
     "lint": "eslint --fix .",
+    "lint:_pkg-pr-new": "eslint --fix package.json",
     "lint:check": "eslint .",
-    "precommit": "run-s build lint type-check test",
-    "prepack": "eslint --fix package.json && run-s build lint:check type-check test publint",
+    "precommit": "run-s dev:prepare lint type-check build test",
+    "prepack": "run-s lint:_pkg-pr-new build lint:check type-check test publint",
     "prepare": "cross-test -s dist/index.mjs || unbuild --stub",
     "publint": "publint",
     "test": "vitest run",
@@ -59,22 +60,22 @@
     "@eslint/core": "^1.1.1",
     "@eslint/css": "^1.1.0",
     "@eslint/css-tree": "^3.6.9",
-    "tailwind-csstree": "~0.3.0"
+    "tailwind-csstree": "^0.3.0"
   },
   "devDependencies": {
-    "@kagal/cross-test": "~0.1.3",
-    "@poupe/eslint-config": "~0.10.0",
+    "@kagal/cross-test": "^0.1.3",
+    "@poupe/eslint-config": "^0.10.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.15",
-    "@vitest/coverage-v8": "~4.1.0",
+    "@vitest/coverage-v8": "^4.1.0",
     "eslint": "^9.39.4",
     "npm-run-all2": "^8.0.4",
     "pkg-pr-new": "~0.0.66",
     "publint": "^0.3.18",
     "rimraf": "^6.1.3",
-    "typescript": "~5.9.3",
-    "unbuild": "~3.6.1",
-    "vitest": "~4.1.0"
+    "typescript": "^5.9.3",
+    "unbuild": "^3.6.1",
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "@eslint/css": "^1.1.0",
