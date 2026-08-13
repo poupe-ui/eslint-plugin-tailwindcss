@@ -18,7 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          fetch-depth: 1
+          # 0 so the review can diff the head against the base commit;
+          # a depth-1 checkout leaves it with nothing to compare.
+          fetch-depth: 0
 
       - name: Run Claude Code Review
         id: claude-review
@@ -28,3 +30,7 @@ jobs:
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
+          # Temporary: the run reports permission denials and posts no
+          # comment, and the SDK output is hidden by default. Revert
+          # once the denied tools are identified.
+          show_full_output: true
