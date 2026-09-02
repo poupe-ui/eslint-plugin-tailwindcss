@@ -60,7 +60,7 @@
     "@eslint/core": "^1.1.1",
     "@eslint/css": "^1.1.0",
     "@eslint/css-tree": "^3.6.9",
-    "tailwind-csstree": "^0.3.0"
+    "tailwind-csstree": "^0.4.0"
   },
   "devDependencies": {
     "@kagal/cross-test": "^0.1.3",
